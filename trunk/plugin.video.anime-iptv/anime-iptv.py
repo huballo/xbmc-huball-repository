@@ -141,11 +141,11 @@ def Fav_List(site='', section='', subfav=''):
     if len(favs3) == 0:
             favs3 = []
     if len(favs4) == 0:
-            favs5 = []
+            favs4 = []
     if len(favs5) == 0:
-            favs6 = []
-    if len(favs6) == 0:
             favs5 = []
+    if len(favs6) == 0:
+            favs6 = []
     favs += favs2
     favs += favs3
     favs += favs4

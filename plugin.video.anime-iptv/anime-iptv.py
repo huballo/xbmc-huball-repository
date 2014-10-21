@@ -5,12 +5,10 @@ import xbmc
 import xbmcaddon
 import os
 import sys
+import xbmcgui
+from common import _addon
 # logowanie
 import weblogin
-import weblogin2
-#
-
-from common import (_addon, fav__COMMON__list_fetcher)
 
 ### ##########################################################################
 ### ##########################################################################
@@ -119,9 +117,6 @@ def Browse_Pageshniden(url, page='', metamethod=''):
 
 #  ulubione
 def Fav_List(site='', section='', subfav=''):
-    logged_inDiff = weblogin.doLogin(addonPath, login, password)
-    logged_inDrama = weblogin2.doLogin(addonPath, loginDrama, passwordDrama)
-    debob(['test1', site, section, subfav])
     favs = fav__COMMON__list_fetcher(site=site, section='diffanime', subfav=subfav)
     favs2 = fav__COMMON__list_fetcher(site=site, section='animecentrum', subfav=subfav)
     favs3 = fav__COMMON__list_fetcher(site=site, section='Dramadrama', subfav=subfav)
@@ -129,13 +124,14 @@ def Fav_List(site='', section='', subfav=''):
     favs5 = fav__COMMON__list_fetcher(site=site, section='animedrama', subfav=subfav)
     favs6 = fav__COMMON__list_fetcher(site=site, section='shnidenodc', subfav=subfav)
     ItemCount = len(favs) and len(favs2) and len(favs3) and len(favs4) and len(favs5) and len(favs6)
-    debob('test2 - ' + str(ItemCount))
     if len(favs) == 0 and len(favs2) == 0 and len(favs3) == 0 and len(favs4) == 0 and len(favs5) == 0and len(favs6) == 0:
         myNote('Favorites', 'None Found')
         eod()
         return
     if len(favs) == 0:
             favs = []
+    if len(favs) > 0:
+            logged_inDiff = weblogin.doLogin(addonPath, login, password)
     if len(favs2) == 0:
             favs2 = []
     if len(favs3) == 0:
@@ -151,7 +147,7 @@ def Fav_List(site='', section='', subfav=''):
     favs += favs4
     favs += favs5
     favs += favs6
-    debob(favs)
+#    debob(favs)
     for (_name, _year, _img, _fanart, _Country, _Url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
         if _img > 0:
             img = _img
@@ -161,11 +157,11 @@ def Fav_List(site='', section='', subfav=''):
             fimg = _fanart
         else:
             fimg = fanartSite
-        debob('_ToDoParams')
-        debob(_ToDoParams)
+#        debob('_ToDoParams')
+#        debob(_ToDoParams)
         pars = _addon.parse_query(_ToDoParams)
-        debob('pars')
-        debob(pars)
+#        debob('pars')
+#        debob(pars)
         _section
         _title = _name
         if _section == 'diffanime':
@@ -203,12 +199,6 @@ def Fav_List(site='', section='', subfav=''):
 
 #  lista ABC
 def Browse_AZ():
-###Anime-Centrum###
-    if section == 'animecentrum':
-        tUrl = mainSite2 + 'anime-online/'
-        _addon.add_directory({'mode': 'PageCentrum', 'site': site, 'section': section, 'url': tUrl + 'others'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'PageCentrum', 'site': site, 'section': section, 'url': tUrl + az + '.html'}, {'title': az}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/'+ az +'.png')
 ###Diff-Anime###
     if section == 'diffanime':
         tUrl = mainSite + 'lista-anime'
@@ -262,7 +252,10 @@ def SubSubMenu():
 def SubMenu():
 ###Anime-Centrum###
     if section == 'animecentrum':
-        _addon.add_directory({'mode': 'AZ', 'site': site, 'section': section}, {'title': "Lista anime A-Z."}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
+        tUrl = mainSite2 + 'anime-online/'
+        _addon.add_directory({'mode': 'PageCentrum', 'site': site, 'section': section, 'url': tUrl + 'others'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'PageCentrum', 'site': site, 'section': section, 'url': tUrl + az + '.html'}, {'title': az}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/'+ az +'.png')
 ###Diff-Anime###
     if section == 'diffanime':
         _addon.add_directory({'mode': 'AZ', 'site': site, 'section': section}, {'title': "Lista anime A-Z."}, is_folder=True, fanart=fanartSite, img=iconDiff)
@@ -307,7 +300,7 @@ def SectionMenu():
 
 ### ############################################################################################################
 def mode_subcheck(mode='',site='',section='',url=''):
-    deb('mode',mode);
+#    deb('mode',mode);
     if (mode=='SectionMenu'):         SectionMenu()
     elif (mode=='') or (mode=='main') or (mode=='MainMenu'): SectionMenu()
     elif (mode=='SubMenu'):             SubMenu()

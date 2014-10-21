@@ -15,8 +15,9 @@ iconFav = xbmcaddon.Addon(id="plugin.video.anime-iptv").getAddonInfo('path') + '
 net = Net()
 _addon = Addon(ps('_addon_id'), sys.argv)
 cache = StorageServer.StorageServer(ps('_addon_id'))
-_artIcon        =_addon.get_icon();
-_artFanart    =_addon.get_fanart()
+_artIcon = _addon.get_icon()
+_artFanart = _addon.get_fanart()
+
 
 def addst(r, s=''):
     return _addon.get_setting(r)
@@ -24,8 +25,42 @@ def addst(r, s=''):
 loginGoogle = addst('username3', '')
 passwordGoogle = addst('password3', '')
 
-def iFL(t): return '[I]'+t+'[/I]' ### For Italic Text ###
-def bFL(t): return '[B]'+t+'[/B]' ### For Bold Text ###
+
+def iFL(t):
+    return '[I]' + t + '[/I]'  # For Italic Text ###
+
+
+def bFL(t):
+    return '[B]' + t +'[/B]'  # For Bold Text ###
+
+
+def cFL(t, c=ps('default_cFL_color')):
+    return '[COLOR ' + c + ']' + t + '[/COLOR]'  # For Coloring Text ###
+
+
+def cFL_(t, c=ps('default_cFL_color')):
+    return '[COLOR ' + c + ']' + t[0:1] + '[/COLOR]' + t[1:]  # For Coloring Text (First Letter-Only) ###
+
+
+def set_view(content='none', view_mode=50, do_sort=False):
+    h = int(sys.argv[1])
+    if (content is not 'none'):
+        xbmcplugin.setContent(h, content)
+    if (tfalse(addst("auto-view")) == True):
+        xbmc.executebuiltin("Container.SetViewMode(%s)" % str(view_mode))
+
+
+def myNote(header='', msg='', delay=5000, image=iconFav):
+    _addon.show_small_popup(title=header, msg=msg, delay=delay, image=image)
+
+
+def eod():
+    _addon.end_of_directory()
+
+
+def addpr(r, s=''):
+    return _addon.queries.get(r, s)
+
 
 def fav__COMMON__list_fetcher(site, section='', subfav=''):
     saved_favs = cache.get('favs_' + site + '__' + section + subfav + '__')
@@ -55,64 +90,54 @@ def fav__COMMON__check(site, section, name, year, subfav=''):
     else:
         return False
 
-def fav__COMMON__empty(site,section,subfav=''):
-#    WhereAmI('@ Favorites - Empty - %s%s' % (section,subfav))
-    favs=[]; cache.set('favs_'+site+'__'+section+subfav+'__', str(favs)); myNote(bFL('Favorites'),bFL('Your Favorites Have Been Wiped Clean. Bye Bye.'))
+
+def fav__COMMON__empty(site, section, subfav=''):
+    favs = []
+    cache.set('favs_' + site + '__' + section + subfav + '__', str(favs))
+    myNote(bFL('Favorites'), bFL('Your Favorites Have Been Wiped Clean.'))
 
 
-def fav__COMMON__remove(site,section,name,year,subfav=''):
-#    WhereAmI('@ Favorites - Remove - %s%s' % (section,subfav))
-#    deb('fav__remove() '+section,name+'  ('+year+')')
-    saved_favs=cache.get('favs_'+site+'__'+section+subfav+'__'); tf=False
+def fav__COMMON__remove(site, section, name, year, subfav=''):
+    saved_favs = cache.get('favs_' + site + '__' + section + subfav + '__')
+    tf = False
     if saved_favs:
-        favs=eval(saved_favs)
+        favs = eval(saved_favs)
         if favs:
-            for (_name,_year,_img,_fanart,_country,_url,_plot,_Genres,_site,_subfav,_section,_ToDoParams,_commonID,_commonID2) in favs:
-                if (name==_name) and (year==_year): favs.remove((_name,_year,_img,_fanart,_country,_url,_plot,_Genres,_site,_subfav,_section,_ToDoParams,_commonID,_commonID2)); cache.set('favs_'+site+'__'+section+subfav+'__', str(favs)); tf=True; myNote(bFL(name.upper()+'  ('+year+')'),bFL('Removed from Favorites'))
-#                deb(name+'  ('+year+')','Removed from Favorites. (Hopefully)')
-                xbmc.executebuiltin("XBMC.Container.Refresh"); return
-            if (tf==False): myNote(bFL(name.upper()),bFL('not found in your Favorites'))
-        else: myNote(bFL(name.upper()+'  ('+year+')'),bFL('not found in your Favorites'))
+            for (_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
+                if (name == _name) and (year == _year):
+                    favs.remove((_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2))
+                    cache.set('favs_' + site + '__' + section + subfav + '__', str(favs))
+                    tf = True
+                    myNote(bFL(name.upper() + '  (' + year + ')'), bFL('Removed from Favorites'))
+                xbmc.executebuiltin("XBMC.Container.Refresh")
+                return
+            if (tf == False):
+                myNote(bFL(name.upper()), bFL('not found in your Favorites'))
+        else:
+            myNote(bFL(name.upper() + '  (' + year + ')'), bFL('not found in your Favorites'))
 
-def fav__COMMON__add(site,section,name,year='',img=_artIcon,fanart=_artFanart,subfav='',plot='',commonID='',commonID2='',ToDoParams='',Country='',Genres='',Url=''):
-#    debob(['fav__add()',section,name+'  ('+year+')',img,fanart])
-#    WhereAmI('@ Favorites - Add - %s%s' % (section,subfav))
-    saved_favs=cache.get('favs_'+site+'__'+section+subfav+'__'); favs=[]; fav_found=False
+
+def fav__COMMON__add(site, section, name, year='', img=_artIcon, fanart=_artFanart, subfav='', plot='', commonID='', commonID2='', ToDoParams='', Country='', Genres='', Url=''):
+    saved_favs = cache.get('favs_' + site + '__' + section + subfav + '__')
+    favs = []
+    fav_found = False
     if saved_favs:
-        #debob(saved_favs)
-        favs=eval(saved_favs)
+        favs = eval(saved_favs)
         if favs:
-            #debob(favs)
-            for (_name,_year,_img,_fanart,_country,_url,_plot,_Genres,_site,_subfav,_section,_ToDoParams,_commonID,_commonID2) in favs:
-                if (name==_name) and (year==_year):
-                    fav_found=True;
-                    if len(year) > 0: myNote(bFL(section+':  '+name.upper()+'  ('+year+')'),bFL('Already in your Favorites'));
-                    else: myNote(bFL(section+':  '+name.upper()),bFL('Already in your Favorites'));
+            for (_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
+                if (name == _name) and (year == _year):
+                    fav_found = True
+                    if len(year) > 0:
+                        myNote(bFL(section + ':  ' + name.upper() + '  (' + year + ')'), bFL('Already in your Favorites'))
+                    else:
+                        myNote(bFL(section + ':  ' + name.upper()), bFL('Already in your Favorites'))
                     return
-    #
-#    deb('Adding Favorite',site+' - '+section+' - '+subfav)
-#    debob(['name',name,'year',year,'img',img,'fanart',fanart,'Country',Country,'Url',Url,'plot',plot,'Genres',Genres,'site',site,'subfav',subfav,'section',section,'ToDoParams',ToDoParams,'commonID',commonID,'commonID2',commonID2])
-    favs.append((name,year,img,fanart,Country,Url,plot,Genres,site,subfav,section,ToDoParams,commonID,commonID2))
-    ##if   (section==ps('section.tvshows')): favs.append((name,year,img,fanart,_param['country'],_param['url'],_param['plot'],_param['genre'],_param['dbid']))
-    ##elif (section==ps('section.movie')): favs.append((name,year,img,fanart,_param['country'],_param['url'],_param['plot'],_param['genre'],''))
-    ##else: myNote('Favorites:  '+section,'Section not Found')
-    #
-    cache.set('favs_'+site+'__'+section+subfav+'__', str(favs));
-    if len(year) > 0: myNote(bFL(name+'  ('+year+')'),bFL('Added to Favorites'))
-    else: myNote(bFL(name),bFL('Added to Favorites'))
-    #
-
-
-
-
-
-
-def eod():
-    _addon.end_of_directory()
-
-
-def addpr(r, s=''):
-    return _addon.queries.get(r, s)
+    favs.append((name, year, img, fanart, Country, Url, plot, Genres, site, subfav, section, ToDoParams, commonID, commonID2))
+    cache.set('favs_' + site + '__' + section + subfav + '__', str(favs))
+    if len(year) > 0:
+        myNote(bFL(name + '  (' + year + ')'), bFL('Added to Favorites'))
+    else:
+        myNote(bFL(name), bFL('Added to Favorites'))
 
 
 def nURL(url, method='get', form_data={}, headers={}, html='', proxy='', User_Agent='', cookie_file='', load_cookie=False, save_cookie=False):
@@ -445,20 +470,6 @@ def ContextMenu_Favorites(labs={}):
         pass
     return contextMenuItems
 
-
-def set_view(content='none', view_mode=50, do_sort=False):
-    h = int(sys.argv[1])
-    if (content is not 'none'):
-        xbmcplugin.setContent(h, content)
-    if (tfalse(addst("auto-view")) == True):
-        xbmc.executebuiltin("Container.SetViewMode(%s)" % str(view_mode))
-
-# monit o braku ulubionych
-
-
-def myNote(header='', msg='', delay=5000, image=iconFav):
-    _addon.show_small_popup(title=header, msg=msg, delay=delay, image=image)
-
 # tekstowe
 
 
@@ -583,14 +594,6 @@ def clean_html(html):
     if strType == 'utf-8':
         html = html.encode("utf-8")
     return html.strip()
-
-
-def cFL(t, c=ps('default_cFL_color')):
-    return '[COLOR ' + c + ']' + t + '[/COLOR]'  # For Coloring Text ###
-
-
-def cFL_(t, c=ps('default_cFL_color')):
-    return '[COLOR ' + c + ']' + t[0:1] + '[/COLOR]' + t[1:]  # For Coloring Text (First Letter-Only) ###
 
 
 def video_google(url):

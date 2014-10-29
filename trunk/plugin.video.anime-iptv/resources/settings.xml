@@ -16,7 +16,7 @@
 		<setting visible="true" id="auto-view" type="bool"   label="Enable Automatic View" default="false"/>
 		<setting visible="true" id="default-view"   type="number" label="Default"               default="50"   enable="!eq(-1,false)"/>
 		<setting visible="false" id="movies-view"    type="number" label="Movies"                default="515"  enable="!eq(-2,false)"/>
-		<setting visible="true" id="tvshows-view"   type="number" label="TV Shows"              default="515"  enable="!eq(-3,false)"/>
+		<setting visible="true" id="tvshows-view"   type="number" label="TV Shows"              default="501"  enable="!eq(-3,false)"/>
 		<setting visible="false" id="season-view"    type="number" label="Seasons"               default="50"   enable="!eq(-4,false)"/>
 		<setting visible="true" id="episode-view"   type="number" label="Episodes"              default="515"  enable="!eq(-5,false)"/>
 		<setting visible="true" id="links-view"   	 type="number" label="Links"              	 default="50"   enable="!eq(-6,false)"/>
@@ -81,16 +81,10 @@
 		<setting visible="false" id="CMI_JDownloader" 							type="bool" label="SendTo JDownloader (Url)" 		default="false" />
 		<setting visible="false" id="CMI_JDownloaderResolver" 			type="bool" label="SendTo JDownloader (UrlResolver)" 	default="false" />
 	</category>
-	<category label="Account Diff-Anime">
-	<setting label="Username" type="text"   id="username" 										default="" enable="!eq(-1,false)"/>
-	<setting label="Password" type="text"   id="password" option="hidden" 		default="" enable="!eq(-2,false)"/>
+	<category label="Account">
+
+    <setting label="Username" type="text"   id="username" 										default="" enable="!eq(-1,false)"/>
+    <setting label="Password" type="text"   id="password" option="hidden" 		default="" enable="!eq(-2,false)"/>
 	</category>
-	<category label="Account DramaQueen">
-	<setting label="Username" type="text"   id="username2" 										default="" enable="!eq(-1,false)"/>
-	<setting label="Password" type="text"   id="password2" option="hidden" 		default="" enable="!eq(-2,false)"/>
-	</category>
-	<category label="Account Google">
-	<setting label="Username" type="text"   id="username3" 										default="" enable="!eq(-1,false)"/>
-	<setting label="Password" type="text"   id="password3" option="hidden" 		default="" enable="!eq(-2,false)"/>
-	</category>
+
 </settings>

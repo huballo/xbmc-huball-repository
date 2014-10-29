@@ -7,7 +7,7 @@
 		<setting visible="false" id="oldmenu" 		type="bool" label="Display Old Items on the Main Menu" default="false" />
 		<setting visible="false" id="debug-enable" 	type="bool" label="Enable Debugging to File" default="false" />
 		<setting visible="false" id="debug-show" 		type="bool" label="Enable Debugging to Notice(s)" default="false" />
-		<setting id="enableMeta" 		type="bool" label="Enable Metadata" default="false" visible="true"/>
+		<setting id="enableMeta" 		type="bool" label="Enable Metadata" default="false" visible="false"/>
 		<setting visible="false" id="metadata_movies" 			type="bool" label="(Movies)" 									default="true" />
 		<setting visible="false" id="metadata_tv" 					type="bool" label="(TV)" 											default="true" />
 		<setting visible="false" id="metadata_tv_shows" 		type="bool" label="(TV) >> Shows" 						default="true" enable="!eq(-1,false)" />

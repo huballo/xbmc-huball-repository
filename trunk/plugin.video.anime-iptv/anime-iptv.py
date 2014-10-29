@@ -6,7 +6,7 @@ import xbmcaddon
 import os
 import sys
 import xbmcgui
-from common import _addon
+
 # logowanie
 import weblogin
 
@@ -23,11 +23,8 @@ mainSite5 = 'http://www.anime-shinden.info/'
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
 sys.path.append(os.path.join(addonPath, 'hosts'))
-from hostanimecentrum import *
-from hostdiffanime import *
-from hostanimeonline import *
-from hostanimeshniden import *
-from hostdramaqueen import *
+from config import ps
+from common import (_addon, addpr, eod, set_view, addst, cFL_, cFL, fav__COMMON__list_fetcher, myNote, ContextMenu_Favorites, PlayFromHost, fav__COMMON__add, fav__COMMON__remove)
 
 iconSite = addonPath + '/art/icon.png'
 iconCentrum = addonPath + '/art/japan/animecentrum.jpg'
@@ -67,51 +64,95 @@ thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
 
+
 ###############################################################################
 ###############################################################################
 # Anime-Centrum
 ###############################################################################
 ###############################################################################
-
 def Browse_PageCentrum(url, page='', metamethod=''):
+    from hostanimecentrum import PageCentrum
     PageCentrum(url)
+
+
+def Browse_EpisodesCentrum(url, page):
+    from hostanimecentrum import Browse_EpisodesCentrum
+    Browse_EpisodesCentrum(url, page)
+
 
 ###############################################################################
 ###############################################################################
 # Diff-anime
 ###############################################################################
 ###############################################################################
-
 def Browse_PageDiff(url, page='', metamethod=''):
+    from hostdiffanime import PageDiff
     PageDiff(url)
+
+
+def Browse_EpisodesDiff(url, page):
+    from hostdiffanime import Browse_EpisodesDiff
+    Browse_EpisodesDiff(url, page)
+
+
+def Browse_PageDiffAKT(url, page):
+    from hostdiffanime import Browse_PageDiffAKT
+    Browse_PageDiffAKT(url, page)
+
 
 ###############################################################################
 ###############################################################################
 #DramaQueen
 ###############################################################################
 ###############################################################################
-
 def Browse_PageDramaQueen_drama(url, page='', metamethod=''):
+    from hostdramaqueen import PageDramaQueen_drama
     PageDramaQueen_drama(url)
+
 
 ###############################################################################
 ###############################################################################
 # Anime-Online
 ###############################################################################
 ###############################################################################
-
 def Browse_Pageanimeonline(url, page='', metamethod=''):
+    from hostanimeonline import Pageanimeonline
     Pageanimeonline(url)
+
+
+def Browse_EpisodesAnime(url, page):
+    from hostanimeonline import Browse_EpisodesAnime
+    Browse_EpisodesAnime(url, page)
+
+
+def Browse_PlayAnime(url, page):
+    from hostanimeonline import Browse_PlayAnime
+    Browse_PlayAnime(url, page)
+
 
 ###############################################################################
 ###############################################################################
 # Anime-Shinden
 ###############################################################################
 ###############################################################################
-
 def Browse_Pageshniden(url, page='', metamethod=''):
+    from hostanimeshniden import Pageshniden
     Pageshniden(url)
 
+
+def Browse_GenreShniden(url):
+    from hostanimeshniden import Browse_GenreShniden
+    Browse_GenreShniden(url, page)
+
+
+def Browse_EpisodesShniden(url, page):
+    from hostanimeshniden import Browse_EpisodesShniden
+    Browse_EpisodesShniden(url, page)
+
+
+def Browse_PlayShniden(url, page):
+    from hostanimeshniden import Browse_PlayShniden
+    Browse_PlayShniden(url, page)
 ###############################################################################
 
 
@@ -147,7 +188,6 @@ def Fav_List(site='', section='', subfav=''):
     favs += favs4
     favs += favs5
     favs += favs6
-#    debob(favs)
     for (_name, _year, _img, _fanart, _Country, _Url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
         if _img > 0:
             img = _img
@@ -157,11 +197,7 @@ def Fav_List(site='', section='', subfav=''):
             fimg = _fanart
         else:
             fimg = fanartSite
-#        debob('_ToDoParams')
-#        debob(_ToDoParams)
         pars = _addon.parse_query(_ToDoParams)
-#        debob('pars')
-#        debob(pars)
         _section
         _title = _name
         if _section == 'diffanime':
@@ -208,23 +244,6 @@ def Browse_AZ():
         if (len(addst('username' '')) == 0) or (len(addst('password', '')) == 0):
             d = xbmcgui.Dialog()
             d.ok('Komunikat', "Musisz się zalogować, aby móc oglądać odcinki.")
-###Anime-Online###
-    if section == 'animeonline':
-        tUrl = mainSite4 + 'viewpage.php?page_id='
-        _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + '6429'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
-        for az, xy in zip(MyAlphabet, AonlineAlphabet):
-            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-    if section == 'animedrama':
-        tUrl = mainSite4 + 'Drama/viewpage.php?page_id='
-#        _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + '6429'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
-        for az, xy in zip(MyAlphabet, AonlineDrama):
-            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-###Anime_shniden###
-    if section == 'shnidenodc':
-        tUrl = mainSite5 + 'animelist/index.php?&first=&year_from=&year_to=&eps_from=&eps_to=&eps_other=&letter='
-        _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + '0'}, {'title': '#'}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + az}, {'title': az}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/'+ az +'.png')
     set_view('list', view_mode=addst('default-view'))
     eod()
 
@@ -240,12 +259,20 @@ def SubSubMenu():
         _addon.add_directory({'mode': 'dramaqueen_drama_movie', 'site': site, 'section': section, 'url': mainSite3 + 'drama/film/koreanski/'}, {'title': "Film - koreański"}, is_folder=True, fanart=fanartDrama, img=iconSite)
 ###Anime-Online###
     if section == 'animeonline':
-        _addon.add_directory({'mode': 'AZ', 'site': site, 'section': section}, {'title': "Lista anime A-Z."}, is_folder=True, fanart=fanartDrama, img=iconSite)
+        tUrl = mainSite4 + 'viewpage.php?page_id='
+        _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + '6429'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
+        for az, xy in zip(MyAlphabet, AonlineAlphabet):
+            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
     if section == 'animedrama':
-        _addon.add_directory({'mode': 'AZ', 'site': site, 'section': section}, {'title': "Lista dram A-Z."}, is_folder=True, fanart=fanartDrama, img=iconSite)
+        tUrl = mainSite4 + 'Drama/viewpage.php?page_id='
+        for az, xy in zip(MyAlphabet, AonlineDrama):
+            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
 ###Anime-Shniden###
     if section == 'shnidenodc':
-        _addon.add_directory({'mode': 'AZ', 'site': site, 'section': section}, {'title': "Lista anime A-Z."}, is_folder=True, fanart=fanartDrama, img=iconSite)
+        tUrl = mainSite5 + 'animelist/index.php?&first=&year_from=&year_to=&eps_from=&eps_to=&eps_other=&letter='
+        _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + '0'}, {'title': '#'}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + az}, {'title': az}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/'+ az +'.png')
     set_view('list', view_mode=addst('default-view'))
     eod()
 
@@ -273,7 +300,6 @@ def SubMenu():
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'shnidenodc'}, {'title': "Alfabetycznie."}, is_folder=True, fanart=fanartAol, img=iconShniden)
         url = mainSite5 + 'animelist/index.php'
         _addon.add_directory({'mode': 'Browse_GenreShniden', 'site': site, 'section': 'shnidengat', 'url': url }, {'title': "Lista wg gatunku."}, is_folder=True, fanart=fanartAol, img=iconShniden)
-
     set_view('list', view_mode=addst('default-view'))
     eod()
 
@@ -300,46 +326,55 @@ def SectionMenu():
 
 ### ############################################################################################################
 def mode_subcheck(mode='',site='',section='',url=''):
-#    deb('mode',mode);
     if (mode=='SectionMenu'):         SectionMenu()
     elif (mode=='') or (mode=='main') or (mode=='MainMenu'): SectionMenu()
     elif (mode=='SubMenu'):             SubMenu()
     elif (mode=='SubSubMenu'):             SubSubMenu()
-    elif (mode=='Page'):                     Browse_PageDiff(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='AZ'):                         Browse_AZ()
+# ANIME-CENTRUM
     elif (mode=='PageCentrum'):                     Browse_PageCentrum(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
-    elif (mode=='Pageanimeonline'):                     Browse_Pageanimeonline(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
-    elif (mode=='Pageshniden'):                     Browse_Pageshniden(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
-    elif (mode=='EpisodesDiff'):             Browse_EpisodesDiff(url,page)
-    elif (mode=='EpisodesDramaQueen_drama'):             Browse_EpisodesDramaQueen_drama(url,page)
     elif (mode=='EpisodesCentrum'):             Browse_EpisodesCentrum(url,page)
-    elif (mode=='EpisodesAnime'):             Browse_EpisodesAnime(url,page)
-    elif (mode=='EpisodesShniden'):             Browse_EpisodesShniden(url,page)
-    elif (mode=='Browse_GenreShniden'):             Browse_GenreShniden(url,page)
-    elif (mode=='PlayAnime'):             Browse_PlayAnime(url,page)
-    elif (mode=='PlayShniden'):             Browse_PlayShniden(url,page)
+# DIFF-ANIME
+    elif (mode=='Page'):                     Browse_PageDiff(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='EpisodesDiff'):             Browse_EpisodesDiff(url,page)
     elif (mode=='aktualnosci'):             Browse_PageDiffAKT(url,page)
+    elif (mode=='nextpage'):             Browse_EpisodesDiff(url,page)
+# ANIME-ONLINE
+    elif (mode=='Pageanimeonline'):                     Browse_Pageanimeonline(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='EpisodesAnime'):             Browse_EpisodesAnime(url,page)
+    elif (mode=='PlayAnime'):             Browse_PlayAnime(url,page)
+# ANIME-SHNIDEN
+    elif (mode=='Pageshniden'):                     Browse_Pageshniden(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='EpisodesShniden'):             Browse_EpisodesShniden(url,page)
+    elif (mode=='Browse_GenreShniden'):             Browse_GenreShniden(url)
+    elif (mode=='PlayShniden'):             Browse_PlayShniden(url,page)
+# DRAMA-QUEEN
+    elif (mode=='EpisodesDramaQueen_drama'):             Browse_EpisodesDramaQueen_drama(url,page)
     elif (mode=='dramaqueen_drama'):             Browse_PageDramaQueen_drama(url,page)
     elif (mode=='dramaqueen_drama_movie'):             Browse_PageDramaQueen_dramamovie(url,page)
-    elif (mode=='nextpage'):             Browse_EpisodesDiff(url,page)
-    elif (mode=='AZ'):                         Browse_AZ()
+# PLAY FROM HOST
     elif (mode=='PlayFromHost'):     PlayFromHost(url)
+# ULUBIONE
     elif (mode=='FavoritesList'): Fav_List(site=site,section=section,subfav=addpr('subfav',''))
-    elif (mode=='ResolverSettings'):         import urlresolver; urlresolver.display_settings()  ## Settings for UrlResolver script.module.
     elif (mode=='cFavoritesEmpty'):      fav__COMMON__empty( site=site,section=section,subfav=addpr('subfav','') ); xbmc.executebuiltin("XBMC.Container.Refresh");
     elif (mode=='cFavoritesRemove'):  fav__COMMON__remove( site=site,section=section,subfav=addpr('subfav',''),name=addpr('title',''),year=addpr('year','') )
     elif (mode=='cFavoritesAdd'):          fav__COMMON__add( site=site,section=section,subfav=addpr('subfav',''),name=addpr('title',''),year=addpr('year',''),img=addpr('img',''),fanart=addpr('fanart',''),plot=addpr('plot',''),commonID=addpr('commonID',''),commonID2=addpr('commonID2',''),ToDoParams=addpr('todoparams',''),Country=addpr('country',''),Genres=addpr('genres',''),Url=url ) #,=addpr('',''),=addpr('','')
-    elif (mode=='AddVisit'):
-        try: visited_add(addpr('title')); RefreshList();
-        except: pass
-    elif (mode=='RemoveVisit'):
-        try: visited_remove(addpr('title')); RefreshList();
-        except: pass
-    elif (mode=='EmptyVisit'):
-        try: visited_empty(); RefreshList();
-        except: pass
-    elif (mode=='refresh_meta'):            refresh_meta(addpr('video_type',''),TagAnimeName(addpr('title','')),addpr('imdb_id',''),addpr('alt_id',''),addpr('year',''))
-    else: myNote(header='Site:  "'+site+'"',msg=mode+' (mode) not found.'); import mMain
-    #
+
+
+
+#    elif (mode=='ResolverSettings'):         import urlresolver; urlresolver.display_settings()  ## Settings for UrlResolver script.module.
+#    elif (mode=='AddVisit'):
+#        try: visited_add(addpr('title')); RefreshList();
+#        except: pass
+#    elif (mode=='RemoveVisit'):
+#        try: visited_remove(addpr('title')); RefreshList();
+#        except: pass
+#    elif (mode=='EmptyVisit'):
+#        try: visited_empty(); RefreshList();
+#        except: pass
+#    elif (mode=='refresh_meta'):            refresh_meta(addpr('video_type',''),TagAnimeName(addpr('title','')),addpr('imdb_id',''),addpr('alt_id',''),addpr('year',''))
+#    else: myNote(header='Site:  "'+site+'"',msg=mode+' (mode) not found.'); import mMain
+#    #
 mode_subcheck(addpr('mode',''),addpr('site',''),addpr('section',''),addpr('url',''))
 ### ############################################################################################################
 ### ############################################################################################################

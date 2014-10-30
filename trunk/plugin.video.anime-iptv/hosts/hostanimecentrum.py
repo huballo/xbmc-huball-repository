@@ -130,7 +130,8 @@ def Browse_EpisodesCentrum(url,page='',content='episodes',view='515'):
                 labs['plot'] = ''
 #  wyciąganie linku do mp4
             html2 = nURL(_url2)
-            _link = re.compile("<source src='(.+?)' type='video/mp4' />").findall(html2)
+            _link = re.compile('file: "(.+?)"').findall(html2)
+#            _link = re.compile("<source src='(.+?)' type='video/mp4' />").findall(html2)
             ItemCount = len(_link)
             if len(_link) > 0:
                 for link in _link:

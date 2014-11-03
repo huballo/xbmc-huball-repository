@@ -617,11 +617,10 @@ def video_google(url):
 
 def sibnet(url):
     url = nURL(url)
-    HD = re.compile("file' : '(.+?).mp4'").findall(url)[0]
+    HD = re.compile("file' : '(.+?)'").findall(url)[0]
     if HD == []:
         return
     url = HD
-    url = url + '.mp4'
     return url
 
 

@@ -308,7 +308,7 @@ def SectionMenu():
 ###Anime-Centrum###
         _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-centrum', 'blue')}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
 ###Diff-Anime###
-        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'diffanime'}, {'title': cFL('Diff-Anime', 'blue')}, is_folder=True, fanart=fanartSite, img=iconDiff)
+#        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'diffanime'}, {'title': cFL('Diff-Anime', 'blue')}, is_folder=True, fanart=fanartSite, img=iconDiff)
 ###DramaQueen###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'DramaQueen'}, {'title': cFL('DramaQueen', 'blue')}, is_folder=True, fanart=fanartDrama, img=iconSite)
 ###Anime-Online###

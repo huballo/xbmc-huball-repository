@@ -601,7 +601,8 @@ def video_google(url):
         import json
     except:
         import simplejson as json
-    logged_in = weblogingoogle.doLogin(addonPath, loginGoogle, passwordGoogle)
+    if (tfalse(addst("googlelog")) == True):
+        logged_in = weblogingoogle.doLogin(addonPath, loginGoogle, passwordGoogle)
     url = nURL(url)
     url = re.findall('("fmt_stream_map":".+?")', url, re.I)[0]
     url = json.loads('{' + url + '}')['fmt_stream_map']
@@ -612,6 +613,15 @@ def video_google(url):
         url = [i for i in url if not any(x in i for x in ['&itag=43&', '&itag=35&', '&itag=34&', '&itag=5&'])][0]
     except:
         url = url[0]
+    return url
+
+
+def vidfile(url):
+    url = nURL(url)
+    HD = re.compile("file': '(.+?)'").findall(url)[0]
+    if HD == []:
+        return
+    url = HD
     return url
 
 
@@ -700,6 +710,8 @@ def PlayFromHost(url):
         url = dailymotion(url)
     elif ('youtube.com' in url):
         stream_url = url
+    elif ('vidfile' in url):
+        url = vidfile(url)
     else:
         try:
             stream_url = urlresolver.HostedMediaFile(url).resolve()

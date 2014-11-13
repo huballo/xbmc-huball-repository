@@ -90,6 +90,7 @@
 	<setting label="Password" type="text"   id="password2" option="hidden" 		default="" enable="!eq(-2,false)"/>
 	</category>
 	<category label="Account Google">
+	<setting visible="true" id="googlelog" type="bool"   label="Włącz logowanie do Google Drive" default="false"/>
 	<setting label="Username" type="text"   id="username3" 										default="" enable="!eq(-1,false)"/>
 	<setting label="Password" type="text"   id="password3" option="hidden" 		default="" enable="!eq(-2,false)"/>
 	</category>

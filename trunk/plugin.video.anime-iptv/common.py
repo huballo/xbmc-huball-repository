@@ -15,6 +15,7 @@ iconFav = xbmcaddon.Addon(id="plugin.video.anime-iptv").getAddonInfo('path') + '
 net = Net()
 _addon = Addon(ps('_addon_id'), sys.argv)
 cache = StorageServer.StorageServer(ps('_addon_id'))
+#cache = os.path.join(ps('_addon_id'))
 _artIcon = _addon.get_icon()
 _artFanart = _addon.get_fanart()
 
@@ -604,8 +605,8 @@ def video_google(url):
     if (tfalse(addst("googlelog")) == True):
         logged_in = weblogingoogle.doLogin(addonPath, loginGoogle, passwordGoogle)
     url = nURL(url)
-    url = re.findall('("fmt_stream_map":".+?")', url, re.I)[0]
-    url = json.loads('{' + url + '}')['fmt_stream_map']
+    url = re.compile('"fmt_stream_map",(".+?")').findall(url)[0]
+    url = json.loads(url)
     url = [i.split('|')[-1] for i in url.split(',')]
     if url == []:
         return
@@ -618,7 +619,7 @@ def video_google(url):
 
 def vidfile(url):
     url = nURL(url)
-    HD = re.compile("file': '(.+?)'").findall(url)[0]
+    HD = re.compile("file: '(.+?)'").findall(url)[0]
     if HD == []:
         return
     url = HD

@@ -136,6 +136,7 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if idx2 == -1:
         return
     htmllink = html[idx:idx2]
+    htmllink = htmllink.lower()
     r = re.compile('src="(.+?)"').findall(htmllink)
     ItemCount = len(r)
     if len(r) > 0:

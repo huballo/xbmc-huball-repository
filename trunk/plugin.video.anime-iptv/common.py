@@ -626,6 +626,15 @@ def vidfile(url):
     return url
 
 
+def mp4upload(url):
+    url = nURL(url)
+    HD = re.compile("'file': '(.+?)'").findall(url)[0]
+    if HD == []:
+        return
+    url = HD
+    return url
+
+
 def sibnet(url):
     url = nURL(url)
     HD = re.compile("file' : '(.+?)'").findall(url)[0]
@@ -713,6 +722,8 @@ def PlayFromHost(url):
         stream_url = url
     elif ('vidfile' in url):
         url = vidfile(url)
+    elif ('mp4upload.com' in url):
+        url = mp4upload(url)
     else:
         try:
             stream_url = urlresolver.HostedMediaFile(url).resolve()

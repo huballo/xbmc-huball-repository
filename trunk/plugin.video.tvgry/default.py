@@ -25,14 +25,15 @@ def NAJNOWSZE(url):
         idx = html.find('<div class="container h1-s1">')
         if idx == -1:
             return
-        idx2 = html.find('</div><footer id="footer"></footer>', idx)
+        idx2 = html.find('<footer id="footer"></footer>', idx)
         if idx2 == -1:
             return
         html = html[idx:idx2]
         html = html.replace('\r\n', '')
         r = re.compile('itemprop="name"><a href="/?(.+?)">(.+?)/a>(.+?)itemprop="description">(.+?)</p>(.+?)<img src="(.+?).jpg').findall(html)
         for url, name, xx, plot, yy, img in r:
-            url = 'http://tvgry.pl/player/playlist_union.asp' + url + '&QUALITY=2&SECTION=TV'
+            url = url.replace('?','')
+            url = 'http://tvgry.pl/video/source.asp?SC=TV&' + url + '&QL=hd'
             name = name.decode('windows-1250').encode('utf-8')
             plot = plot.decode('windows-1250').encode('utf-8')
             img = img + ".jpg"
@@ -85,7 +86,8 @@ def GRYZKOSZA(url):
         html = html.replace('\r\n', '')
         r = re.compile('<a href="/?(.+?)" class="hover-layer"></a><div class="desc-box"><h2 itemprop="name">(.+?)/h2><p itemprop="text" class="lead">(.+?)</p>	</div>			<img src="(.+?)" alt').findall(html)
         for url, title, plot, img in r:
-            url = 'http://tvgry.pl/player/playlist_union.asp' + url + '&QUALITY=2&SECTION=TV'
+            url = url.replace('?','')
+            url = 'http://tvgry.pl/video/source.asp?SC=TV&' + url + '&QL=hd'
             name = title.decode('windows-1250').encode('utf-8')
             plot = plot.decode('windows-1250').encode('utf-8')
             img = img
@@ -111,7 +113,8 @@ def TRAJLERY(url):
         r = re.compile('<a href="/?(.+?)" class="hover-layer"></a><div class="desc-box"><h2 itemprop="name" style="margin-bottom:10px;">(.+?)</h2></div>			<img src="(.+?)" alt').findall(html)
         for url, title, img in r:
             url = url.replace('-', '')
-            url = 'http://tvgry.pl/player/playlist_union.asp' + url + '&QUALITY=2&SECTION=GV'
+            url = url.replace('?','')
+            url = 'http://tvgry.pl/video/source.asp?SC=GV&' + url + '&QL=hd'
             name = title.decode('windows-1250').encode('utf-8')
             plot = ''
             img = img

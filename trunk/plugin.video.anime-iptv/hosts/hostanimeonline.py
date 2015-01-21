@@ -164,6 +164,8 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
                 _name = 'Vidfile'
             elif ('cloudy.ec' in url):
                 _name = 'Cloudy'
+            elif ('vshare' in url):
+                _name = 'Vshare'
             else:
                 _name = 'Inny Host'
             fanart = fanartAol

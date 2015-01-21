@@ -654,6 +654,15 @@ def vk_vk(url):
     return url
 
 
+def vshare(url):
+    url = nURL(url)
+    HD = re.compile("url: '(.+?)'").findall(url)[0]
+    if HD == []:
+        return
+    url = HD
+    return url
+
+    
 def dailymotion(url):
     if not url.startswith('http://www.dailymotion.com/embed/video/'):
         url = 'http://www.dailymotion.com/embed/video/' + url.split('/')[-1][0:7]
@@ -724,6 +733,8 @@ def PlayFromHost(url):
         url = vidfile(url)
     elif ('mp4upload.com' in url):
         url = mp4upload(url)
+    elif ('vshare' in url):
+        url = vshare(url)
     else:
         try:
             stream_url = urlresolver.HostedMediaFile(url).resolve()

@@ -19,6 +19,7 @@ mainSite2 = 'http://anime-centrum.net/'
 mainSite3 = 'http://www.dramaqueen.pl/'
 mainSite4 = 'http://anime-odcinki.pl/'
 mainSite5 = 'http://www.anime-shinden.info/'
+mainSite6 = 'http://animeon.pl/'
 
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
@@ -31,6 +32,7 @@ iconCentrum = addonPath + '/art/japan/animecentrum.jpg'
 iconDiff = addonPath + '/art/japan/diffanime.jpg'
 iconOdcinki = addonPath + '/art/japan/animeodcinki.jpg'
 iconShniden = addonPath + '/art/japan/animeshniden.jpg'
+iconAnimeon = addonPath + '/art/japan/animeon.jpg'
 iconFavs = addonPath + '/art/japan/ulubione.jpg'
 fanartSite = addonPath + '/art/japan/fanart.jpg'
 fanartIPTV = addonPath + '/art/japan/fanart.jpg'
@@ -52,6 +54,7 @@ CR = '[CR]'
 MyAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 AonlineAlphabet = ['238', '240', '241', '242', '243', '244', '245', '246', '247', '248', '249', '250', '251', '252', '253', '254', '255', '256', '257', '258', '259', '260', '261', '262', '263', '264']
 AonlineDrama = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26']
+AnimeonAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 MyBrowser = ['User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3']
 
@@ -59,7 +62,7 @@ MyBrowser = ['User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1
 site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
-sections = {'diffanime': 'diffanime', 'animecentrum': "animecentrum", 'DramaQueen': 'DramaQueen', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat'}
+sections = {'diffanime': 'diffanime', 'animecentrum': "animecentrum", 'DramaQueen': 'DramaQueen', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
@@ -153,6 +156,26 @@ def Browse_EpisodesShniden(url, page):
 def Browse_PlayShniden(url, page):
     from hostanimeshniden import Browse_PlayShniden
     Browse_PlayShniden(url, page)
+
+
+###############################################################################
+###############################################################################
+# Anime-On
+###############################################################################
+###############################################################################
+def Browse_Pageanimeon(url, page='', metamethod=''):
+    from hostanimeon import Pageanimeon
+    Pageanimeon(url)
+
+
+def Browse_EpisodesAnimeon(url, page):
+    from hostanimeon import Browse_EpisodesAnimeon
+    Browse_EpisodesAnimeon(url, page)
+
+
+def Browse_Version(url, page):
+    from hostanimeon import Browse_Version
+    Browse_Version(url, page)
 ###############################################################################
 
 
@@ -300,13 +323,18 @@ def SubMenu():
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'shnidenodc'}, {'title': "Alfabetycznie."}, is_folder=True, fanart=fanartAol, img=iconShniden)
         url = mainSite5 + 'animelist/index.php'
         _addon.add_directory({'mode': 'Browse_GenreShniden', 'site': site, 'section': 'shnidengat', 'url': url }, {'title': "Lista wg gatunku."}, is_folder=True, fanart=fanartAol, img=iconShniden)
+###Anime-On###
+    if section == 'animeon':
+        tUrl = mainSite6 + 'anime.php?letter='
+        for az in AnimeonAlphabet:
+            _addon.add_directory({'mode': 'Pageanimeon', 'site': site, 'section': section, 'url': tUrl + az + '&rowstart=00'}, {'title': az}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/'+ az +'.png')
     set_view('list', view_mode=addst('default-view'))
     eod()
 
 
 def SectionMenu():
 ###Anime-Centrum###
-        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-centrum', 'blue')}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
+        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum', 'blue')}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
 ###Diff-Anime###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'diffanime'}, {'title': cFL('Diff-Anime', 'blue')}, is_folder=True, fanart=fanartSite, img=iconDiff)
 ###DramaQueen###
@@ -315,6 +343,8 @@ def SectionMenu():
         _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Anime-Shinden###
         _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeshinden'}, {'title': cFL('Anime-Shinden', 'blue')}, is_folder=True, fanart=fanartAol, img=iconShniden)
+###Anime-On###
+        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeon'}, {'title': cFL('Anime-On', 'blue')}, is_folder=True, fanart=fanartAol, img=iconAnimeon)
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.1.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.2.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
@@ -352,6 +382,10 @@ def mode_subcheck(mode='',site='',section='',url=''):
     elif (mode=='EpisodesDramaQueen_drama'):             Browse_EpisodesDramaQueen_drama(url,page)
     elif (mode=='dramaqueen_drama'):             Browse_PageDramaQueen_drama(url,page)
     elif (mode=='dramaqueen_drama_movie'):             Browse_PageDramaQueen_dramamovie(url,page)
+# ANIME-ON
+    elif (mode=='Pageanimeon'):                     Browse_Pageanimeon(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='EpisodesAnimeon'):             Browse_EpisodesAnimeon(url,page)
+    elif (mode=='Version'):             Browse_Version(url,page)
 # PLAY FROM HOST
     elif (mode=='PlayFromHost'):     PlayFromHost(url)
 # ULUBIONE

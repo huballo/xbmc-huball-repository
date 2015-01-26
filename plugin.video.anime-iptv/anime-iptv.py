@@ -183,7 +183,7 @@ def Browse_Version(url, page):
 def Fav_List(site='', section='', subfav=''):
     favs = fav__COMMON__list_fetcher(site=site, section='diffanime', subfav=subfav)
     favs2 = fav__COMMON__list_fetcher(site=site, section='animecentrum', subfav=subfav)
-    favs3 = fav__COMMON__list_fetcher(site=site, section='Dramadrama', subfav=subfav)
+    favs3 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
     favs5 = fav__COMMON__list_fetcher(site=site, section='animedrama', subfav=subfav)
     favs6 = fav__COMMON__list_fetcher(site=site, section='shnidenodc', subfav=subfav)
@@ -229,7 +229,7 @@ def Fav_List(site='', section='', subfav=''):
         if _section == 'animecentrum':
             host = cFL(' (A-C)', 'blue')
             _title = _title + host
-        if _section == 'Dramadrama':
+        if _section == 'animeon':
             host = cFL(' (D-Q)', 'lime')
             _title = _title + host
         if _section == 'animeonline':

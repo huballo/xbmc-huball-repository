@@ -230,7 +230,7 @@ def Fav_List(site='', section='', subfav=''):
             host = cFL(' (A-C)', 'blue')
             _title = _title + host
         if _section == 'animeon':
-            host = cFL(' (D-Q)', 'lime')
+            host = cFL(' (A-ON)', 'lime')
             _title = _title + host
         if _section == 'animeonline':
             host = cFL(' (A-O)', 'orange')

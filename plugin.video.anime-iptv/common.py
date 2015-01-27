@@ -662,7 +662,7 @@ def vshare(url):
     url = HD
     return url
 
-    
+
 def dailymotion(url):
     if not url.startswith('http://www.dailymotion.com/embed/video/'):
         url = 'http://www.dailymotion.com/embed/video/' + url.split('/')[-1][0:7]
@@ -755,3 +755,23 @@ def PlayFromHost(url):
         if (wwB == True) and (len(wwT) > 0):
             visited_remove(wwT)
         t = ''
+
+
+def GetDataBeetwenMarkers(data, marker1, marker2, withMarkers=True, caseSensitive=True):
+    if caseSensitive:
+        idx1 = data.find(marker1)
+    else:
+        idx1 = data.lower().find(marker1.lower())
+    if -1 == idx1:
+        return False, ''
+    if caseSensitive:
+        idx2 = data.find(marker2, idx1 + len(marker1))
+    else:
+        idx2 = data.lower().find(marker2.lower(), idx1 + len(marker1))
+    if -1 == idx2:
+        return False, ''
+    if withMarkers:
+        idx2 = idx2 + len(marker2)
+    else:
+        idx1 = idx1 + len(marker1)
+    return True, data[idx1:idx2]

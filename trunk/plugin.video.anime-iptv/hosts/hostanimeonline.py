@@ -141,3 +141,33 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     eod()
 
 
+def Recenzje(url, page='', metamethod=''):
+    html = nURL(url)
+    Browse_ItemRecenzje(html, metamethod)
+    eod()
+
+
+def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
+    if (len(html) == 0):
+        return
+    html = GetDataBeetwenMarkers(html, '<div class="yt-lockup-content">', '<span class="yt-spinner">', False)[1]
+    data = re.findall('href="(.+?)">(.+?)</a><span class="accessible-description"', html)
+    ItemCount = len(data)
+    for item in data:
+        strona = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % item[0].replace('/watch?v=', '')
+        name = item[1].encode("ascii",'replace')
+        fanart = fanartAol
+        img = 'https://i.ytimg.com/vi_webp/'+ item[0].replace('/watch?v=', '') +'/mqdefault.webp'
+        plot = ''
+        labs = {}
+        try:
+            labs['plot'] = plot
+        except:
+            labs['plot'] = ''
+        contextLabs = {'title': name, 'year': '0000', 'url': strona, 'img': img, 'fanart': fanart, 'DateAdded': '', 'plot': labs['plot']}
+        contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
+        pars = {'mode': 'PlayFromHost', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
+        labs['title'] = name
+        _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+    set_view(content, int(addst('links-view')))
+    eod()

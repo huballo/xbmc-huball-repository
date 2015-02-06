@@ -40,6 +40,7 @@ fanartSiteCentrum = addonPath + '/art/japan/fanart.jpg'
 fanartDrama = addonPath + '/art/japan/fanart.jpg'
 fanartAol = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
+iconspychu ="http://yt3.ggpht.com/-AAAZ6bEqVMk/VMVVsE8SP5I/AAAAAAAAAEY/81QRnXbTEXs/w1060-fcrop64=1,00005a57ffffa5a8-nd/Banner%2Bdla%2BSpychaGOTOWY.png"
 
 # logowanie
 login = addst('username', '')
@@ -133,6 +134,9 @@ def Browse_PlayAnime(url, page):
     Browse_PlayAnime(url, page)
 
 
+def Browse_Recenzje(url, page='', metamethod=''):
+    from hostanimeonline import Recenzje
+    Recenzje(url)
 ###############################################################################
 ###############################################################################
 # Anime-Shinden
@@ -317,6 +321,7 @@ def SubMenu():
     if section == 'animeonline':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+        _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': 'https://www.youtube.com/user/Spychu91/videos?sort=dd&shelf_id=0&view=0'}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
 ###Anime-Shinden###
     if section == 'animeshinden':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'shnidenodc'}, {'title': "Alfabetycznie."}, is_folder=True, fanart=fanartAol, img=iconShniden)
@@ -372,6 +377,7 @@ def mode_subcheck(mode='',site='',section='',url=''):
     elif (mode=='Pageanimeonline'):                     Browse_Pageanimeonline(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
     elif (mode=='EpisodesAnime'):             Browse_EpisodesAnime(url,page)
     elif (mode=='PlayAnime'):             Browse_PlayAnime(url,page)
+    elif (mode=='recenzje'):                     Browse_Recenzje(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
 # ANIME-SHNIDEN
     elif (mode=='Pageshniden'):                     Browse_Pageshniden(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
     elif (mode=='EpisodesShniden'):             Browse_EpisodesShniden(url,page)

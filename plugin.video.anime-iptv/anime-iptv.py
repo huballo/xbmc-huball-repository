@@ -52,7 +52,7 @@ ciastko = addonPath
 colors = {'0': 'white', '1': 'red', '2': 'blue', '3': 'green', '4': 'yellow', '5': 'orange', '6': 'lime', '7': '', '8': 'cornflowerblue', '9': 'blueviolet', '10': 'hotpink', '11': 'pink', '12': 'tan'}
 CR = '[CR]'
 MyAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-AonlineAlphabet = ['238', '240', '241', '242', '243', '244', '245', '246', '247', '248', '249', '250', '251', '252', '253', '254', '255', '256', '257', '258', '259', '260', '261', '262', '263', '264']
+AonlineAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '3', '5']
 AonlineDrama = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26']
 AnimeonAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
@@ -282,9 +282,8 @@ def SubSubMenu():
         _addon.add_directory({'mode': 'dramaqueen_drama_movie', 'site': site, 'section': section, 'url': mainSite3 + 'drama/film/koreanski/'}, {'title': "Film - koreański"}, is_folder=True, fanart=fanartDrama, img=iconSite)
 ###Anime-Online###
     if section == 'animeonline':
-        tUrl = mainSite4 + 'viewpage.php?page_id='
-        _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + '6429'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
-        for az, xy in zip(MyAlphabet, AonlineAlphabet):
+        tUrl = mainSite4 + 'lista-anime/'
+        for az, xy in zip(AonlineAlphabet, AonlineAlphabet):
             _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
     if section == 'animedrama':
         tUrl = mainSite4 + 'Drama/viewpage.php?page_id='

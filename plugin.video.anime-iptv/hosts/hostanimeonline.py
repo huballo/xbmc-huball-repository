@@ -64,7 +64,7 @@ def Browse_ItemAol(html, metamethod='', content='tvshows', view='515'):
 def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    html = GetDataBeetwenMarkers(nURL(url), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</ul></div>', False)[1]
+    html = GetDataBeetwenMarkers(nURL(url), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</section> <!-- /.block -->', False)[1]
     data = re.findall('<span class="field-content"><a href="/(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     print data

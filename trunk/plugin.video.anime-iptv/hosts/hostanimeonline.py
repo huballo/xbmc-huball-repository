@@ -65,7 +65,7 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
     html = GetDataBeetwenMarkers(nURL(url), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</section> <!-- /.block -->', False)[1]
-    data = re.findall('<span class="field-content"><a href="/(.+?)">(.+?)</a>', html)
+    data = re.findall('<div class="field-content lista_odc_tytul_pozycja"><a href="/(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     print data
     for item in data:
@@ -171,3 +171,4 @@ def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
     set_view(content, int(addst('links-view')))
     eod()
+

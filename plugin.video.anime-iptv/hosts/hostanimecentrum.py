@@ -46,18 +46,13 @@ def Browse_Itemscen(html, metamethod='', content='tvshows', view='515'):
             else:
                 img = ""
 #  fanart
-            image2 = re.compile('<!--dle_image_begin:(.+?)</a><!--dle_image_end-->').findall(html2)
-            ItemCount = len(image2)
-            if len(image2) > 0:
-                for foto2 in image2:
-                    strona2 = foto2
-                    image3 = re.compile('http:(.+?).jpg').findall(strona2)
-                    ItemCount = len(image3)
-                    if len(image3) > 0:
-                        for foto3 in image3:
-                            fanart = "http:" + foto3 + ".jpg"
-                    else:
-                        fanart = img
+            image3 = re.compile('http:(.+?).jpg').findall(html2)
+            ItemCount = len(image3)
+            if len(image3) > 0:
+                for foto3 in image3:
+                    fanart = "http:" + foto3 + ".jpg"
+            else:
+                    fanart = img
 #  opis
             opis = re.compile('<strong>Opis:</strong>(.+)').findall(html2)
             ItemCount = len(opis)

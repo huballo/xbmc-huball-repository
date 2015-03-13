@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import urllib
+import urllib2
 import xbmcplugin
 import xbmcgui
 import xbmcaddon
@@ -10,9 +11,36 @@ my_addon = xbmcaddon.Addon('plugin.video.Pac-12')
 addonPath = my_addon.getAddonInfo('path')
 icon = addonPath + '/icon.png'
 fanart = addonPath + '/fanart.jpg'
+iconbtn = addonPath + '/iconbtn.png'
+fanartbtn = addonPath + '/fanartbtn.jpg'
+feeds = 'http://feeds.the-antinet.com/pac12/pac12'
+
+
+def CATEGORIES():
+    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'na.json')
+    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'az.json')
+    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'ba.json')
+    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'la.json')
+    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'mtn.json')
+    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'or.json')
+    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'wa.json')
+    addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, '')
 
 
 def addDir(name, url, mode, iconimage, fanart, description):
+        if (len(description) == 0):
+            feed = ''
+        else:
+            feed = feeds + description
+            req = urllib2.Request(feed)
+            req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+            response = urllib2.urlopen(req)
+            html = response.read()
+            response.close()
+            plot = html.replace('","title":"x"}', '')
+            plot = plot.replace('","sport":"', ' ')
+            plot = plot.replace('{"channel":"Arizona","time":"', ' ')
+            name = name + ' - ' + plot.replace('{"time":"', '')
         u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
         ok = True
         liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
@@ -20,16 +48,6 @@ def addDir(name, url, mode, iconimage, fanart, description):
         liz.setProperty("Fanart_Image", fanart)
         ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
         return ok
-
-
-def CATEGORIES():
-    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, '')
-    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, '')
-    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, '')
-    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, '')
-    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, '')
-    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, '')
-    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, '')
 
 
 def getItemTitles(table):
@@ -44,11 +62,16 @@ def Play(url, name, icon):
     lista = [['1080p', '4728.m3u8'], ['720p', '2328.m3u8']]
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(lista))
-    print str(item)
     if item != -1:
         url = url + str(lista[item][1])
         li = xbmcgui.ListItem(label=name, iconImage=icon, thumbnailImage=icon, path="")
         xbmc.Player().play(item=url, listitem=li)
+    exit()
+
+
+def Playbtn(url, name, icon):
+    li = xbmcgui.ListItem(label=name, iconImage=iconbtn, thumbnailImage=iconbtn, path="")
+    xbmc.Player().play(item=url, listitem=li)
     exit()
 
 
@@ -98,4 +121,7 @@ if mode == None or url == None or len(url) < 1:
 
 elif mode == 1:
         Play(url, name, icon)
+
+elif mode == 2:
+        Playbtn(url, name, icon)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

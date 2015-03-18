@@ -6,6 +6,7 @@ import xbmcgui
 import xbmcaddon
 import sys
 import xbmc
+import re
 
 my_addon = xbmcaddon.Addon('plugin.video.Pac-12')
 addonPath = my_addon.getAddonInfo('path')
@@ -16,34 +17,32 @@ fanartbtn = addonPath + '/fanartbtn.jpg'
 
 
 def CATEGORIES():
-    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'http://feeds.the-antinet.com/pac12/pac12na.json')
-    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'http://feeds.the-antinet.com/pac12/pac12az.json')
-    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'http://feeds.the-antinet.com/pac12/pac12ba.json')
-    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'http://feeds.the-antinet.com/pac12/pac12la.json')
-    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'http://feeds.the-antinet.com/pac12/pac12mtn.json')
-    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'http://feeds.the-antinet.com/pac12/pac12or.json')
-    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'http://feeds.the-antinet.com/pac12/pac12wa.json')
+    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'http://sports.the-antinet.net/pac12/pac12zap-2xml.php')
+    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12azzap-2xml.php')
+    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12bazap-2xml.php')
+    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12lazap-2xml.php')
+    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12mtnzap-2xml.php')
+    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12orzap-2xml.php')
+    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12wazap-2xml.php')
     addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, '')
 
 
 def addDir(name, url, mode, iconimage, fanart, description):
         if (len(description) == 0):
-            description = ''
+            title = ''
         else:
-#            req = urllib2.Request(description)
-#            req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-#            response = urllib2.urlopen(req)
-#            html = response.read()
-#            response.close()
-#            plot = html.replace('","title":"x"}', '')
-#            plot = plot.replace('","sport":"', ' ')
-#            plot = plot.replace('{"channel":"Arizona","time":"', ' ')
-#            name = name + ' - ' + plot.replace('{"time":"', '')
-            description = ''
+            req = urllib2.Request(description)
+            response = urllib2.urlopen(req)
+            html = response.read()
+            response.close()
+            title = re.compile("><title>(.+?)</title></").findall(html)
+            ItemCount = len(title)
+            for title in title:
+                title = ' - ' +title
         u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
         ok = True
-        liz = xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
-        liz.setInfo(type="Video", infoLabels={"Title": name, "Plot": description})
+        liz = xbmcgui.ListItem(name + title, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz.setInfo(type="Video", infoLabels={"Title": name, "Plot": ''})
         liz.setProperty("Fanart_Image", fanart)
         ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
         return ok

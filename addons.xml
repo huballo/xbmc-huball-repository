@@ -25,20 +25,6 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.tvgry" version="1.0.1" name="tvgry.pl" provider-name="huball">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <summary>Tvgry</summary>
-        <description>Tvgry</description>
-        <platform>all</platform>
-    </extension>
-</addon>
-
 <addon id="plugin.video.Pac-12" version="1.0.0" name="Pac-12" provider-name="huball">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -49,6 +35,20 @@
     <extension point="xbmc.addon.metadata">
         <summary>Pac-12</summary>
         <description>Pac-12</description>
+        <platform>all</platform>
+    </extension>
+</addon>
+
+<addon id="plugin.video.tvgry" version="1.0.1" name="tvgry.pl" provider-name="huball">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <summary>Tvgry</summary>
+        <description>Tvgry</description>
         <platform>all</platform>
     </extension>
 </addon>

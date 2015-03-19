@@ -27,24 +27,25 @@ def CATEGORIES():
     addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12orzap-2xml.php')
     addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12wazap-2xml.php')
     addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, '')
-    addDir('TSN1', 'http://ams-lp5.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/tsnOpen', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_1_aug2014.png', fanarttsn, '')
-    addDir('TSN2', 'http://ams-lp7.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN2Open', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_2_aug2014.png', fanarttsn, '')
-    addDir('TSN3', 'http://ams-lp1.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN3Open', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_3_aug2014.png', fanarttsn, '')
-    addDir('TSN4', 'http://ams-lp2.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN4Open', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_4_aug2014.png', fanarttsn, '')
-    addDir('TSN5', 'http://ams-lp3.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN5Open', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_5_aug2014.png', fanarttsn, '')
+    addDir('TSN1', 'http://ams-lp5.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/tsnOpen8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_1_aug2014.png', fanarttsn, '')
+    addDir('TSN2', 'http://ams-lp7.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN2Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_2_aug2014.png', fanarttsn, '')
+    addDir('TSN3', 'http://ams-lp1.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN3Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_3_aug2014.png', fanarttsn, '')
+    addDir('TSN4', 'http://ams-lp2.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN4Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_4_aug2014.png', fanarttsn, '')
+    addDir('TSN5', 'http://ams-lp3.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN5Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_5_aug2014.png', fanarttsn, '')
 
 def addDir(name, url, mode, iconimage, fanart, description):
-        if (len(description) == 0):
-            title = ''
-        else:
-            req = urllib2.Request(description)
-            response = urllib2.urlopen(req)
-            html = response.read()
-            response.close()
-            title = re.compile("><title>(.+?)</title></").findall(html)
-            ItemCount = len(title)
-            for title in title:
-                title = ' - ' +title
+#        if (len(description) == 0):
+#            title = ''
+#        else:
+#            req = urllib2.Request(description)
+#            response = urllib2.urlopen(req)
+#            html = response.read()
+#            response.close()
+#            title = re.compile("><title>(.+?)</title></").findall(html)
+#            ItemCount = len(title)
+#            for title in title:
+#                title = ' - ' +title
+        title = ''
         u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
         ok = True
         liz = xbmcgui.ListItem(name + title, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
@@ -80,13 +81,8 @@ def Playbtn(url, name, icon):
 
 
 def PlayTSN(url, name, icon):
-    lista = [['720p', '8.m3u8'], ['SD', '7.m3u8']]
-    d = xbmcgui.Dialog()
-    item = d.select("Wybór jakości", getItemTitles(lista))
-    if item != -1:
-        url = url + str(lista[item][1])
-        li = xbmcgui.ListItem(label=name, iconImage=icontsn, thumbnailImage=icontsn, path="")
-        xbmc.Player().play(item=url, listitem=li)
+    li = xbmcgui.ListItem(label=name, iconImage=icontsn, thumbnailImage=icontsn, path="")
+    xbmc.Player().play(item=url, listitem=li)
     exit()
 
 

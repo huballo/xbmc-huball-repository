@@ -18,7 +18,7 @@ mainSite = 'http://diff-anime.pl/'
 mainSite2 = 'http://anime-centrum.net/'
 mainSite3 = 'http://www.dramaqueen.pl/'
 mainSite4 = 'http://anime-odcinki.pl/'
-mainSite5 = 'http://www.anime-shinden.info/'
+mainSite5 = 'http://shinden.pl/'
 mainSite6 = 'http://animeon.pl/'
 
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
@@ -161,7 +161,9 @@ def Browse_PlayShniden(url, page):
     from hostanimeshniden import Browse_PlayShniden
     Browse_PlayShniden(url, page)
 
-
+def Browse_PlayShniden2(url, page):
+    from hostanimeshniden import Browse_PlayShniden2
+    Browse_PlayShniden2(url, page)
 ###############################################################################
 ###############################################################################
 # Anime-On
@@ -295,10 +297,10 @@ def SubSubMenu():
             _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
 ###Anime-Shniden###
     if section == 'shnidenodc':
-        tUrl = mainSite5 + 'animelist/index.php?&first=&year_from=&year_to=&eps_from=&eps_to=&eps_other=&letter='
+        tUrl = mainSite5 + 'anime?letter='
         _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + '0'}, {'title': '#'}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + az}, {'title': az}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/'+ az +'.png')
+            _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + az + "&page=1"}, {'title': az}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/'+ az +'.png')
     set_view('list', view_mode=addst('default-view'))
     eod()
 
@@ -383,6 +385,7 @@ def mode_subcheck(mode='',site='',section='',url=''):
     elif (mode=='EpisodesShniden'):             Browse_EpisodesShniden(url,page)
     elif (mode=='Browse_GenreShniden'):             Browse_GenreShniden(url)
     elif (mode=='PlayShniden'):             Browse_PlayShniden(url,page)
+    elif (mode=='PlayShniden2'):             Browse_PlayShniden2(url,page)
 # DRAMA-QUEEN
     elif (mode=='EpisodesDramaQueen_drama'):             Browse_EpisodesDramaQueen_drama(url,page)
     elif (mode=='dramaqueen_drama'):             Browse_PageDramaQueen_drama(url,page)

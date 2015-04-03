@@ -63,6 +63,7 @@ MyBrowser = ['User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1
 site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
+nmr = addpr('nmr', '')
 sections = {'diffanime': 'diffanime', 'animecentrum': "animecentrum", 'DramaQueen': 'DramaQueen', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
@@ -142,9 +143,9 @@ def Browse_Recenzje(url, page='', metamethod=''):
 # Anime-Shinden
 ###############################################################################
 ###############################################################################
-def Browse_Pageshniden(url, page='', metamethod=''):
+def Browse_Pageshniden(url, nmr, page='', metamethod=''):
     from hostanimeshniden import Pageshniden
-    Pageshniden(url)
+    Pageshniden(url, nmr)
 
 
 def Browse_GenreShniden(url):
@@ -171,7 +172,7 @@ def Browse_PlayShniden2(url, page):
 ###############################################################################
 def Browse_Pageanimeon(url, page='', metamethod=''):
     from hostanimeon import Pageanimeon
-    Pageanimeon(url)
+    Pageanimeon(url,nmr)
 
 
 def Browse_EpisodesAnimeon(url, page):
@@ -300,7 +301,7 @@ def SubSubMenu():
         tUrl = mainSite5 + 'anime?letter='
         _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + '0'}, {'title': '#'}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + az + "&page=1"}, {'title': az}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/'+ az +'.png')
+            _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': tUrl + az + "&page=",'nmr':'1'}, {'title': az}, is_folder=True, fanart=fanartSite, img=addonPath + '/art/'+ az +'.png')
     set_view('list', view_mode=addst('default-view'))
     eod()
 
@@ -381,7 +382,7 @@ def mode_subcheck(mode='',site='',section='',url=''):
     elif (mode=='PlayAnime'):             Browse_PlayAnime(url,page)
     elif (mode=='recenzje'):                     Browse_Recenzje(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
 # ANIME-SHNIDEN
-    elif (mode=='Pageshniden'):                     Browse_Pageshniden(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='Pageshniden'):                     Browse_Pageshniden(url=url,nmr=nmr,page=page,metamethod=addpr('metamethod','')) #(site,section)
     elif (mode=='EpisodesShniden'):             Browse_EpisodesShniden(url,page)
     elif (mode=='Browse_GenreShniden'):             Browse_GenreShniden(url)
     elif (mode=='PlayShniden'):             Browse_PlayShniden(url,page)

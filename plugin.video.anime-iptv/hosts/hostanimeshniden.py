@@ -30,15 +30,8 @@ cookie = (os.path.join(dataroot, cookiepath))
 nexticon = addonPath + '/art/next.png'
 
 
-def Pageshniden(url, page='', metamethod=''):
-    html = nURL(url)
-    Browse_ItemShniden(html, metamethod)
-    eod()
-
-
-def Browse_ItemShniden(html, metamethod='', content='tvshows', view='515'):
-    if (len(html) == 0):
-        return
+def Pageshniden(url, nmr,  metamethod='', content='tvshows', view='515'):
+    html = nURL(url + nmr)
     html = GetDataBeetwenMarkers(html, 'data-view-table-cover', '<nav class="pagination">', False)[1]
     html = html.replace('\r\n', '')
     html = html.replace(' ', '')
@@ -46,10 +39,9 @@ def Browse_ItemShniden(html, metamethod='', content='tvshows', view='515'):
     ItemCount = len(data)
     for item in data:
         strona = mainSite5 + item[1]
-        name = html_entity_decode(item[2])
+        name = item[2].encode("utf-8")
         img = (mainSite5 + item[0]).replace('/resources/images/100x100/','/resources/images/genuine/')
         img = img.replace('100x100', '225x350')
-        print img
         plot = ''
         fanart = fanartAol
         labs = {}
@@ -68,10 +60,10 @@ def Browse_ItemShniden(html, metamethod='', content='tvshows', view='515'):
             contextMenuItems = []
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-# next page
-    npage = url[:-1] + str(int(url[-1:]) + 1)
+    npage = str(int(nmr) + 1)
+    print npage
 #    if -1 != html.find("do strony "):
-    _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
+    _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': url, 'page': url, 'nmr': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
     set_view(content, view_mode=addst('links-view'))
     eod()
 

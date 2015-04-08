@@ -1,116 +1,19 @@
 # -*- coding: utf-8 -*-
-import urllib, urllib2, re, xbmcplugin, xbmcgui, xbmcaddon, sys, xbmc
+import urllib, xbmcplugin, xbmcgui, xbmcaddon, sys, os
 mainSite = 'http://animejoy.tv/'
+mainSite2 = 'http://www.anime4fun.com/'
 my_addon = xbmcaddon.Addon('plugin.video.animejoy')
 addonPath = my_addon.getAddonInfo('path')
 icon = addonPath + '/icon.png'
+icon2 = addonPath + '/icon2.png'
 fanartlogo = addonPath + '/fanart.jpg'
-
+MyAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+sys.path.append(os.path.join(addonPath, 'hosts'))
 
 def CATEGORIES():
-        addDir('Anime list', mainSite + 'animelist', 1, icon, fanartlogo, '')
-        addDir('Anime movies', mainSite + 'animemovies', 1, icon, fanartlogo, '')
-
-
-def Animelist(url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        html = response.read()
-        response.close()
-        r = re.compile('<div class="anim"><a href="(.+?)">(.+?)</a>').findall(html)
-        for url, name in r:
-            url = mainSite + url
-            name = name
-            plot = ''
-            img = icon
-            fanart = fanartlogo
-            xbmcplugin.setContent(int(sys.argv[1]), 'movies')
-            addDir(name, url, 5, img, fanart, plot)
-
-
-def Episodes(url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        html = response.read()
-        response.close()
-        idx = html.find('<div class="episodes">')
-        if idx == -1:
-            return
-        idx2 = html.find('<div class="right">', idx)
-        if idx2 == -1:
-            return
-        html = html[idx:idx2]
-        r = re.compile('<div class="ep"><a href="(.+?)">(.+?)</a>').findall(html)
-        for url, name in r:
-            url = url
-            name = name
-            plot = ''
-            img = icon
-            fanart = fanartlogo
-            xbmcplugin.setContent(int(sys.argv[1]), 'movies')
-            addDir(name, url, 6, img, fanart, plot)
-
-
-def Players(url):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        html = response.read()
-        response.close()
-        idx = html.find('<div class="row">')
-        if idx == -1:
-            return
-        idx2 = html.find('<div id="wrapped-content">', idx)
-        if idx2 == -1:
-            return
-        html = html[idx:idx2]
-        r = re.compile('href="http://animejoy.tv/watch/(.+?)">(.+?)</a>').findall(html)
-        for url, name in r:
-            url = 'http://animejoy.tv/watch/' + url
-            name = name
-            plot = ''
-            img = icon
-            fanart = fanartlogo
-            xbmcplugin.setContent(int(sys.argv[1]), 'movies')
-            addDir(name, url, 7, img, fanart, plot)
-
-
-def VIDEOLINKS(url, name):
-        req = urllib2.Request(url)
-        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-        response = urllib2.urlopen(req)
-        html = response.read()
-        response.close()
-        idx = html.find('<div id="video_container_div" style="display:none;">')
-        if idx == -1:
-            return
-        idx2 = html.find('</div>', idx)
-        if idx2 == -1:
-            return
-        html = html[idx:idx2]
-        r = re.compile('src="(.+?)"').findall(html)
-        for url in r:
-            url =url
-        if ('mp4upload' in url):
-            req = urllib2.Request(url)
-            req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-            response = urllib2.urlopen(req)
-            html = response.read()
-            response.close()
-            HD = re.compile("'file': '(.+?)'").findall(html)[0]
-            if HD == []:
-                return
-            url = HD
-            name = 'Mp4upload'
-        else:
-            name = "HD 1"
-#        addLink(name, url, '')
-        li = xbmcgui.ListItem(label=name, iconImage=icon, thumbnailImage=icon, path="")
-        xbmc.Player().play(item=url, listitem=li)
-        exit()
-
+        addDir('Animejoy', mainSite, 'Animejoy', icon, fanartlogo, '')
+        addDir('Anime4fun', mainSite2, 'Anime4fun', icon2, fanartlogo, '')
+##################################
 
 
 def addDir(name, url, mode, iconimage, fanart, description):
@@ -155,7 +58,7 @@ try:
 except:
         pass
 try:
-        mode = int(params["mode"])
+        mode = urllib.unquote_plus(params["mode"])
 except:
         pass
 
@@ -167,16 +70,54 @@ if mode == None or url == None or len(url) < 1:
         print ""
         CATEGORIES()
 
-elif mode == 1:
-        Animelist(url)
+elif mode == 'Animejoy':
+        from hostanimejoy import Animejoy
+        Animejoy()
 
-elif mode == 5:
+elif mode == 'AZ':
+    for az in MyAlphabet:
+        from hostanimejoy import AZ
+        AZ(url)
+
+elif mode == 'Animelist':
+        from hostanimejoy import Animelist
+        Animelist(name, url)
+
+elif mode == 'Episodes':
+        from hostanimejoy import Episodes
         Episodes(url)
 
-elif mode == 6:
+elif mode == 'Players':
+        from hostanimejoy import Players
         Players(url)
 
-elif mode == 7:
+elif mode == 'VIDEOLINKS':
+        from hostanime4fun import VIDEOLINKS
         VIDEOLINKS(url, name)
+
+elif mode == 'Anime4fun':
+        from hostanime4fun import Anime4fun
+        Anime4fun()
+
+elif mode == 'AZ4fun':
+    for az in MyAlphabet:
+        from hostanime4fun import AZ4fun
+        AZ4fun(url)
+
+elif mode == 'Anime4funlist':
+        from hostanime4fun import Anime4funlist
+        Anime4funlist(name, url)
+
+elif mode == 'Anime4funEpisodes':
+        from hostanime4fun import Anime4funEpisodes
+        Anime4funEpisodes(url)
+
+elif mode == 'Anime4funPlayers':
+        from hostanime4fun import Anime4funPlayers
+        Anime4funPlayers(url)
+
+elif mode == 'Anime4funVIDEOLINKS':
+        from hostanime4fun import Anime4funVIDEOLINKS
+        Anime4funVIDEOLINKS(url, name)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

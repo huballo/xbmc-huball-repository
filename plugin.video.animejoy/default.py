@@ -92,7 +92,7 @@ elif mode == 'Players':
         Players(url)
 
 elif mode == 'VIDEOLINKS':
-        from hostanime4fun import VIDEOLINKS
+        from hostanimejoy import VIDEOLINKS
         VIDEOLINKS(url, name)
 
 elif mode == 'Anime4fun':

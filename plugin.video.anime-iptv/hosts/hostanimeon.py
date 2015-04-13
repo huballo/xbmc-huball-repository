@@ -61,12 +61,11 @@ def Browse_ItemAon(html, metamethod='', content='tvshows', view='515'):
 
 
 def Browse_EpisodesAnimeon(url, page='', content='episodes', view='515'):
-#    print url
     if url == '':
         return
     html = nURL(url)
     html = GetDataBeetwenMarkers(html, "<div class='anime-desc-title'><h2>Odcinki</h2></div>", '<div class="float-left"><h2 class="commentsFormH">Komentarze</h2></div>', False)[1]
-    data = re.findall("<a href='(.+?)'><b>(.+?)</b> - (.+?)</a>", html)
+    data = re.findall("<a href='(.+?)'><b>(.+?)</b> - (.+?)</td>", html)
     ItemCount = len(data)
     for item in data:
         url = item[0]

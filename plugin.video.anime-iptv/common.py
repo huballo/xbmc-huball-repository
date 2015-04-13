@@ -640,7 +640,7 @@ def sibnet(url):
     HD = re.compile("file' : '(.+?)'").findall(url)[0]
     if HD == []:
         return
-    url = HD
+    url = 'http://video.sibnet.ru' + HD
     return url
 
 

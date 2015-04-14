@@ -103,7 +103,11 @@ def Browse_EpisodesShniden(url, page='', content='episodes', view='515'):
     ItemCount = len(data)
     for item in data:
         strona = mainSite5 + item[2]
-        name = "Odcinek " + html_entity_decode(item[0])
+        if 'fafa-fwfa-times' in item[1]:
+            name2 = ' - niedostępny'
+        else:
+            name2 = ''
+        name = "Odcinek " + html_entity_decode(item[0]) + name2
         img = ''
         fanart = fanartAol
         plot = ""

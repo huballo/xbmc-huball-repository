@@ -190,9 +190,9 @@ def Browse_Version(url, page):
 def Fav_List(site='', section='', subfav=''):
     favs = fav__COMMON__list_fetcher(site=site, section='diffanime', subfav=subfav)
     favs2 = fav__COMMON__list_fetcher(site=site, section='animecentrum', subfav=subfav)
-    favs3 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
+    favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
-    favs5 = fav__COMMON__list_fetcher(site=site, section='animedrama', subfav=subfav)
+    favs3 = fav__COMMON__list_fetcher(site=site, section='animedrama', subfav=subfav)
     favs6 = fav__COMMON__list_fetcher(site=site, section='shnidenodc', subfav=subfav)
     ItemCount = len(favs) and len(favs2) and len(favs3) and len(favs4) and len(favs5) and len(favs6)
     if len(favs) == 0 and len(favs2) == 0 and len(favs3) == 0 and len(favs4) == 0 and len(favs5) == 0and len(favs6) == 0:
@@ -323,13 +323,13 @@ def SubMenu():
 ###Anime-Online###
     if section == 'animeonline':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
-        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+#        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
         _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': 'https://www.youtube.com/user/Spychu91/videos?sort=dd&shelf_id=0&view=0'}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
 ###Anime-Shinden###
     if section == 'animeshinden':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'shnidenodc'}, {'title': "Alfabetycznie."}, is_folder=True, fanart=fanartAol, img=iconShniden)
-        url = mainSite5 + 'animelist/index.php'
-        _addon.add_directory({'mode': 'Browse_GenreShniden', 'site': site, 'section': 'shnidengat', 'url': url }, {'title': "Lista wg gatunku."}, is_folder=True, fanart=fanartAol, img=iconShniden)
+#        url = mainSite5 + 'animelist/index.php'
+#        _addon.add_directory({'mode': 'Browse_GenreShniden', 'site': site, 'section': 'shnidengat', 'url': url }, {'title': "Lista wg gatunku."}, is_folder=True, fanart=fanartAol, img=iconShniden)
 ###Anime-On###
     if section == 'animeon':
         tUrl = mainSite6 + 'anime.php?letter='

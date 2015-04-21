@@ -162,6 +162,7 @@ def Browse_PlayShniden(url, page):
     from hostanimeshniden import Browse_PlayShniden
     Browse_PlayShniden(url, page)
 
+
 def Browse_PlayShniden2(url, page):
     from hostanimeshniden import Browse_PlayShniden2
     Browse_PlayShniden2(url, page)
@@ -330,6 +331,7 @@ def SubMenu():
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'shnidenodc'}, {'title': "Alfabetycznie."}, is_folder=True, fanart=fanartAol, img=iconShniden)
 #        url = mainSite5 + 'animelist/index.php'
 #        _addon.add_directory({'mode': 'Browse_GenreShniden', 'site': site, 'section': 'shnidengat', 'url': url }, {'title': "Lista wg gatunku."}, is_folder=True, fanart=fanartAol, img=iconShniden)
+        _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': 'http://shinden.pl/search?q='}, {'title': "Szukaj."}, is_folder=True, fanart=fanartAol, img=iconShniden)
 ###Anime-On###
     if section == 'animeon':
         tUrl = mainSite6 + 'anime.php?letter='

@@ -31,7 +31,12 @@ nexticon = addonPath + '/art/next.png'
 
 
 def Pageshniden(url, nmr,  metamethod='', content='tvshows', view='515'):
-    html = nURL(url + nmr)
+    if 'search' in url:
+        from common import getUserInput
+        url = url + getUserInput('Szukaj','')
+        html = nURL(url.replace(' ', '+'))
+    else:
+        html = nURL(url + nmr)
     html = GetDataBeetwenMarkers(html, 'data-view-table-cover', '<nav class="pagination">', False)[1]
     html = html.replace('\r\n', '')
     html = html.replace(' ', '')
@@ -60,10 +65,11 @@ def Pageshniden(url, nmr,  metamethod='', content='tvshows', view='515'):
             contextMenuItems = []
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    npage = str(int(nmr) + 1)
-    print npage
+    if not 'search' in url:
+        npage = str(int(nmr) + 1)
+        print npage
 #    if -1 != html.find("do strony "):
-    _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': url, 'page': url, 'nmr': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
+        _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': url, 'page': url, 'nmr': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
     set_view(content, view_mode=addst('links-view'))
     eod()
 

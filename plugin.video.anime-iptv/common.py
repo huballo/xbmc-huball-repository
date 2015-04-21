@@ -775,3 +775,17 @@ def GetDataBeetwenMarkers(data, marker1, marker2, withMarkers=True, caseSensitiv
     else:
         idx1 = idx1 + len(marker1)
     return True, data[idx1:idx2]
+
+
+# This function raises a keyboard for user input
+def getUserInput(title=u"Input", default=u"", hidden=False):
+    result = None
+    # Fix for when this functions is called with default=None
+    if not default:
+        default = u""
+    keyboard = xbmc.Keyboard(default, title)
+    keyboard.setHiddenInput(hidden)
+    keyboard.doModal()
+    if keyboard.isConfirmed():
+        result = keyboard.getText()
+    return result

@@ -64,12 +64,17 @@ def Browse_EpisodesAnimeon(url, page='', content='episodes', view='515'):
     if url == '':
         return
     html = nURL(url)
-    html = GetDataBeetwenMarkers(html, "<div class='anime-desc-title'><h2>Odcinki</h2></div>", '<div class="float-left"><h2 class="commentsFormH">Komentarze</h2></div>', False)[1]
-    data = re.findall("<a href='(.+?)'><b>(.+?)</b> - (.+?)</td>", html)
+    if "Odcinków w poczekalni" in html:
+        url = url.replace('http://animeon.pl/anime/', 'http://animeon.pl/anime/poczekalnia/')
+    else:
+        url = url
+    html = nURL(url)
+    html = GetDataBeetwenMarkers(html, '<h2 class="float-left">Odcinki</h2>', '<div class="float-left"><h2 class="commentsFormH">Komentarze</h2></div>', False)[1]
+    data = re.findall("<a href='(.+?)' title='(.+?)' ><strong>", html)
     ItemCount = len(data)
     for item in data:
         url = item[0]
-        name = item[2].replace('o', 'O')
+        name = item[1].replace('odcinek', 'Odcinek')
         img = ""
         fanart = fanartAol
         plot = ""
@@ -92,12 +97,14 @@ def Browse_Version(url, page='', content='episodes', view='515'):
     if url == '':
         return
     html = nURL(url)
-    html = GetDataBeetwenMarkers(html, "<div class='version-list'><ul>", "<a>Oznacz jako obejrzany</a>", False)[1]
-    data = re.findall("<li><a href='(.+?)'>Wersja (.+?)</a><li>", html)
+    html = GetDataBeetwenMarkers(html, "<div class='version-list'>", "</ul>", False)[1]
+    data = re.findall("<li><a href='(.+?)'>(.+?)</a><li>", html)
     ItemCount = len(data)
     for item in data:
-        url = mainSite + item[0].replace('http://animeon.com.pl/', '')
+        url = mainSite + item[0].replace('http://animeon.pl/', '')
+        print url
         name = item[1]
+        print name
         fanart = fanartAol
         plot = ""
         labs = {}
@@ -106,21 +113,24 @@ def Browse_Version(url, page='', content='episodes', view='515'):
         except:
             labs['plot'] = ''
         html = nURL(url)
-        html = GetDataBeetwenMarkers(html, "<div class='float-left player-container' style='display: none'><center>", "<br><br>", False)[1]
-        data = re.findall("src='(.+?)'", html)
+        html = GetDataBeetwenMarkers(html, "<div class='float-left player-container'>", "</div>", False)[1]
+        data = re.findall("<iframe src='(.+?)' allowfullscreen", html)
         for item in data:
-            url2 = item
-            print url2
-            if ('video.sibnet.ru' in url2):
-                    url2 = url2.replace('swf', 'php')
-            elif ('archive.org' in url2):
-                    url2 = url2.replace('http:', '')
-                    url2 = 'http:' + url2
-            elif ('animeon.com.pl/episodes/players/vk.php' in url2):
-                    html = nURL(url2)
-                    data = re.findall("src='(.+?)'", html)
-                    for item in data:
-                        url2 = item
+            html = nURL(item)
+            data = re.findall("src='(.+?)'", html)
+            for item in data:
+                url2 = item
+                print url2
+                if ('video.sibnet.ru' in url2):
+                        url2 = url2.replace('swf', 'php')
+                elif ('archive.org' in url2):
+                        url2 = url2.replace('http:', '')
+                        url2 = 'http:' + url2
+                elif ('animeon.com.pl/episodes/players/vk.php' in url2):
+                        html = nURL(url2)
+                        data = re.findall("src='(.+?)'", html)
+                        for item in data:
+                            url2 = item
 ###
             contextLabs = {'title': name, 'year': '0000', 'url': url, 'fanart': fanart, 'DateAdded': ''}
             contextMenuItems = ContextMenu_Episodes(labs=contextLabs)

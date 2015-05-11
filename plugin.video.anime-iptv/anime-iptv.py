@@ -334,7 +334,7 @@ def SubMenu():
         _addon.add_directory({'mode': 'Pageshniden', 'site': site, 'section': section, 'url': 'http://shinden.pl/search?q='}, {'title': "Szukaj."}, is_folder=True, fanart=fanartAol, img=iconShniden)
 ###Anime-On###
     if section == 'animeon':
-        tUrl = mainSite6 + 'anime.php?letter='
+        tUrl = mainSite6 + 'anime/all/?letter='
         for az in AnimeonAlphabet:
             _addon.add_directory({'mode': 'Pageanimeon', 'site': site, 'section': section, 'url': tUrl + az + '&rowstart=00'}, {'title': az}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/'+ az +'.png')
     set_view('list', view_mode=addst('default-view'))

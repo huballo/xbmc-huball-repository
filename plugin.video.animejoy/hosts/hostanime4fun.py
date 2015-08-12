@@ -25,7 +25,8 @@ def Anime4funlist(name, url):
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
         html = response.read()
-        r = re.compile('/category/anime-list/(.+?)">'+ name + '(.+?)</a>').findall(html)
+        response.close()
+        r = re.compile('<a href="/category/anime-list/(.+?)">'+ name + '(.+?)</a>').findall(html)
         for url, name2 in r:
             url = 'http://www.anime4fun.com/category/anime-list/' + url
             plot = ''
@@ -53,7 +54,7 @@ def Anime4funEpisodes(url):
         html = html.replace(' ', '')
         r = re.compile('<ahref="(.+?)"><liclass=(.+?)>(.+?)<spanclass=').findall(html)
         for url, xx, name in r:
-            url = "http://animeonlinetv.tv" + url
+            url = 'http://animeonlinetv.tv/'+ url
             name = name
             plot = ''
             img = icon2

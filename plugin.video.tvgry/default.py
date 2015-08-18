@@ -33,7 +33,7 @@ def NAJNOWSZE(url):
         r = re.compile('itemprop="name"><a href="/?(.+?)">(.+?)/a>(.+?)itemprop="description">(.+?)</p>(.+?)<img src="(.+?).jpg').findall(html)
         for url, name, xx, plot, yy, img in r:
             url = url.replace('?','')
-            url = 'http://tvgry.pl/video/source.asp?SC=TV&' + url + '&QL=hd'
+            url = 'http://tvgry.pl/video/source.v2.asp?SC=TV&' + url + '&QL=hd'
             name = name.decode('windows-1250').encode('utf-8')
             plot = plot.decode('windows-1250').encode('utf-8')
             img = img + ".jpg"
@@ -87,7 +87,7 @@ def GRYZKOSZA(url):
         r = re.compile('<a href="/?(.+?)" class="hover-layer"></a><div class="desc-box"><h2 itemprop="name">(.+?)/h2><p itemprop="text" class="lead">(.+?)</p>	</div>			<img src="(.+?)" alt').findall(html)
         for url, title, plot, img in r:
             url = url.replace('?','')
-            url = 'http://tvgry.pl/video/source.asp?SC=TV&' + url + '&QL=hd'
+            url = 'http://tvgry.pl/video/source.v2.asp?SC=TV&' + url + '&QL=hd'
             name = title.decode('windows-1250').encode('utf-8')
             plot = plot.decode('windows-1250').encode('utf-8')
             img = img
@@ -114,7 +114,7 @@ def TRAJLERY(url):
         for url, title, img in r:
             url = url.replace('-', '')
             url = url.replace('?','')
-            url = 'http://tvgry.pl/video/source.asp?SC=GV&' + url + '&QL=hd'
+            url = 'http://tvgry.pl/video/source.v2.asp?SC=GV&' + url + '&QL=hd'
             name = title.decode('windows-1250').encode('utf-8')
             plot = ''
             img = img
@@ -129,7 +129,8 @@ def VIDEOLINKS(url, name):
         response = urllib2.urlopen(req)
         link = response.read()
         response.close()
-        match = re.compile(":file>(.+?)<").findall(link)
+        print link
+        match = re.compile('file="(.+?)" label="HD 720p"').findall(link)
         addLink(name, match[0], '')
 
 

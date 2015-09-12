@@ -19,36 +19,54 @@ icontsn = addonPath + '/TSN_logo.png'
 
 
 def CATEGORIES():
-    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'http://sports.the-antinet.net/pac12/pac12zap-2xml.php')
-    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12azzap-2xml.php')
-    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12bazap-2xml.php')
-    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12lazap-2xml.php')
-    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12mtnzap-2xml.php')
-    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12orzap-2xml.php')
-    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'http://sports.the-antinet.net/pac12/pac12wazap-2xml.php')
-    addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, '')
+    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'Pac-12')
+    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'Pac-12 Arizona')
+    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'Pac-12 Bay Area')
+    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'Pac-12 Los Angeles')
+    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'Pac-12 Mountain')
+    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'Pac-12 Oregon')
+    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'Pac-12 Washington')
+    addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, 'Big Ten')
 #    addDir('TSN1', 'http://ams-lp5.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/tsnOpen8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_1_aug2014.png', fanarttsn, '')
 #    addDir('TSN2', 'http://ams-lp7.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN2Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_2_aug2014.png', fanarttsn, '')
 #    addDir('TSN3', 'http://ams-lp1.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN3Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_3_aug2014.png', fanarttsn, '')
 #    addDir('TSN4', 'http://ams-lp2.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN4Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_4_aug2014.png', fanarttsn, '')
 #    addDir('TSN5', 'http://ams-lp3.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN5Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_5_aug2014.png', fanarttsn, '')
 
+
 def addDir(name, url, mode, iconimage, fanart, description):
-#        if (len(description) == 0):
-#            title = ''
-#        else:
-#            req = urllib2.Request(description)
-#            response = urllib2.urlopen(req)
-#            html = response.read()
-#            response.close()
-#            title = re.compile("><title>(.+?)</title></").findall(html)
-#            ItemCount = len(title)
-#            for title in title:
-#                title = ' - ' +title
-        title = ''
+        try:
+            if (len(description) == 0):
+                title = ''
+            else:
+                req = urllib2.Request('http://tvgo.xfinity.com/watch-live-tv')
+                response = urllib2.urlopen(req)
+                html = response.read()
+                response.close()
+                idx = html.find('<div id="sports" class="jump-anchor" >')
+                if idx == -1:
+                    return
+                idx2 = html.find('<div id="family-kids" class="jump-anchor" >', idx)
+                if idx2 == -1:
+                    return
+                html = html[idx:idx2]
+                print html
+                html=html.replace ('\n', '')
+                html=html.replace ('  ', '')
+                try:
+                    title = re.compile('alt="'+ description +'" class(.+?)<h2>(.+?)</h2>(.+?)"description">(.+?)</p>').findall(html)
+                    if len(title)>0:
+                        for xx, title,yy, title2 in title:
+                            title = ' - ' + title + ' - ' + title2
+                    else:
+                        title = ''
+                except:
+                    print 'problemy'
+        except:
+            print "problemy z opisem"
         u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
         ok = True
-        liz = xbmcgui.ListItem(name + title, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz = xbmcgui.ListItem(name + '[I]' + title + '[/I]', iconImage="DefaultFolder.png", thumbnailImage=iconimage)
         liz.setInfo(type="Video", infoLabels={"Title": name, "Plot": ''})
         liz.setProperty("Fanart_Image", fanart)
         ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)

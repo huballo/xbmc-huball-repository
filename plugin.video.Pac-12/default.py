@@ -82,7 +82,7 @@ def getItemTitles(table):
 
 
 def Play(url, name, icon):
-    lista = [['1080p', '4728.m3u8'], ['720p', '2328.m3u8']]
+    lista = [['1080p', '4728.m3u8'], ['720p', '2328.m3u8'], ['SD', '1728.m3u8']]
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(lista))
     if item != -1:

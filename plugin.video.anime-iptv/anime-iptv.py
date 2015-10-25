@@ -343,7 +343,7 @@ def SubMenu():
 
 def SectionMenu():
 ###Anime-Centrum###
-        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum', 'blue')}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
+#        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum', 'blue')}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
 ###Diff-Anime###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'diffanime'}, {'title': cFL('Diff-Anime', 'blue')}, is_folder=True, fanart=fanartSite, img=iconDiff)
 ###DramaQueen###
@@ -351,9 +351,9 @@ def SectionMenu():
 ###Anime-Online###
         _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Anime-Shinden###
-        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeshinden'}, {'title': cFL('Anime-Shinden', 'blue')}, is_folder=True, fanart=fanartAol, img=iconShniden)
+#        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeshinden'}, {'title': cFL('Anime-Shinden', 'blue')}, is_folder=True, fanart=fanartAol, img=iconShniden)
 ###Anime-On###
-        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeon'}, {'title': cFL('Anime-On', 'blue')}, is_folder=True, fanart=fanartAol, img=iconAnimeon)
+#        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeon'}, {'title': cFL('Anime-On', 'blue')}, is_folder=True, fanart=fanartAol, img=iconAnimeon)
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.1.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.2.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)

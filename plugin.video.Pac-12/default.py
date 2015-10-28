@@ -16,9 +16,15 @@ iconbtn = addonPath + '/iconbtn.png'
 fanartbtn = addonPath + '/fanartbtn.jpg'
 fanarttsn = addonPath + '/fanarttsn.jpg'
 icontsn = addonPath + '/TSN_logo.png'
+intro = addonPath + '/intro.mp4'
+isplayed = xbmc.getInfoLabel("Window(Home).Property(intro.isplayed)").lower() == "true"
 
 
 def CATEGORIES():
+    if my_addon.getSetting("use_PAC-12_intro") == "true":
+        if not isplayed:
+            xbmc.Player().play(intro)
+            xbmcgui.Window(10000).setProperty("intro.isplayed", "true")
     addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'Pac-12')
     addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'Pac-12 Arizona')
     addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'Pac-12 Bay Area')
@@ -27,50 +33,44 @@ def CATEGORIES():
     addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'Pac-12 Oregon')
     addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'Pac-12 Washington')
     addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, 'Big Ten')
-#    addDir('TSN1', 'http://ams-lp5.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/tsnOpen8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_1_aug2014.png', fanarttsn, '')
-#    addDir('TSN2', 'http://ams-lp7.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN2Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_2_aug2014.png', fanarttsn, '')
-#    addDir('TSN3', 'http://ams-lp1.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN3Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_3_aug2014.png', fanarttsn, '')
-#    addDir('TSN4', 'http://ams-lp2.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN4Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_4_aug2014.png', fanarttsn, '')
-#    addDir('TSN5', 'http://ams-lp3.9c9media.com/hls-live/livepkgr/_definst_/liveeventNoDRM/TSN5Open8.m3u8', 3, 'http://www.bellaliant.net/binaries/small/content/gallery/common_en/tv/channel-logos/tsn_5_aug2014.png', fanarttsn, '')
 
 
 def addDir(name, url, mode, iconimage, fanart, description):
-        try:
-            if (len(description) == 0):
-                title = ''
-            else:
-                req = urllib2.Request('http://tvgo.xfinity.com/watch-live-tv')
-                response = urllib2.urlopen(req)
-                html = response.read()
-                response.close()
-                idx = html.find('<div id="sports" class="jump-anchor" >')
-                if idx == -1:
-                    return
-                idx2 = html.find('<div id="family-kids" class="jump-anchor" >', idx)
-                if idx2 == -1:
-                    return
-                html = html[idx:idx2]
-                print html
-                html=html.replace ('\n', '')
-                html=html.replace ('  ', '')
-                try:
-                    title = re.compile('alt="'+ description +'" class(.+?)<h2>(.+?)</h2>(.+?)"description">(.+?)</p>').findall(html)
-                    if len(title)>0:
-                        for xx, title,yy, title2 in title:
-                            title = ' - ' + title + ' - ' + title2
-                    else:
-                        title = ''
-                except:
-                    print 'problemy'
-        except:
-            print "problemy z opisem"
-        u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
-        ok = True
-        liz = xbmcgui.ListItem(name + '[I]' + title + '[/I]', iconImage="DefaultFolder.png", thumbnailImage=iconimage)
-        liz.setInfo(type="Video", infoLabels={"Title": name, "Plot": ''})
-        liz.setProperty("Fanart_Image", fanart)
-        ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
-        return ok
+    try:
+        if (len(description) == 0):
+            title = ''
+        else:
+            req = urllib2.Request('http://tvgo.xfinity.com/watch-live-tv')
+            response = urllib2.urlopen(req)
+            html = response.read()
+            response.close()
+            idx = html.find('<div id="sports" class="jump-anchor" >')
+            if idx == -1:
+                return
+            idx2 = html.find('<div id="family-kids" class="jump-anchor" >', idx)
+            if idx2 == -1:
+                return
+            html = html[idx:idx2]
+            html = html.replace('\n', '')
+            html = html.replace('  ', '')
+            try:
+                title = re.compile('alt="'+ description +'" class(.+?)<h2>(.+?)</h2>(.+?)"description">(.+?)</p>').findall(html)
+                if len(title) > 0:
+                    for xx, title, yy, title2 in title:
+                        title = ' - ' + title + ' - ' + title2
+                else:
+                    title = ''
+            except:
+                print 'problemy'
+    except:
+        print "problemy z opisem"
+    u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
+    ok = True
+    liz = xbmcgui.ListItem(name + '[I]' + title + '[/I]', iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+    liz.setInfo(type="Video", infoLabels={"Title": name, "Plot": ''})
+    liz.setProperty("Fanart_Image", fanart)
+    ok = xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=u, listitem=liz, isFolder=True)
+    return ok
 
 
 def getItemTitles(table):
@@ -157,4 +157,5 @@ elif mode == 2:
 elif mode == 3:
         PlayTSN(url, name, icon)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
+xbmcgui.Window( 10000 ).setProperty( "intro.isplayed", "false" )
 

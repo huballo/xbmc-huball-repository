@@ -23,7 +23,8 @@ isplayed = xbmc.getInfoLabel("Window(Home).Property(intro.isplayed)").lower() ==
 def CATEGORIES():
     if my_addon.getSetting("use_PAC-12_intro") == "true":
         if not isplayed:
-            xbmc.Player().play(intro)
+            li = xbmcgui.ListItem(label='PAC-12', iconImage=icon, thumbnailImage=icon)
+            xbmc.Player().play(intro,li)
             xbmcgui.Window(10000).setProperty("intro.isplayed", "true")
     addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'Pac-12')
     addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'Pac-12 Arizona')

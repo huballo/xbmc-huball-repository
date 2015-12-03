@@ -14,8 +14,6 @@ icon = addonPath + '/icon.png'
 fanart = addonPath + '/fanart.jpg'
 iconbtn = addonPath + '/iconbtn.png'
 fanartbtn = addonPath + '/fanartbtn.jpg'
-fanarttsn = addonPath + '/fanarttsn.jpg'
-icontsn = addonPath + '/TSN_logo.png'
 intro = addonPath + '/intro.mp4'
 isplayed = xbmc.getInfoLabel("Window(Home).Property(intro.isplayed)").lower() == "true"
 
@@ -24,16 +22,15 @@ def CATEGORIES():
     if my_addon.getSetting("use_PAC-12_intro") == "true":
         if not isplayed:
             li = xbmcgui.ListItem(label='PAC-12', iconImage=icon, thumbnailImage=icon)
-            xbmc.Player().play(intro,li)
+            xbmc.Player().play(intro, li)
             xbmcgui.Window(10000).setProperty("intro.isplayed", "true")
-    addDir('Pac National', 'http://xrxs.net/video/live-p12netw-', 1, icon, fanart, 'Pac-12')
-    addDir('Arizona', 'http://xrxs.net/video/live-p12ariz-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'Pac-12 Arizona')
-    addDir('Bay Area', 'http://xrxs.net/video/live-p12baya-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'Pac-12 Bay Area')
-    addDir('Los Angeles', 'http://xrxs.net/video/live-p12losa-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'Pac-12 Los Angeles')
-    addDir('Mountain', 'http://xrxs.net/video/live-p12moun-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'Pac-12 Mountain')
-    addDir('Oregon', 'http://xrxs.net/video/live-p12oreg-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'Pac-12 Oregon')
-    addDir('Washington', 'http://xrxs.net/video/live-p12wash-', 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'Pac-12 Washington')
-    addDir('Big Ten Network', 'http://bigten247.cdnak.bigtenhd.neulion.com/nlds/btn2go/btnnetwork/as/live/btnnetwork_hd_3000.m3u8', 2, iconbtn, fanartbtn, 'Big Ten')
+    addDir('Pac National', my_addon.getSetting("National"), 1, icon, fanart, 'Pac-12')
+    addDir('Arizona', my_addon.getSetting("Arizona"), 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-arizona.jpg', fanart, 'Pac-12 Arizona')
+    addDir('Bay Area', my_addon.getSetting("Bay"), 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-bayarea.jpg', fanart, 'Pac-12 Bay Area')
+    addDir('Los Angeles', my_addon.getSetting("Angeles"), 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-losangeles.jpg', fanart, 'Pac-12 Los Angeles')
+    addDir('Mountain', my_addon.getSetting("Mountain"), 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-mountain.jpg', fanart, 'Pac-12 Mountain')
+    addDir('Oregon', my_addon.getSetting("Oregon"), 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-oregon.jpg', fanart, 'Pac-12 Oregon')
+    addDir('Washington', my_addon.getSetting("Washington"), 1, 'http://x.pac-12.com/profiles/pac12/themes/pac12_foundation/images/pac12/networks/network-washington.jpg', fanart, 'Pac-12 Washington')
 
 
 def addDir(name, url, mode, iconimage, fanart, description):
@@ -99,12 +96,6 @@ def Playbtn(url, name, icon):
     exit()
 
 
-def PlayTSN(url, name, icon):
-    li = xbmcgui.ListItem(label=name, iconImage=icontsn, thumbnailImage=icontsn, path="")
-    xbmc.Player().play(item=url, listitem=li)
-    exit()
-
-
 def get_params():
         param = []
         paramstring = sys.argv[2]
@@ -155,8 +146,6 @@ elif mode == 1:
 elif mode == 2:
         Playbtn(url, name, icon)
 
-elif mode == 3:
-        PlayTSN(url, name, icon)
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
-xbmcgui.Window( 10000 ).setProperty( "intro.isplayed", "false" )
+xbmcgui.Window(10000).setProperty("intro.isplayed", "false")
 

@@ -2,7 +2,7 @@
 <addons>
 <addon
   id="plugin.video.anime-iptv"
-  version="0.5.11"
+  version="0.5.12"
   name="Anime-IPTV"
   provider-name="huball">
   <requires>
@@ -39,7 +39,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.Pac-12" version="1.1.6" name="Pac-12" provider-name="huball">
+<addon id="plugin.video.Pac-12#" version="1.1.7" name="Pac-12" provider-name="huball">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
     </requires>

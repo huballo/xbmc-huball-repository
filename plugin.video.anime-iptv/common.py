@@ -20,6 +20,19 @@ _artIcon = _addon.get_icon()
 _artFanart = _addon.get_fanart()
 
 
+def byteify(input):
+    if isinstance(input, dict):
+        return dict([(byteify(key), byteify(value)) for key, value in input.iteritems()])
+    elif isinstance(input, list):
+        return [byteify(element) for element in input]
+    elif isinstance(input, unicode):
+        return input.encode('utf-8')
+    else:
+        return input
+
+
+
+
 def addst(r, s=''):
     return _addon.get_setting(r)
 

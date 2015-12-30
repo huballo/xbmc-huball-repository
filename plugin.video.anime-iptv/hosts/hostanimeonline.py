@@ -2,13 +2,32 @@
 ###############################################################################
 ###############################################################################
 # Anime-Online
+# THANKS for support do samsamsam !!!!
+# Some part of code comes from iptvplugin https://gitlab.com/iptvplayer-for-e2/iptvplayer-for-e2
 ###############################################################################
 ###############################################################################
 ### Imports ###
 import re
-from common import (_addon, addpr, nURL, eod, ContextMenu_Movies, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers)
+import xbmcaddon
+import os
+import sys
+
+from common import (_addon, addpr, nURL, eod, ContextMenu_Movies, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify)
 from metahandler import metahandlers
-#from metahandler import metacontainers
+try:
+    import json
+except:
+    import simplejson as json
+
+__settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
+addonPath = __settings__.getAddonInfo('path')
+sys.path.append(os.path.join(addonPath, 'crypto'))
+
+from keyedHash.evp import EVP_BytesToKey
+from cipher.aes_cbc  import AES_CBC
+from binascii import a2b_hex, a2b_base64
+from hashlib import md5
+
 ### ##########################################################################
 ### ##########################################################################
 site = addpr('site', '')
@@ -87,20 +106,49 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
         _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
 # next page
     npage = url[:-1] + str(int(url[-1:]) + 1)
-    print 'bbb' , npage
+
     if -1 != html.find("do strony "):
         _addon.add_directory({'mode': 'EpisodesAnime', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
     set_view(content, view_mode=addst('links-view'))
     eod()
 
+# eccryptPlayerUrl from iptvplayer https://gitlab.com/iptvplayer-for-e2/iptvplayer-for-e2
+def encryptPlayerUrl(data):
+    print("_encryptPlayerUrl data[%s]" % data)
+    decrypted = ''
+    try:
+        data = byteify( json.loads(data) )
+        salt = a2b_hex(data["v"])
+        key, iv = EVP_BytesToKey(md5, "s05z9Gpd=syG^7{", salt, 32, 16, 1)
+        if iv != a2b_hex(data.get('b', '')):
+            print("_encryptPlayerUrl IV mismatched")
+        if 0:
+            from Crypto.Cipher import AES
+            aes = AES.new(key, AES.MODE_CBC, iv, segment_size=128)
+            decrypted = aes.decrypt(a2b_base64(data["a"]))
+            decrypted = decrypted[0:-ord(decrypted[-1])]
+        else:
+            kSize = len(key)
+            alg = AES_CBC(key, keySize=kSize)
+            decrypted = alg.decrypt(a2b_base64(data["a"]), iv=iv)
+            decrypted = decrypted.split('\x00')[0]
+        decrypted = "%s" % json.loads( decrypted ).encode('utf-8')
+    except:
+        decrypted = ''
+    return decrypted
+
 
 def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    html = GetDataBeetwenMarkers(nURL(url), '<div class="content">', '<ul class=', False)[1]
-    data = re.findall('<div class="field-item even">http(.+?)</div>', html)
-    ItemCount = len(data)
-    for item in data:
+    players = GetDataBeetwenMarkers(nURL(url), '<div class="content">', "<ul")[1]
+    players = re.findall('<div class="field-item even">{(.+?)}</div></div>', players)
+    ItemCount = len(players)
+    for item in players:
+        player = '{' + item + '}'
+        item = encryptPlayerUrl(player)
+        item = item.replace('https', '')
+        item = item.replace('http', '')
         url = item.replace("&hd=3", "")
         url = "http" + url.replace("amp;", "")
         print url

@@ -325,7 +325,7 @@ def SubMenu():
     if section == 'animeonline':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 #        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
-        _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': 'https://www.youtube.com/user/Spychu91/videos?sort=dd&shelf_id=0&view=0'}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
+        _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': ''}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
 ###Anime-Shinden###
     if section == 'animeshinden':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'shnidenodc'}, {'title': "Alfabetycznie."}, is_folder=True, fanart=fanartAol, img=iconShniden)

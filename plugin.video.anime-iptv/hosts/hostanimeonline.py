@@ -12,7 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, ContextMenu_Movies, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify)
+from common import (_addon, addpr, nURL, eod, ContextMenu_Movies, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
 from metahandler import metahandlers
 try:
     import json
@@ -27,7 +27,10 @@ from keyedHash.evp import EVP_BytesToKey
 from cipher.aes_cbc  import AES_CBC
 from binascii import a2b_hex, a2b_base64
 from hashlib import md5
-
+####################################################
+# Api keys
+####################################################
+youtube_api_key = 'AIzaSyBbDY0UzvF5Es77M7S1UChMzNp0KsbaDPI'
 ### ##########################################################################
 ### ##########################################################################
 site = addpr('site', '')
@@ -190,6 +193,7 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
 
 
 def Recenzje(url, page='', metamethod=''):
+    url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUcxW52ZGVQ8ThhwgpB-XPjQ&key=' + youtube_api_key
     html = nURL(url)
     Browse_ItemRecenzje(html, metamethod)
     eod()
@@ -198,15 +202,17 @@ def Recenzje(url, page='', metamethod=''):
 def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
     if (len(html) == 0):
         return
-    html = GetDataBeetwenMarkers(html, '<div class="yt-lockup-content">', '<span class="yt-spinner">', False)[1]
-    data = re.findall('href="(.+?)">(.+?)</a><span class="accessible-description"', html)
+    data = byteify(json.loads(html))['items']
     ItemCount = len(data)
-    for item in data:
-        strona = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % item[0].replace('/watch?v=', '')
-        name = item[1].encode("ascii",'replace')
+    for x in range(len(data)):
+        item = data[x]
+        name = item['snippet']['title']
+        plot = item['snippet']['description']
+        plot = clean_html(plot)
+        img = item['snippet']['thumbnails']['high']['url']
+        url = item['snippet']['resourceId']['videoId']
+        strona = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % url
         fanart = fanartAol
-        img = 'https://i.ytimg.com/vi_webp/'+ item[0].replace('/watch?v=', '') +'/mqdefault.webp'
-        plot = ''
         labs = {}
         try:
             labs['plot'] = plot
@@ -219,4 +225,8 @@ def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
     set_view(content, int(addst('links-view')))
     eod()
+
+
+
+
 

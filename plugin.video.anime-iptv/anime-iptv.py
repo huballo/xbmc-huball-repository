@@ -7,8 +7,6 @@ import os
 import sys
 import xbmcgui
 
-# logowanie
-import weblogin
 
 ### ##########################################################################
 ### ##########################################################################
@@ -24,8 +22,10 @@ mainSite6 = 'http://animeon.pl/'
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
 sys.path.append(os.path.join(addonPath, 'hosts'))
-from config import ps
-from common import (_addon, addpr, eod, set_view, addst, cFL_, cFL, fav__COMMON__list_fetcher, myNote, ContextMenu_Favorites, PlayFromHost, fav__COMMON__add, fav__COMMON__remove)
+sys.path.append(os.path.join(addonPath, 'resources/libs'))
+
+from common import (_addon, addpr, eod, set_view, addst, cFL_, cFL, myNote, ContextMenu_Favorites, PlayFromHost)
+from favourites import ( fav__COMMON__add, fav__COMMON__remove, fav__COMMON__list_fetcher)
 
 iconSite = addonPath + '/art/icon.png'
 iconCentrum = addonPath + '/art/japan/animecentrum.jpg'
@@ -69,6 +69,8 @@ thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
 
+#cache = database.connect(os.path.join('favourites.db'))
+addonInfo = xbmcaddon.Addon().getAddonInfo
 
 ###############################################################################
 ###############################################################################
@@ -355,10 +357,10 @@ def SectionMenu():
 ###Anime-On###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeon'}, {'title': cFL('Anime-On', 'blue')}, is_folder=True, fanart=fanartAol, img=iconAnimeon)
 ###Ulubione###
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.1.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.2.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '3'}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.3.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '4'}, {'title': cFL_(ps('WhatRFavsCalled') + addst('fav.tv.4.name'), ps('cFL_color3'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': ('Ulubione: ' + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': ('Ulubione: ' + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '3'}, {'title': ('Ulubione: ' + addst('fav.tv.3.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '4'}, {'title': ('Ulubione: ' + addst('fav.tv.4.name'))}, fanart=fanartIPTV, img=iconFavs)
         set_view('list', view_mode=addst('default-view'))
         eod()
 

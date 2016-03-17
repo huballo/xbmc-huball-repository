@@ -12,7 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, ContextMenu_Movies, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
+from common import (_addon, addpr, nURL, eod, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
 from metahandler import metahandlers
 try:
     import json
@@ -70,11 +70,8 @@ def Browse_ItemAol(html, metamethod='', content='tvshows', view='515'):
 ###
         pars = {'mode': 'EpisodesAnime', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
         contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-        if   section == 'movie':
-            contextMenuItems = ContextMenu_Movies(contextLabs)
-        elif section == 'animeonline':
-            contextMenuItems = ContextMenu_Series(contextLabs)
-        elif section == 'animedrama':
+
+        if section == 'animeonline':
             contextMenuItems = ContextMenu_Series(contextLabs)
         else:
             contextMenuItems = []
@@ -106,7 +103,7 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
         contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
         pars = {'mode': 'PlayAnime', 'site': site, 'section': section, 'title': name, 'url': url2, 'img': img, 'fanart': fanart}
         labs['title'] = name
-        _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+        _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
 # next page
     npage = url[:-1] + str(int(url[-1:]) + 1)
 
@@ -115,7 +112,7 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     set_view(content, view_mode=addst('links-view'))
     eod()
 
-# eccryptPlayerUrl from iptvplayer https://gitlab.com/iptvplayer-for-e2/iptvplayer-for-e2
+
 def encryptPlayerUrl(data):
     print("_encryptPlayerUrl data[%s]" % data)
     decrypted = ''
@@ -141,55 +138,34 @@ def encryptPlayerUrl(data):
     return decrypted
 
 
+def getItemTitles(table):
+    out = []
+    for i in range(len(table)):
+        value = table[i]
+        out.append(value[0])
+    return out
+
+
 def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    players = GetDataBeetwenMarkers(nURL(url), '<div class="content">', "<ul")[1]
-    players = re.findall('<div class="field-item even">{(.+?)}</div></div>', players)
-    ItemCount = len(players)
-    for item in players:
-        player = '{' + item + '}'
+    players = GetDataBeetwenMarkers(nURL(url), 'Pobierz:&nbsp;', "<ul")[1]
+    lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>', re.MULTILINE).findall(players)
+    import xbmcgui
+    d = xbmcgui.Dialog()
+    item = d.select("Wybór jakości", getItemTitles(lista))
+    if item != -1:
+        player = str(lista[item][1])
+        player = '{' + player + '}'
         item = encryptPlayerUrl(player)
         item = item.replace('https', '')
         item = item.replace('http', '')
         url = item.replace("&hd=3", "")
         url = "http" + url.replace("amp;", "")
-        print url
-        if ('vk' in url):
-            _name = 'VK'
-        elif ('google' in url):
-            _name = 'Google video'
-        elif ('video.sibnet.ru' in url):
-            _name = 'Sibnet.ru'
-        elif ('mp4upload.com' in url):
-            _name = 'Mp4upload'
-        elif ('dailymotion' in url):
-            _name = 'Dailymotion'
-        elif ('tune.pk' in url):
-            _name = 'Tune'
-        elif ('archive.org' in url):
-            _name = 'Archive'
-            url = url.replace('http:', '')
-            url = 'http:' + url
-        elif ('www.wrzuta.pl' in url):
-            _name = 'Wrzuta'
-        elif ('vidfile' in url):
-            _name = 'Vidfile'
-        elif ('cloudy.ec' in url):
-            _name = 'Cloudy'
-        elif ('vshare' in url):
-            _name = 'Vshare'
-        else:
-            _name = 'Inny Host'
-        fanart = fanartAol
-        labs = {}
-        contextLabs = {'title': _name, 'year': '0000', 'url': url, 'fanart': fanart, 'DateAdded': ''}
-        contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
-        pars = {'mode': 'PlayFromHost', 'site': site, 'section': section, 'title': _name, 'url': url, 'fanart': fanart}
-        labs['title'] = _name
-        _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, int(addst('tvshows-view')))
+        from common import PlayFromHost
+        PlayFromHost(url)
     eod()
+
 
 
 def Recenzje(url, page='', metamethod=''):

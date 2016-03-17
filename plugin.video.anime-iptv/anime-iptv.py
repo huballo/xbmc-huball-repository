@@ -24,8 +24,9 @@ addonPath = __settings__.getAddonInfo('path')
 sys.path.append(os.path.join(addonPath, 'hosts'))
 sys.path.append(os.path.join(addonPath, 'resources/libs'))
 
-from common import (_addon, addpr, eod, set_view, addst, cFL_, cFL, myNote, ContextMenu_Favorites, PlayFromHost)
-from favourites import ( fav__COMMON__add, fav__COMMON__remove, fav__COMMON__list_fetcher)
+from common import (_addon, addpr, eod, set_view, addst, cFL_, cFL, myNote, PlayFromHost)
+from contextmenu import (ContextMenu_Favorites)
+from favourites import (fav__COMMON__add, fav__COMMON__remove, fav__COMMON__list_fetcher)
 
 iconSite = addonPath + '/art/icon.png'
 iconCentrum = addonPath + '/art/japan/animecentrum.jpg'
@@ -71,6 +72,7 @@ page = addpr('page', '')
 
 #cache = database.connect(os.path.join('favourites.db'))
 addonInfo = xbmcaddon.Addon().getAddonInfo
+
 
 ###############################################################################
 ###############################################################################
@@ -140,6 +142,8 @@ def Browse_PlayAnime(url, page):
 def Browse_Recenzje(url, page='', metamethod=''):
     from hostanimeonline import Recenzje
     Recenzje(url)
+
+
 ###############################################################################
 ###############################################################################
 # Anime-Shinden
@@ -168,6 +172,8 @@ def Browse_PlayShniden(url, page):
 def Browse_PlayShniden2(url, page):
     from hostanimeshniden import Browse_PlayShniden2
     Browse_PlayShniden2(url, page)
+
+
 ###############################################################################
 ###############################################################################
 # Anime-On

@@ -12,8 +12,13 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, ContextMenu_Series, ContextMenu_Episodes, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
+from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
 from metahandler import metahandlers
+__settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
+addonPath = __settings__.getAddonInfo('path')
+sys.path.append(os.path.join(addonPath, 'resources/libs'))
+
+from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
 except:

@@ -243,76 +243,131 @@ def clean_html(html):
 
 
 def video_google(url):
-    if (tfalse(addst("googlelog")) == True):
-        logged_in = weblogingoogle.doLogin(addonPath, loginGoogle, passwordGoogle)
-    url = nURL(url)
-    url = re.compile('"fmt_stream_map",(".+?")').findall(url)[0]
-    url = json.loads(url)
-    url = [i.split('|')[-1] for i in url.split(',')]
-    if url == []:
-        return
     try:
-        url = [i for i in url if not any(x in i for x in ['&itag=43&', '&itag=35&', '&itag=34&', '&itag=5&'])][0]
+        if (tfalse(addst("googlelog")) == True):
+            logged_in = weblogingoogle.doLogin(addonPath, loginGoogle, passwordGoogle)
+        url = nURL(url)
+        url = re.compile('"fmt_stream_map",(".+?")').findall(url)[0]
+        url = json.loads(url)
+        url = [i.split('|')[-1] for i in url.split(',')]
+        if url == []:
+            return
+        try:
+            url = [i for i in url if not any(x in i for x in ['&itag=43&', '&itag=35&', '&itag=34&', '&itag=5&'])][0]
+        except:
+            url = url[0]
+        return url
     except:
-        url = url[0]
-    return url
+        myNote("Failed to Resolve Playable URL.")
+        return
 
 
 def vidfile(url):
-    url = nURL(url)
-    HD = re.compile("file: '(.+?)'").findall(url)[0]
-    if HD == []:
+    try:
+        url = nURL(url)
+        HD = re.compile("file: '(.+?)'").findall(url)[0]
+        if HD == []:
+            return
+        url = HD
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
         return
-    url = HD
-    return url
 
 
 def mp4upload(url):
-    url = nURL(url)
-    HD = re.compile("'file': '(.+?)'").findall(url)[0]
-    if HD == []:
+    try:
+        url = nURL(url)
+        print url
+        HD = re.compile("'file': '(.+?)'").findall(url)[0]
+        if HD == []:
+            return
+        url = HD
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
         return
-    url = HD
-    return url
 
 
 def sibnet(url):
-    url = nURL(url)
-    HD = re.compile("file' : '(.+?)'").findall(url)[0]
-    if HD == []:
+    try:
+        url = nURL(url)
+        HD = re.compile("file' : '(.+?)'").findall(url)[0]
+        if HD == []:
+            return
+        url = 'http://video.sibnet.ru' + HD
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
         return
-    url = 'http://video.sibnet.ru' + HD
-    return url
 
 
 def vk_vk(url):
-    url = nURL(url)
-    HD = re.compile('url720=(.+?)&').findall(url)[0]
-    if HD == []:
+    try:
+        url = nURL(url)
+        HD = re.compile('url720=(.+?)&').findall(url)[0]
+        if HD == []:
+            return
+        url = HD
+        url = url.replace('https://', 'http://')
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
         return
-    url = HD
-    url = url.replace('https://', 'http://')
-    return url
 
 
 def vshare(url):
-    url = nURL(url)
-    HD = re.compile("url: '(.+?)'").findall(url)[0]
-    if HD == []:
+    try:
+        url = nURL(url)
+        HD = re.compile("url: '(.+?)'").findall(url)[0]
+        if HD == []:
+            return
+        url = HD
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
         return
-    url = HD
-    return url
 
 
 def dailymotion(url):
-    if not url.startswith('http://www.dailymotion.com/embed/video/'):
-        url = 'http://www.dailymotion.com/embed/video/' + url.split('/')[-1][0:7]
-    data = nURL(url)
-    match = re.compile('"stream_h264.+?url":"(http[^"]+?H264-)([^/]+?)(/[^"]+?)"').findall(data)
-    for i in range(len(match)):
-        url = match[i][0] + match[i][1] + match[i][2]
-        url = url.replace('\/', "/")
+    try:
+        if not url.startswith('http://www.dailymotion.com/embed/video/'):
+            url = 'http://www.dailymotion.com/embed/video/' + url.split('/')[-1][0:7]
+        data = nURL(url)
+        match = re.compile('"stream_h264.+?url":"(http[^"]+?H264-)([^/]+?)(/[^"]+?)"').findall(data)
+        for i in range(len(match)):
+            url = match[i][0] + match[i][1] + match[i][2]
+            url = url.replace('\/', "/")
+            return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
+
+
+def animeuploader(url):
+    url = nURL(url)
+    try:
+        HD = re.compile("{file: '(.+?)',").findall(url)[0]
+        if HD == []:
+            return
+        url = HD
         return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
+
+
+def animeonline(url):
+    url = nURL(url)
+    try:
+        HD = re.compile('<source src="(.+?)"').findall(url)[0]
+        if HD == []:
+            return
+        url = HD
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
 
 
 def PlayFromHost(url):
@@ -347,6 +402,10 @@ def PlayFromHost(url):
         url = mp4upload(url)
     elif ('vshare' in url):
         url = vshare(url)
+    elif ('animeuploader' in url):
+        url = animeuploader(url)
+    elif ('animeonline' in url):
+        url = animeonline(url)
     else:
         try:
             stream_url = urlresolver.HostedMediaFile(url).resolve()

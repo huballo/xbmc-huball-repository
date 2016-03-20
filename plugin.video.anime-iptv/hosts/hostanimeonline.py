@@ -14,10 +14,6 @@ import sys
 
 from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
 from metahandler import metahandlers
-__settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
-addonPath = __settings__.getAddonInfo('path')
-sys.path.append(os.path.join(addonPath, 'resources/libs'))
-
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
@@ -91,7 +87,6 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     html = GetDataBeetwenMarkers(nURL(url), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</section> <!-- /.block -->', False)[1]
     data = re.findall('<div class="field-content lista_odc_tytul_pozycja"><a href="/(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
-    print data
     for item in data:
         url2 = mainSite4 + item[0]
         name = item[1].encode("utf-8")
@@ -155,7 +150,7 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
     players = GetDataBeetwenMarkers(nURL(url), 'Pobierz:&nbsp;', "<ul")[1]
-    lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>', re.MULTILINE).findall(players)
+    lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>').findall(players)
     import xbmcgui
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(lista))

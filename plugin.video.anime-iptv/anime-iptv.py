@@ -13,7 +13,7 @@ import xbmcgui
 SiteName = 'AnimeIPTV'
 SiteTag = 'AnimeIPTV'
 mainSite = 'http://diff-anime.pl/'
-mainSite2 = 'http://anime-centrum.net/'
+mainSite2 = 'http://animeonline.co/'
 mainSite3 = 'http://www.dramaqueen.pl/'
 mainSite4 = 'http://anime-odcinki.pl/'
 mainSite5 = 'http://shinden.pl/'
@@ -29,7 +29,7 @@ from contextmenu import (ContextMenu_Favorites)
 from favourites import (fav__COMMON__add, fav__COMMON__remove, fav__COMMON__list_fetcher)
 
 iconSite = addonPath + '/art/icon.png'
-iconCentrum = addonPath + '/art/japan/animecentrum.jpg'
+iconAnime4fun = addonPath + '/art/japan/anime4fun.jpg'
 iconDiff = addonPath + '/art/japan/diffanime.jpg'
 iconOdcinki = addonPath + '/art/japan/animeodcinki.jpg'
 iconShniden = addonPath + '/art/japan/animeshniden.jpg'
@@ -37,7 +37,7 @@ iconAnimeon = addonPath + '/art/japan/animeon.jpg'
 iconFavs = addonPath + '/art/japan/ulubione.jpg'
 fanartSite = addonPath + '/art/japan/fanart.jpg'
 fanartIPTV = addonPath + '/art/japan/fanart.jpg'
-fanartSiteCentrum = addonPath + '/art/japan/fanart.jpg'
+fanartAnime4fun = addonPath + '/art/japan/fanart.jpg'
 fanartDrama = addonPath + '/art/japan/fanart.jpg'
 fanartAol = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
@@ -56,7 +56,7 @@ CR = '[CR]'
 MyAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 AonlineAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '3', '5']
 AonlineDrama = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26']
-AnimeonAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+Anime4fun = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 MyBrowser = ['User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3']
 
@@ -65,7 +65,7 @@ site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
 nmr = addpr('nmr', '')
-sections = {'diffanime': 'diffanime', 'animecentrum': "animecentrum", 'DramaQueen': 'DramaQueen', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon'}
+sections = {'diffanime': 'diffanime', 'anime4fun': 'anime4fun', 'DramaQueen': 'DramaQueen', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
@@ -76,17 +76,25 @@ addonInfo = xbmcaddon.Addon().getAddonInfo
 
 ###############################################################################
 ###############################################################################
-# Anime-Centrum
+# Anime4fun
 ###############################################################################
 ###############################################################################
-def Browse_PageCentrum(url, page='', metamethod=''):
-    from hostanimecentrum import PageCentrum
-    PageCentrum(url)
+def Browse_Page4fun(url, page, metamethod=''):
+    from hostanime4fun import Page4fun
+    Page4fun(url, page)
 
 
-def Browse_EpisodesCentrum(url, page):
-    from hostanimecentrum import Browse_EpisodesCentrum
-    Browse_EpisodesCentrum(url, page)
+def Browse_Episodes4fun(url, page):
+    from hostanime4fun import Browse_Episodes4fun
+    Browse_Episodes4fun(url, page)
+
+def Browse_PlayAnime4fun(url, page):
+    from hostanime4fun import Browse_PlayAnime4fun
+    Browse_PlayAnime4fun(url, page)
+
+def Browse_PlayAnime4funlinks(url, page):
+    from hostanime4fun import PlayAnime4funlinks
+    PlayAnime4funlinks(url, page)
 
 
 ###############################################################################
@@ -198,7 +206,7 @@ def Browse_Version(url, page):
 #  ulubione
 def Fav_List(site='', section='', subfav=''):
     favs = fav__COMMON__list_fetcher(site=site, section='diffanime', subfav=subfav)
-    favs2 = fav__COMMON__list_fetcher(site=site, section='animecentrum', subfav=subfav)
+    favs2 = fav__COMMON__list_fetcher(site=site, section='anime4fun', subfav=subfav)
     favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
     favs3 = fav__COMMON__list_fetcher(site=site, section='animedrama', subfav=subfav)
@@ -242,8 +250,8 @@ def Fav_List(site='', section='', subfav=''):
         if _section == 'diffanime':
             host = cFL(' (D-A)', 'blueviolet')
             _title = _title + host
-        if _section == 'animecentrum':
-            host = cFL(' (A-C)', 'blue')
+        if _section == 'anime4fun':
+            host = cFL(' (A-ONL)', 'blue')
             _title = _title + host
         if _section == 'animeon':
             host = cFL(' (A-ON)', 'lime')
@@ -315,12 +323,12 @@ def SubSubMenu():
     eod()
 
 def SubMenu():
-###Anime-Centrum###
-    if section == 'animecentrum':
-        tUrl = mainSite2 + 'anime-online/'
-        _addon.add_directory({'mode': 'PageCentrum', 'site': site, 'section': section, 'url': tUrl + 'others'}, {'title': '#'}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'PageCentrum', 'site': site, 'section': section, 'url': tUrl + az + '.html'}, {'title': az}, is_folder=True, fanart=fanartSiteCentrum, img=addonPath + '/art/'+ az +'.png')
+###Anime4fun###
+    if section == 'anime4fun':
+        tUrl = mainSite2 + 'search?character='
+        _addon.add_directory({'mode': 'Page4fun', 'site': site, 'section': section, 'url': tUrl + 'special' + '&page=1'}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
+        for az in Anime4fun:
+            _addon.add_directory({'mode': 'Page4fun', 'site': site, 'section': section, 'url': tUrl + az + '&page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/'+ az +'.png')
 ###Diff-Anime###
     if section == 'diffanime':
         _addon.add_directory({'mode': 'AZ', 'site': site, 'section': section}, {'title': "Lista anime A-Z."}, is_folder=True, fanart=fanartSite, img=iconDiff)
@@ -350,14 +358,16 @@ def SubMenu():
 
 
 def SectionMenu():
-###Anime-Centrum###
-#        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum', 'blue')}, is_folder=True, fanart=fanartSiteCentrum, img=iconCentrum)
+###Anime4fun###
+        if __settings__.getSetting("Anime4fun") == "true":
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'anime4fun'}, {'title': cFL('Animeonline EN', 'blue')}, is_folder=True, fanart=fanartAnime4fun, img=iconAnime4fun)
 ###Diff-Anime###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'diffanime'}, {'title': cFL('Diff-Anime', 'blue')}, is_folder=True, fanart=fanartSite, img=iconDiff)
 ###DramaQueen###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'DramaQueen'}, {'title': cFL('DramaQueen', 'blue')}, is_folder=True, fanart=fanartDrama, img=iconSite)
 ###Anime-Online###
-        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+        if __settings__.getSetting("AnimeOnline") == "true":
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Anime-Shinden###
 #        _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeshinden'}, {'title': cFL('Anime-Shinden', 'blue')}, is_folder=True, fanart=fanartAol, img=iconShniden)
 ###Anime-On###
@@ -378,9 +388,11 @@ def mode_subcheck(mode='',site='',section='',url=''):
     elif (mode=='SubMenu'):             SubMenu()
     elif (mode=='SubSubMenu'):             SubSubMenu()
     elif (mode=='AZ'):                         Browse_AZ()
-# ANIME-CENTRUM
-    elif (mode=='PageCentrum'):                     Browse_PageCentrum(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
-    elif (mode=='EpisodesCentrum'):             Browse_EpisodesCentrum(url,page)
+# ANIME4FUN
+    elif (mode=='Page4fun'):                     Browse_Page4fun(url=url,page=page, metamethod=addpr('metamethod','')) #(site,section)
+    elif (mode=='Episodes4fun'):             Browse_Episodes4fun(url,page)
+    elif (mode=='PlayAnime4fun'):             Browse_PlayAnime4fun(url,page)
+    elif (mode=='PlayAnime4funlinks'):             Browse_PlayAnime4funlinks(url,page)
 # DIFF-ANIME
     elif (mode=='Page'):                     Browse_PageDiff(url=url,page=page,metamethod=addpr('metamethod','')) #(site,section)
     elif (mode=='EpisodesDiff'):             Browse_EpisodesDiff(url,page)

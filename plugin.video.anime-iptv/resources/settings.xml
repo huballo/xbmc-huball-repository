@@ -2,6 +2,7 @@
 	<category label="Sites">
 		<setting visible="true" id="Anime4fun" 								type="bool" label="Anime4fun" 						default="true" />
 		<setting visible="true" id="AnimeOnline" 								type="bool" label="AnimeOnline" 						default="true" />
+		<setting visible="true" id="Animejoy" 								type="bool" label="Animejoy" 						default="true" />
         </category>
 	<category label="General">
 		<setting visible="false" id="core-player" type="labelenum" label="Player Core" values="AUTO|DVDPLAYER|MPLAYER|PAPLAYER"             default="AUTO"/>

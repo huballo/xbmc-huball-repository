@@ -49,7 +49,7 @@ def Pageanimeonline(url, page='', metamethod=''):
     eod()
 
 
-def Browse_ItemAol(html, metamethod='', content='tvshows', view='515'):
+def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
     html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
@@ -84,7 +84,11 @@ def Browse_ItemAol(html, metamethod='', content='tvshows', view='515'):
 def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    html = GetDataBeetwenMarkers(nURL(url), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</section> <!-- /.block -->', False)[1]
+    if '?page=0'in url:
+        link = url.replace('?page=0','')
+    else:
+        link = url
+    html = GetDataBeetwenMarkers(nURL(link), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</section> <!-- /.block -->', False)[1]
     data = re.findall('<div class="field-content lista_odc_tytul_pozycja"><a href="/(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:

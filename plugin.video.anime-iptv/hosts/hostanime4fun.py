@@ -7,7 +7,7 @@
 ### Imports ###
 import re
 import xbmcaddon
-from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers, clean_html)
+from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 ### ##########################################################################
 ### ##########################################################################
@@ -19,26 +19,29 @@ addonPath = __settings__.getAddonInfo('path')
 fanart = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
 
+
 def Page4fun(url, page, metamethod=''):
     html = nURL(url)
     Browse_Itemscen(html, page, metamethod)
     eod()
 
 
-def Browse_Itemscen(html, name, metamethod='', content='tvshows', view='515'):
+def Browse_Itemscen(html, name, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
-    html = GetDataBeetwenMarkers(html, '">Result Anime Search', '<div class="pagination"><', False)[1]
+    html = GetDataBeetwenMarkers(html, '<div class="content_episode">', '<div class="clr"></div>', False)[1]
     html = html.replace('\'', '')
     html = html.replace('\n', '')
+    html = html.replace('\r', '')
+    html = html.replace('\t', '')
     html.encode("utf-8")
-    data = re.compile('src="(.+?)" width(.+?)title="(.+?)"(.+?)href="(.+?)"><h2>(.+?)text_intro">(.+?)</p>').findall(html)
+    data = re.compile('<a href="(.+?)" title="(.+?)">(.+?)url\((.+?)\);">').findall(html)
     ItemCount = len(data)
     for item in data:
-        img = item[0].replace(' ', '%20')
-        strona = 'http://animeonline.co' + item[4]
-        name2 = item[2]
-        plot = clean_html(item[6])
+        img = item[3].replace(' ', '%20')
+        strona = item[0]
+        name2 = item[1]
+        plot = ''
         labs = {}
         try:
             labs['plot'] = plot

@@ -25,7 +25,7 @@ def Pagejoy(url, page, metamethod=''):
     eod()
 
 
-def Browse_Itemscen(html, name, metamethod='', content='tvshows', view='515'):
+def Browse_Itemscen(html, name, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
     data = re.compile('<div class="anim"><a href="(.+?)">  '+name+'(.+?)</a>').findall(html)

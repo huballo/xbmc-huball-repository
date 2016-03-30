@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 
 ### Imports ###
-import re, os, sys, xbmc, xbmcplugin, xbmcgui, xbmcaddon
+import re
+import os
+import sys
+import xbmc
+import xbmcplugin
+import xbmcgui
+import xbmcaddon
+import xbmcvfs
 from addon.common.addon import Addon  # może trzeba więcej
 import weblogingoogle
 from addon.common.net import Net  # może trzeba więcej
@@ -9,8 +16,12 @@ try:
     import json
 except:
     import simplejson as json
-##########
+try:
+    from sqlite3 import dbapi2 as database
+except:
+    from pysqlite2 import dbapi2 as database
 
+##########
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
 iconFav = xbmcaddon.Addon(id="plugin.video.anime-iptv").getAddonInfo('path') + '/art/favorites.png'
@@ -20,6 +31,64 @@ _artIcon = _addon.get_icon()
 _artFanart = _addon.get_fanart()
 user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3'
 sys.path.append(os.path.join(addonPath, 'resources/libs'))
+skinPath = xbmc.translatePath('special://skin/')
+dataPath = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')).decode('utf-8')
+
+
+######code from lambda's Exodus addon######
+def addView(content):
+    try:
+        xml = os.path.join(skinPath, 'addon.xml')
+        file = xbmcvfs.File(xml)
+        read = file.read().replace('\n', '')
+        file.close()
+        try:
+            src = re.compile('defaultresolution="(.+?)"').findall(read)[0]
+        except:
+            src = re.compile('<res.+?folder="(.+?)"').findall(read)[0]
+        src = os.path.join(skinPath, src)
+        src = os.path.join(src, 'MyVideoNav.xml')
+        file = xbmcvfs.File(src)
+        read = file.read().replace('\n', '')
+        file.close()
+        views = re.compile('<views>(.+?)</views>').findall(read)[0]
+        views = [int(x) for x in views.split(',')]
+        for view in views:
+            label = xbmc.getInfoLabel('Control.GetLabel(%s)' % (view))
+            if not (label == '' or label == None):
+                break
+        record = (xbmc.getSkinDir(), content, str(view))
+        xbmcvfs.mkdir(dataPath)
+        dbcon = database.connect(os.path.join(dataPath, 'views.db'))
+        dbcur = dbcon.cursor()
+        dbcur.execute("CREATE TABLE IF NOT EXISTS views (""skin TEXT, ""view_type TEXT, ""view_id TEXT, ""UNIQUE(skin, view_type)"");")
+        dbcur.execute("DELETE FROM views WHERE skin = '%s' AND view_type = '%s'" % (record[0], record[1]))
+        dbcur.execute("INSERT INTO views Values (?, ?, ?)", record)
+        dbcon.commit()
+        viewName = xbmc.getInfoLabel('Container.Viewmode')
+        myNote('Ustawiono widok: %s' % viewName)
+    except:
+        return
+
+
+def set_view(content='none', view_mode=50, do_sort=False):
+    h = int(sys.argv[1])
+    if (content is not 'none'):
+        xbmcplugin.setContent(h, content)
+    if (tfalse(addst("auto-view")) == True):
+            try:
+                record = (xbmc.getSkinDir(), content)
+                dbcon = database.connect(os.path.join(dataPath, 'views.db'))
+                dbcur = dbcon.cursor()
+                dbcur.execute("SELECT * FROM views WHERE skin = '%s' AND view_type = '%s'" % (record[0], record[1]))
+                view = dbcur.fetchone()
+                view = view[2]
+                if view == None:
+                    raise Exception()
+                xbmc.executebuiltin('Container.SetViewMode(%s)' % str(view))
+            except:
+                return
+######
 
 
 def byteify(input):
@@ -69,12 +138,7 @@ def cFL_(t, c='cornflowerblue'):
     return '[COLOR ' + c + ']' + t[0:1] + '[/COLOR]' + t[1:]  # For Coloring Text (First Letter-Only) ###
 
 
-def set_view(content='none', view_mode=50, do_sort=False):
-    h = int(sys.argv[1])
-    if (content is not 'none'):
-        xbmcplugin.setContent(h, content)
-    if (tfalse(addst("auto-view")) == True):
-        xbmc.executebuiltin("Container.SetViewMode(%s)" % str(view_mode))
+
 
 
 def myNote(header='', msg='', delay=5000, image=iconFav):

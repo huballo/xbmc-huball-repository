@@ -5,15 +5,11 @@ import os
 import re
 import sys
 import xbmc
-import xbmcaddon
+
 
 from addon.common.addon import Addon  # może trzeba więcej
+import favourites
 #######
-__settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
-addonPath = __settings__.getAddonInfo('path')
-sys.path.append(os.path.join(addonPath, 'resources/libs'))
-from favourites import (fav__COMMON__check)
-##########
 _addon = Addon('plugin.video.anime-iptv', sys.argv)
 ###########
 
@@ -190,18 +186,6 @@ def ContextMenu_Series(labs={}):
         contextMenuItems.append(('Show Info', 'XBMC.Action(Info)'))
     if labs == {}:
         return contextMenuItems
-#    if (tfalse(addst("CMI_FindAirDates")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.solarmovie.so')):
-#        contextMenuItems.append(('Find AirDates', 'XBMC.Container.Update(%s?mode=%s&title=%s)' % ('plugin://plugin.video.solarmovie.so/', 'SearchForAirDates', labs['title'])))
-#    if (tfalse(addst("CMI_SearchKissAnime")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.kissanime')):
-#        contextMenuItems.append(('Search KissAnime', 'XBMC.Container.Update(%s?mode=%s&pageno=1&pagecount=1&title=%s)' % ('plugin://plugin.video.kissanime/', 'Search', nameonly)))
-#    if (tfalse(addst("CMI_SearchSolarMovieso")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.solarmovie.so')):
-#        contextMenuItems.append(('Search Solarmovie.so', 'XBMC.Container.Update(%s?mode=%s&section=%s&title=%s)' % ('plugin://plugin.video.solarmovie.so/', 'Search', 'tv', nameonly)))
-#    if (tfalse(addst("CMI_Search1Channel")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.1channel')):
-#        contextMenuItems.append(('Search 1Channel', 'XBMC.Container.Update(%s?mode=7000&section=%s&query=%s)' % ('plugin://plugin.video.1channel/', 'tv', nameonly)))
-#    if (tfalse(addst("CMI_SearchMerDBru")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.merdb')):
-#        contextMenuItems.append(('Search MerDB', 'XBMC.Container.Update(%s?mode=%s&section=%s&url=%s&title=%s)' % ('plugin://plugin.video.merdb/', 'Search', 'tvshows', urllib.quote_plus('http://merdb.ru/tvshow/'), nameonly)))
-#    if (tfalse(addst("CMI_SearchIceFilms")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.icefilms')):
-#       contextMenuItems.append(('Search Icefilms', 'XBMC.Container.Update(%s?mode=555&url=%s&search=%s&nextPage=%s)' % ('plugin://plugin.video.icefilms/', 'http://www.icefilms.info/', labs['title'], '1')))
     try:
         WRFC = 'Ulubione: '
         WRFCr = 'Remove: '
@@ -211,7 +195,7 @@ def ContextMenu_Series(labs={}):
         LB['mode'] = McFA
         P1 = 'XBMC.RunPlugin(%s)'
         LB['subfav'] = '1'
-        if fav__COMMON__check(LB['site'], LB['section'], LB['title'], LB['year'], LB['subfav']) == True:
+        if favourites.fav__COMMON__check(LB['site'], LB['section'], LB['title'], LB['year'], LB['subfav']) == True:
             LB['mode'] = McFR
             LabelName = WRFCr + WRFC + addst('fav.tv.' + LB['subfav'] + '.name')
         else:
@@ -222,7 +206,7 @@ def ContextMenu_Series(labs={}):
         contextMenuItems.append((LabelName, Pars))
         for nn in ['2', '3', '4']:
             LB['subfav'] = nn
-            if fav__COMMON__check(LB['site'], LB['section'], LB['title'], LB['year'], LB['subfav']) == True:
+            if favourites.fav__COMMON__check(LB['site'], LB['section'], LB['title'], LB['year'], LB['subfav']) == True:
                 LB['mode'] = McFR
                 LabelName = WRFCr + WRFC + addst('fav.tv.' + LB['subfav'] + '.name')
             else:
@@ -230,26 +214,12 @@ def ContextMenu_Series(labs={}):
             LabelName = WRFC + addst('fav.tv.' + LB['subfav'] + '.name')
             Pars = P1 % _addon.build_plugin_url(LB)
             contextMenuItems.append((LabelName, Pars))
-        #LB['mode']=McFA; LB['subfav']='2'; Pars=P1 % _addon.build_plugin_url(LB); contextMenuItems.append((WRFC+addst('fav.tv.2.name'),Pars))
-        #LB['mode']=McFA; LB['subfav']='3'; Pars=P1 % _addon.build_plugin_url(LB); contextMenuItems.append((WRFC+addst('fav.tv.3.name'),Pars))
-        #LB['mode']=McFA; LB['subfav']='4'; Pars=P1 % _addon.build_plugin_url(LB); contextMenuItems.append((WRFC+addst('fav.tv.4.name'),Pars))
-        #LB['mode']=McFA; LB['subfav']='5'; Pars=P1 % _addon.build_plugin_url(LB); contextMenuItems.append((WRFC+addst('fav.tv.5.name'),Pars))
-        #LB['mode']=McFA; LB['subfav']='7'; Pars=P1 % _addon.build_plugin_url(LB); contextMenuItems.append((WRFC+addst('fav.tv.7.name'),Pars))
-#        LB['mode'] = 'setView'
-#        Pars2 = P1 % _addon.build_plugin_url(LB)
-#        contextMenuItems.append(('gggggg',Pars2))
-
-#        if (tfalse(addst("CMI_RefreshMetaData", "true")) == True):
-#            LB['mode'] = 'refresh_meta'
-#            LabelName = 'Refresh MetaData'
-#            LB['imdb_id'] = LB['commonid']
-#            LB['alt_id'] = 'imdbnum'
-#            LB['video_type'] = 'tvshow'
-#            LB['year']
-#            Pars = P1 % _addon.build_plugin_url(LB)
-#            contextMenuItems.append((LabelName, Pars))
     except:
         pass
+    LB = DoLabs2LB(labs)
+    LB['mode'] = 'addView'
+    Pars = 'XBMC.RunPlugin(%s)' % _addon.build_plugin_url(LB)
+    contextMenuItems.append(('Set View', Pars))
     return contextMenuItems
 
 
@@ -307,18 +277,6 @@ def ContextMenu_Favorites(labs={}):
             LB['subfav'] = '4'
             Pars = P1 % _addon.build_plugin_url(LB)
             contextMenuItems.append((WRFC + addst('fav.tv.4.name'), Pars))
-#        if _sf is not '5':
-#            LB['subfav'] = '5'
-#            Pars = P1 % _addon.build_plugin_url(LB)
-#            contextMenuItems.append((WRFC + addst('fav.tv.5.name'), Pars))
-#        if _sf is not '6':
-#            LB['subfav'] = '6'
-#            Pars = P1 % _addon.build_plugin_url(LB)
-#            contextMenuItems.append((WRFC + addst('fav.tv.6.name'), Pars))
-#        if _sf is not '7':
-#            LB['subfav'] = '7'
-#            Pars = P1 % _addon.build_plugin_url(LB)
-#            contextMenuItems.append((WRFC + addst('fav.tv.7.name'), Pars))
         LB['mode'] = 'cFavoritesRemove'
         LB['subfav'] = _subfav
         Pars = P1 % _addon.build_plugin_url(LB)

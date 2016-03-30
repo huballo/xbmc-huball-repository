@@ -7,6 +7,8 @@ import xbmc
 import xbmcaddon
 import xbmcvfs
 from addon.common.addon import Addon  # może trzeba więcej
+from common import (eod, set_view, addst, cFL, myNote)
+import contextmenu
 #######
 try:
     from sqlite3 import dbapi2 as database
@@ -14,6 +16,8 @@ except:
     from pysqlite2 import dbapi2 as database
 ##########
 iconFav = xbmcaddon.Addon(id="plugin.video.anime-iptv").getAddonInfo('path') + '/art/favorites.png'
+iconSite = xbmcaddon.Addon(id="plugin.video.anime-iptv").getAddonInfo('path') + '/art/icon.png'
+fanartSite = xbmcaddon.Addon(id="plugin.video.anime-iptv").getAddonInfo('path') + '/art/japan/fanart.jpg'
 _addon = Addon('plugin.video.anime-iptv', sys.argv)
 _artIcon = _addon.get_icon()
 _artFanart = _addon.get_fanart()
@@ -25,11 +29,7 @@ favouritesFile = os.path.join(dataPath, 'favourites.db')
 
 
 def bFL(t):
-    return '[B]' + t +'[/B]'  # For Bold Text ###
-
-
-def myNote(header='', msg='', delay=5000, image=iconFav):
-    _addon.show_small_popup(title=header, msg=msg, delay=delay, image=image)
+    return '[B]' + t + '[/B]'  # For Bold Text ###
 
 
 def fav__COMMON__list_fetcher(site, section='', subfav=''):
@@ -96,13 +96,14 @@ def fav__COMMON__remove(site, section, name, year, subfav=''):
             favs = eval(row[1])
             if favs:
                 for (_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
-                    favs.remove((_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2))
-                    favs = unicode(favs)
-                    cur.execute('UPDATE pluginvideoanimeiptv SET data = ? WHERE name = ? ', (favs, saved_favs))
-                    db.commit()
-                    tf = True
-                    myNote(bFL(name.upper() + '  (' + year + ')'), bFL('Usunięto z ulubionych.'))
-                    xbmc.executebuiltin("XBMC.Container.Refresh")
+                    if (name == _name):
+                        favs.remove((_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2))
+                        favs = unicode(favs)
+                        cur.execute('UPDATE pluginvideoanimeiptv SET data = ? WHERE name = ? ', (favs, saved_favs))
+                        db.commit()
+                        tf = True
+                        myNote(bFL(name.upper()), bFL('Usunięto z ulubionych.'))
+                        xbmc.executebuiltin("XBMC.Container.Refresh")
                 if (tf == False):
                     myNote(bFL(name.upper()), bFL('Nie znaleziono w ulubionych.'))
             else:
@@ -161,3 +162,79 @@ def fav__COMMON__add(site, section, name, year='', img=_artIcon, fanart=_artFana
 #    favs = []
 #    cache.set('favs_' + site + '__' + section + subfav + '__', str(favs))
 #    myNote(bFL('Favorites'), bFL('Your Favorites Have Been Wiped Clean.'))
+
+
+def Fav_List(site='', section='', subfav=''):
+    favs = fav__COMMON__list_fetcher(site=site, section='diffanime', subfav=subfav)
+    favs2 = fav__COMMON__list_fetcher(site=site, section='anime4fun', subfav=subfav)
+    favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
+    favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
+    favs3 = fav__COMMON__list_fetcher(site=site, section='animejoy', subfav=subfav)
+    favs6 = fav__COMMON__list_fetcher(site=site, section='shnidenodc', subfav=subfav)
+    ItemCount = len(favs) and len(favs2) and len(favs3) and len(favs4) and len(favs5) and len(favs6)
+    if len(favs) == 0 and len(favs2) == 0 and len(favs3) == 0 and len(favs4) == 0 and len(favs5) == 0and len(favs6) == 0:
+        myNote('Favorites', 'None Found')
+        eod()
+        return
+    if len(favs) == 0:
+            favs = []
+    if len(favs) > 0:
+            logged_inDiff = weblogin.doLogin(addonPath, login, password)
+    if len(favs2) == 0:
+            favs2 = []
+    if len(favs3) == 0:
+            favs3 = []
+    if len(favs4) == 0:
+            favs4 = []
+    if len(favs5) == 0:
+            favs5 = []
+    if len(favs6) == 0:
+            favs6 = []
+    favs += favs2
+    favs += favs3
+    favs += favs4
+    favs += favs5
+    favs += favs6
+    for (_name, _year, _img, _fanart, _Country, _Url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
+        if _img > 0:
+            img = _img
+        else:
+            img = iconSite
+        if _fanart > 0:
+            fimg = _fanart
+        else:
+            fimg = fanartSite
+        pars = _addon.parse_query(_ToDoParams)
+        _section
+        _title = _name
+        if _section == 'diffanime':
+            host = cFL(' (D-A)', 'blueviolet')
+            _title = _title + host
+        if _section == 'anime4fun':
+            host = cFL(' (A-ONL)', 'blue')
+            _title = _title + host
+        if _section == 'animeon':
+            host = cFL(' (A-ON)', 'lime')
+            _title = _title + host
+        if _section == 'animeonline':
+            host = cFL(' (A-O)', 'orange')
+            _title = _title + host
+        if _section == 'animejoy':
+            host = cFL(' (A-JOY)', 'red')
+            _title = _title + host
+        if _section == 'shnidenodc':
+            host = cFL(' (A-S)', 'yellow')
+            _title = _title + host
+        if (len(_year) > 0) and (not _year == '0000'):
+            _title += cFL('  (' + cFL(_year, 'deeppink') + ')', 'pink')
+        if len(_Country) > 0:
+            _title += cFL('  [' + cFL(_Country, 'deeppink') + ']', 'pink')
+        contextLabs = {'title': _name, 'year': _year, 'img': _img, 'fanart': _fanart, 'country': _Country, 'url': _Url, 'plot': _plot, 'genres': _Genres, 'site': _site, 'subfav': _subfav, 'section': _section, 'todoparams': _ToDoParams, 'commonid': _commonID, 'commonid2': _commonID2}
+        contextMenuItems = contextmenu.ContextMenu_Favorites(contextLabs)
+        _addon.add_directory(pars, {'title': _title, 'plot': _plot}, is_folder=True, fanart=fimg, img=img, total_items=ItemCount, contextmenu_items=contextMenuItems)
+    if 'movie' in section.lower():
+        content = 'tvshows'
+    else:
+        content = 'tvshows'
+    set_view(content, view_mode=int(addst('tvshows-view')))
+    eod()

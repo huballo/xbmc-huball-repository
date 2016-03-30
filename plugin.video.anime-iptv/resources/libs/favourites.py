@@ -236,5 +236,5 @@ def Fav_List(site='', section='', subfav=''):
         content = 'tvshows'
     else:
         content = 'tvshows'
-    set_view(content, view_mode=int(addst('tvshows-view')))
+#    set_view(content, view_mode=int(addst('tvshows-view')))
     eod()

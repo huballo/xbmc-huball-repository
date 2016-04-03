@@ -88,7 +88,7 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
         link = url.replace('?page=0','')
     else:
         link = url
-    html = GetDataBeetwenMarkers(nURL(link), '<div class="views-row views-row-1 views-row-odd views-row-first">', '</section> <!-- /.block -->', False)[1]
+    html = GetDataBeetwenMarkers(nURL(link), '<div class="views-row views-row-1 views-row-odd views-row-first', '</section> <!-- /.block -->', False)[1]
     data = re.findall('<div class="field-content lista_odc_tytul_pozycja"><a href="/(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:
@@ -154,6 +154,8 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
     players = GetDataBeetwenMarkers(nURL(url), 'Pobierz:&nbsp;', "<ul")[1]
+    if len(players) == 0:
+        players = GetDataBeetwenMarkers(nURL(url), 'Numer odcinka:&nbsp;', "<ul")[1]
     lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>').findall(players)
     import xbmcgui
     d = xbmcgui.Dialog()
@@ -203,7 +205,7 @@ def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
         pars = {'mode': 'PlayFromHost', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, int(addst('links-view')))
+#    set_view(content, int(addst('links-view')))
     eod()
 
 

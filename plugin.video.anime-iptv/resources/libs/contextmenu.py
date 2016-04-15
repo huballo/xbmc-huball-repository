@@ -5,12 +5,13 @@ import os
 import re
 import sys
 import xbmc
-
+import xbmcaddon
 
 from addon.common.addon import Addon  # może trzeba więcej
 import favourites
 #######
 _addon = Addon('plugin.video.anime-iptv', sys.argv)
+lang = xbmcaddon.Addon().getLocalizedString
 ###########
 
 
@@ -142,7 +143,7 @@ def ContextMenu_Movies(labs={}):
     if (tfalse(addst("CMI_Search1Channel")) == True) and (os.path.exists(xbmc.translatePath("special://home/addons/") + 'plugin.video.1channel')):
         contextMenuItems.append(('Search 1Channel', 'XBMC.Container.Update(%s?mode=7000&section=%s&query=%s)' % ('plugin://plugin.video.1channel/', 'movies', nameonly)))
     try:
-        WRFC = 'Ulubione: '
+        WRFC = (lang(30001).encode('utf-8'))
         LB = DoLabs2LB(labs)
         LB['mode'] = 'cFavoritesAdd'
         P1 = 'XBMC.RunPlugin(%s)'
@@ -187,8 +188,8 @@ def ContextMenu_Series(labs={}):
     if labs == {}:
         return contextMenuItems
     try:
-        WRFC = 'Ulubione: '
-        WRFCr = 'Remove: '
+        WRFC = (lang(30001).encode('utf-8'))
+        WRFCr = (lang(30006).encode('utf-8'))
         LB = DoLabs2LB(labs)
         McFA = 'cFavoritesAdd'
         McFR = 'cFavoritesRemove'
@@ -257,7 +258,7 @@ def ContextMenu_Favorites(labs={}):
             _sf = '1'
         else:
             _sf = _subfav
-        WRFC = 'Ulubione: '
+        WRFC = (lang(30001).encode('utf-8'))
         LB = DoLabs2LB(labs)
         LB['mode'] = 'cFavoritesAdd'
         P1 = 'XBMC.RunPlugin(%s)'
@@ -280,7 +281,7 @@ def ContextMenu_Favorites(labs={}):
         LB['mode'] = 'cFavoritesRemove'
         LB['subfav'] = _subfav
         Pars = P1 % _addon.build_plugin_url(LB)
-        contextMenuItems.append(('Remove: ' + WRFC + addst('fav.tv.' + _sf + '.name'), Pars))
+        contextMenuItems.append(((lang(30006).encode('utf-8')) + WRFC + addst('fav.tv.' + _sf + '.name'), Pars))
     except:
         pass
     return contextMenuItems

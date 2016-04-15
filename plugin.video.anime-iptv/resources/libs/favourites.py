@@ -25,6 +25,7 @@ addonInfo = xbmcaddon.Addon().getAddonInfo
 dataPath = xbmc.translatePath(addonInfo('profile')).decode('utf-8')
 xbmcvfs.mkdir(dataPath)
 favouritesFile = os.path.join(dataPath, 'favourites.db')
+lang = xbmcaddon.Addon().getLocalizedString
 ###########
 
 
@@ -102,12 +103,12 @@ def fav__COMMON__remove(site, section, name, year, subfav=''):
                         cur.execute('UPDATE pluginvideoanimeiptv SET data = ? WHERE name = ? ', (favs, saved_favs))
                         db.commit()
                         tf = True
-                        myNote(bFL(name.upper()), bFL('Usunięto z ulubionych.'))
+                        myNote(bFL(name.upper()), bFL((lang(30003).encode('utf-8'))))
                         xbmc.executebuiltin("XBMC.Container.Refresh")
                 if (tf == False):
-                    myNote(bFL(name.upper()), bFL('Nie znaleziono w ulubionych.'))
+                    myNote(bFL(name.upper()), bFL((lang(30004).encode('utf-8'))))
             else:
-                myNote(bFL(name.upper() + '  (' + year + ')'), bFL('Nie znaleziono w ulubionych.'))
+                myNote(bFL(name.upper() + '  (' + year + ')'), bFL((lang(30004).encode('utf-8'))))
     except Exception as e:
         db.rollback()
         raise e
@@ -139,9 +140,9 @@ def fav__COMMON__add(site, section, name, year='', img=_artIcon, fanart=_artFana
                     for (_name, _year, _img, _fanart, _country, _url, _plot, _Genres, _site, _subfav, _section, _ToDoParams, _commonID, _commonID2) in favs:
                         if (name == _name) and (year == _year):
                             if len(year) > 0:
-                                myNote(bFL(section + ':  ' + name.upper() + '  (' + year + ')'), bFL('Jest już w ulubionych.'))
+                                myNote(bFL(section + ':  ' + name.upper() + '  (' + year + ')'), bFL((lang(30005).encode('utf-8'))))
                             else:
-                                myNote(bFL(section + ':  ' + name.upper()), bFL('Jest już w ulubionych.'))
+                                myNote(bFL(section + ':  ' + name.upper()), bFL((lang(30005).encode('utf-8'))))
                             return
                 favs.append((name, year, img, fanart, Country, Url, plot, Genres, site, subfav, section, ToDoParams, commonID, commonID2))
                 favs = unicode(favs)
@@ -153,9 +154,9 @@ def fav__COMMON__add(site, section, name, year='', img=_artIcon, fanart=_artFana
     finally:
         db.close()
     if len(year) > 0:
-        myNote(bFL(name + '  (' + year + ')'), bFL('Dodano do ulubionych.'))
+        myNote(bFL(name + '  (' + year + ')'), bFL((lang(30002).encode('utf-8'))))
     else:
-        myNote(bFL(name), bFL('Dodano do ulubionych.'))
+        myNote(bFL(name), bFL((lang(30002).encode('utf-8'))))
 
 
 #def fav__COMMON__empty(site, section, subfav=''):
@@ -173,7 +174,7 @@ def Fav_List(site='', section='', subfav=''):
     favs6 = fav__COMMON__list_fetcher(site=site, section='shnidenodc', subfav=subfav)
     ItemCount = len(favs) and len(favs2) and len(favs3) and len(favs4) and len(favs5) and len(favs6)
     if len(favs) == 0 and len(favs2) == 0 and len(favs3) == 0 and len(favs4) == 0 and len(favs5) == 0and len(favs6) == 0:
-        myNote('Favorites', 'None Found')
+        myNote((lang(30001).encode('utf-8')), (lang(30007).encode('utf-8')))
         eod()
         return
     if len(favs) == 0:

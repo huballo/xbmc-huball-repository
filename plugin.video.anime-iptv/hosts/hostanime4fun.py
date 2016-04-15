@@ -8,7 +8,7 @@
 import re
 import xbmcaddon
 from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers)
-from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
+from contextmenu import (ContextMenu_Series, ContextMenu_Episodes)
 ### ##########################################################################
 ### ##########################################################################
 site = addpr('site', '')
@@ -40,7 +40,7 @@ def Browse_Itemscen(html, name, metamethod='', content='movies', view='515'):
     for item in data:
         img = item[3].replace(' ', '%20')
         strona = item[0]
-        name2 = item[1]
+        name2 = item[1].encode("utf-8")
         plot = ''
         labs = {}
         try:
@@ -63,19 +63,17 @@ def Browse_Itemscen(html, name, metamethod='', content='movies', view='515'):
     set_view(content, view_mode=addst('links-view'))
     eod()
 
-def Browse_Episodes4fun(url,page='',content='episodes',view='515'):
+
+def Browse_Episodes4fun(url, page='',content='episodes',view='515'):
     if url == '':
         return
     html = nURL(url)
-    html = GetDataBeetwenMarkers(html, '<ul class="list-episode">', '</ul>', False)[1]
-    html = html.replace('\'', '')
-    html = html.replace('\n', '')
-    html = html.replace(' ', '')
-    data = re.findall('<ahref="(.+?)"><liclass=(.+?)>(.+?)<spanclass=', html)
+    html = GetDataBeetwenMarkers(html, '<div class="list_episode">', '</section>', False)[1]
+    data = re.findall('<a href="(.+?)" title="(.+?)">', html)
     ItemCount = len(data)
     for item in data:
-        strona = 'http://animeonline.co/' + item[0]
-        name = item[2]
+        strona = item[0]
+        name = item[1]
         plot = ''
         img = ''
         labs = {}
@@ -104,21 +102,23 @@ def getItemTitles(table):
 def Browse_PlayAnime4fun(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    players = GetDataBeetwenMarkers(nURL(url), '<div class="overvideo" id="tabs" style="border: none; width: auto;">', '<div class="button_share">')[1]
-    hosts = re.findall('<li><a href="#(.+?)" class="tabserver">(.+?)</a></li>', players)
-    hosts = [tuple(reversed(t)) for t in hosts]
+    players = GetDataBeetwenMarkers(nURL(url), '<div class="anime_video_body_watch">', '<div class="anime_share_unti">')[1]
+    #players = players.replace('<source src=', '<div class="ads_iframe" link-watch=')
+    players = players.replace('<iframe src=', '<div class="ads_iframe" link-watch=')
+    players = players.replace('link-watch', 'Player')
+    hosts = re.findall('<div class="ads_iframe" (.+?)="(.+?)"', players)
+#    hosts = [tuple(reversed(t)) for t in hosts]
     import xbmcgui
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(hosts))
     if item != -1:
         player = str(hosts[item][1])
-        players = players.replace('\'', '')
-        players = players.replace('\n', '')
-        players = players.replace(' ', '')
-        players = re.findall('<divid="'+player+'"class="servername">(.+?)src="(.+?)"target="_blank">', players)
-        for item in players:
-            from common import PlayFromHost
-            PlayFromHost(item[1])
+        if ('http' in player):
+            player = player
+        else:
+            player = 'http://www.mp4upload.com/embed-' + player + '.html'
+        from common import PlayFromHost
+        PlayFromHost(player)
     eod()
 
 

@@ -68,7 +68,7 @@ thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
 addonInfo = xbmcaddon.Addon().getAddonInfo
-
+lang = xbmcaddon.Addon().getLocalizedString
 
 ###############################################################################
 ###############################################################################
@@ -167,10 +167,10 @@ def SectionMenu():
         if __settings__.getSetting("AnimeOnline") == "true":
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Ulubione###
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': ('Ulubione: ' + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': ('Ulubione: ' + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '3'}, {'title': ('Ulubione: ' + addst('fav.tv.3.name'))}, fanart=fanartIPTV, img=iconFavs)
-        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '4'}, {'title': ('Ulubione: ' + addst('fav.tv.4.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '3'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.3.name'))}, fanart=fanartIPTV, img=iconFavs)
+        _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '4'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.4.name'))}, fanart=fanartIPTV, img=iconFavs)
         set_view('list', view_mode=addst('default-view'))
         eod()
 

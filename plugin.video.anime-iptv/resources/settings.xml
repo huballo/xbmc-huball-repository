@@ -1,6 +1,6 @@
 <settings>
 	<category label="Sites">
-		<setting visible="false" id="Anime4fun" 								type="bool" label="Anime4fun" 						default="false" />
+		<setting visible="true" id="Anime4fun" 								type="bool" label="Anime4fun" 						default="true" />
 		<setting visible="true" id="AnimeOnline" 								type="bool" label="AnimeOnline" 						default="true" />
 		<setting visible="true" id="Animejoy" 								type="bool" label="Animejoy" 						default="true" />
         </category>
@@ -18,13 +18,13 @@
 		<setting visible="false" id="metadata_tv_shows" 		type="bool" label="(TV) >> Shows" 						default="true" enable="!eq(-1,false)" />
 		<setting visible="false" id="metadata_tv_episodes" 	type="bool" label="(TV) >> Episodes" 					default="true" enable="!eq(-1,false)" />
 		<setting visible="false" id="metadata_tv_ep_plot" 	type="bool" label="(TV) >> Episodes >> Plot" 	default="true" enable="!eq(-1,false)" />
-		<setting visible="true" id="auto-view" type="bool"   label="Enable Automatic View" default="True"/>
+		<setting visible="true" id="auto-view" type="bool"   label="Enable Automatic View" default="true"/>
 	</category>
 	<category label="Favorites">
-		<setting visible="true" type="text" default="W trakcie."   id="fav.tv.1.name"  label="Favorites  1: W trakcie" />
-		<setting visible="true" type="text" default="W planach."  id="fav.tv.2.name"  label="Favorites  2: W planach" />
-		<setting visible="true" type="text" default="Ukończone."  id="fav.tv.3.name"  label="Favorites  3: Ukończone" />
-		<setting visible="true" type="text" default="Porzucone."  id="fav.tv.4.name"  label="Favorites  4: Porzucone" />
+		<setting visible="true" type="text" default="W trakcie."   id="fav.tv.1.name"  label="Favourites  1: Watching" />
+		<setting visible="true" type="text" default="W planach."  id="fav.tv.2.name"  label="Favourites  2: In plans" />
+		<setting visible="true" type="text" default="Ukończone."  id="fav.tv.3.name"  label="Favourites  3: Completed" />
+		<setting visible="true" type="text" default="Porzucone."  id="fav.tv.4.name"  label="Favourites  4: Abandoned" />
 		<setting visible="false" id="tv-favorites-clear-enable" type="bool"   		label="  \/  ( Dummy Proofing )" default="false"/>
 		<setting visible="false" id="tv-zerolinks-show" type="bool"   		label="Show Episodes with 0 (Zero) Links" default="true"/>
 		<setting visible="false" type="text" default=""  id="fav.movies.1.name" label="Favorites 1: Name" />

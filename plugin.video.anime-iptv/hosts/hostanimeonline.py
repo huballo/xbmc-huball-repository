@@ -2,7 +2,7 @@
 ###############################################################################
 ###############################################################################
 # Anime-Online
-# THANKS for support do samsamsam !!!!
+# THANKS for support to samsamsam !!!!
 # Some part of code comes from iptvplugin https://gitlab.com/iptvplayer-for-e2/iptvplayer-for-e2
 ###############################################################################
 ###############################################################################
@@ -25,7 +25,7 @@ addonPath = __settings__.getAddonInfo('path')
 sys.path.append(os.path.join(addonPath, 'crypto'))
 
 from keyedHash.evp import EVP_BytesToKey
-from cipher.aes_cbc  import AES_CBC
+from cipher.aes_cbc import AES_CBC
 from binascii import a2b_hex, a2b_base64
 from hashlib import md5
 ####################################################
@@ -41,6 +41,7 @@ mainSite4 = 'http://anime-odcinki.pl/'
 metaget = metahandlers.MetaData(preparezip=False)
 fanartAol = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
+host = 'AnimeOnline'
 
 
 def Pageanimeonline(url, page='', metamethod=''):
@@ -58,11 +59,39 @@ def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
     for item in data:
         strona = mainSite4 + item[0] + '?page=0'
         name = item[1].encode("utf-8")
+        import scraper
 ### scraper
-        meta = metaget.get_meta('tvshow', name)
-        fanart = str(meta['backdrop_url']).replace('u','')
-        img = str(meta['cover_url']).replace('u','')
-        plot = meta['plot']
+        scrap = scraper.scraper_check(host, name)
+        try:
+            if (name not in scrap):
+                if '?page=0'in strona:
+                    strona = strona.replace('?page=0','')
+                else:
+                    strona = strona
+                html = nURL(strona)
+                html = GetDataBeetwenMarkers(html, 'field-type-image field-label-above', 'links list-inline', False)[1]
+                data = re.findall('Image" src="(.+?)\?(.+?)<p>(.+?)</p>', html)
+                ItemCount = len(data)
+                if len(data) > 0:
+                    for item in data:
+                        img = item[0]
+                        plot = item[2]
+                else:
+                    img = ''
+                    plot = ''
+                scraper.scraper_add(host, name, img, plot, '')
+                scrap = scraper.scraper_check(host, name)
+        except:
+            scrap = ''
+        try:
+            img = scrap[1]
+        except:
+            img = ''
+        try:
+            plot = scrap[2]
+        except:
+            plot = ''
+        fanart = fanartAol
         labs = {}
         try:
             labs['plot'] = plot
@@ -71,7 +100,6 @@ def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
 ###
         pars = {'mode': 'EpisodesAnime', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
         contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-
         if section == 'animeonline':
             contextMenuItems = ContextMenu_Series(contextLabs)
         else:
@@ -121,7 +149,7 @@ def encryptPlayerUrl(data):
     print("_encryptPlayerUrl data[%s]" % data)
     decrypted = ''
     try:
-        data = byteify( json.loads(data) )
+        data = byteify(json.loads(data))
         salt = a2b_hex(data["v"])
         key, iv = EVP_BytesToKey(md5, "s05z9Gpd=syG^7{", salt, 32, 16, 1)
         if iv != a2b_hex(data.get('b', '')):
@@ -136,7 +164,7 @@ def encryptPlayerUrl(data):
             alg = AES_CBC(key, keySize=kSize)
             decrypted = alg.decrypt(a2b_base64(data["a"]), iv=iv)
             decrypted = decrypted.split('\x00')[0]
-        decrypted = "%s" % json.loads( decrypted ).encode('utf-8')
+        decrypted = "%s" % json.loads(decrypted).encode('utf-8')
     except:
         decrypted = ''
     return decrypted
@@ -171,7 +199,6 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
         from common import PlayFromHost
         PlayFromHost(url)
     eod()
-
 
 
 def Recenzje(url, page='', metamethod=''):

@@ -12,8 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html)
-from metahandler import metahandlers
+from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html, tfalse)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
@@ -38,7 +37,6 @@ site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
 mainSite4 = 'http://anime-odcinki.pl/'
-metaget = metahandlers.MetaData(preparezip=False)
 fanartAol = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
 host = 'AnimeOnline'
@@ -59,38 +57,42 @@ def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
     for item in data:
         strona = mainSite4 + item[0] + '?page=0'
         name = item[1].encode("utf-8")
-        import scraper
 ### scraper
-        scrap = scraper.scraper_check(host, name)
-        try:
-            if (name not in scrap):
-                if '?page=0'in strona:
-                    strona = strona.replace('?page=0','')
-                else:
-                    strona = strona
-                html = nURL(strona)
-                html = GetDataBeetwenMarkers(html, 'field-type-image field-label-above', 'links list-inline', False)[1]
-                data = re.findall('Image" src="(.+?)\?(.+?)<p>(.+?)</p>', html)
-                ItemCount = len(data)
-                if len(data) > 0:
-                    for item in data:
-                        img = item[0]
-                        plot = item[2]
-                else:
-                    img = ''
-                    plot = ''
-                scraper.scraper_add(host, name, img, plot, '')
-                scrap = scraper.scraper_check(host, name)
-        except:
-            scrap = ''
-        try:
-            img = scrap[1]
-        except:
+        if (tfalse(addst("aodc-thumbs")) == True):
+            import scraper
+            scrap = scraper.scraper_check(host, name)
+            try:
+                if (name not in scrap):
+                    if '?page=0'in strona:
+                        strona = strona.replace('?page=0','')
+                    else:
+                        strona = strona
+                    html = nURL(strona)
+                    html = GetDataBeetwenMarkers(html, 'field-type-image field-label-above', 'links list-inline', False)[1]
+                    data = re.findall('Image" src="(.+?)\?(.+?)<p>(.+?)</p>', html)
+                    ItemCount = len(data)
+                    if len(data) > 0:
+                        for item in data:
+                            img = item[0]
+                            plot = item[2]
+                    else:
+                        img = ''
+                        plot = ''
+                    scraper.scraper_add(host, name, img, plot, '')
+                    scrap = scraper.scraper_check(host, name)
+            except:
+                scrap = ''
+            try:
+                img = scrap[1]
+            except:
+                img = ''
+            try:
+                plot = scrap[2]
+            except:
+                plot = ''
+        else:
             img = ''
-        try:
-            plot = scrap[2]
-        except:
-            plot = ''
+            plot =''
         fanart = fanartAol
         labs = {}
         try:

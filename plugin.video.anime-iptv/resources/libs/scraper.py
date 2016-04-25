@@ -2,6 +2,8 @@ import xbmc
 import xbmcaddon
 import xbmcvfs
 import os
+import xbmcgui
+from common import myNote
 try:
     from sqlite3 import dbapi2 as database
 except:
@@ -74,3 +76,30 @@ def scraper_add(host, name, img, plot, fanart):
         raise e
     finally:
         db.close()
+
+
+def getItemTitles(table):
+    out = []
+    for i in range(len(table)):
+        value = table[i]
+        out.append(value[0])
+    return out
+
+
+def delete_table():
+    lista = [['Anime-Odcinki', 'AnimeOnline'], ['Anime-joy', 'AnimeJoy']]
+    d = xbmcgui.Dialog()
+    item = d.select("Choose host:", getItemTitles(lista))
+    if item != -1:
+        host = str(lista[item][1])
+        try:
+            db = database.connect(scraperFile)
+            cur = db.cursor()
+            cur.execute("drop table if exists " + host)
+            myNote(host, 'Thumbnails reseted')
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
+        finally:
+            db.close()

@@ -174,6 +174,7 @@ def ContextMenu_Movies(labs={}):
 
 def ContextMenu_Series(labs={}):
     contextMenuItems = []
+    contextMenuItems.append(('Movie info', 'XBMC.Action(Info)'))
     nameonly = filename_filter_out_year(labs['title'])
     try:
         site = labs['site']
@@ -226,8 +227,6 @@ def ContextMenu_Series(labs={}):
 
 def ContextMenu_Episodes(labs={}):
     contextMenuItems = []
-    if tfalse(addst("CMI_ShowInfo")) == True:
-        contextMenuItems.append(('Episode Info', 'XBMC.Action(Info)'))
     contextMenuItems.append(('Watched/Unwatched', 'XBMC.Action(ToggleWatched)'))
     if labs == {}:
         return contextMenuItems
@@ -236,6 +235,7 @@ def ContextMenu_Episodes(labs={}):
 
 def ContextMenu_Favorites(labs={}):
     contextMenuItems = []
+    contextMenuItems.append(('Movie info', 'XBMC.Action(Info)'))
     nameonly = filename_filter_out_year(labs['title'])
     try:
         site = labs['site']

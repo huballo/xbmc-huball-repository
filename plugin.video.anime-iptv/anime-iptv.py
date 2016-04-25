@@ -223,6 +223,9 @@ def mode_subcheck(mode='', site='', section='', url=''):
     elif (mode == 'addView'):
         from common import addView
         addView('movies')
+    elif (mode == 'delete_table'):
+        from scraper import delete_table
+        delete_table()
 mode_subcheck(addpr('mode', ''), addpr('site', ''), addpr('section', ''), addpr('url', ''))
 ##############################################################################
 

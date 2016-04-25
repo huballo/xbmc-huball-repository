@@ -7,7 +7,7 @@
 ### Imports ###
 import re
 import xbmcaddon
-from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers, clean_html)
+from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers, clean_html, tfalse)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 ### ##########################################################################
 ### ##########################################################################
@@ -18,6 +18,9 @@ __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
 fanart = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
+fanartAol = addonPath + '/art/japan/fanart.jpg'
+host = 'AnimeJoy'
+
 
 def Pagejoy(url, page, metamethod=''):
     html = nURL(url)
@@ -28,13 +31,48 @@ def Pagejoy(url, page, metamethod=''):
 def Browse_Itemscen(html, name, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
-    data = re.compile('<div class="anim"><a href="(.+?)">  '+name+'(.+?)</a>').findall(html)
+    data = re.compile('<div class="anim"><a href="(.+?)">  ' + name + '(.+?)</a>').findall(html)
     ItemCount = len(data)
     for item in data:
         strona = 'http://anime-joy.tv/' + item[0]
         name2 = name + item[1]
-        plot = ''
-        img = ''
+### scraper
+        if (tfalse(addst("ajoy-thumbs")) == True):
+            import scraper
+            scrap = scraper.scraper_check(host, name2)
+            try:
+                if (name2 not in scrap):
+                    html = nURL(strona)
+                    htmlimg = GetDataBeetwenMarkers(html, '<div class="animedetay">', '<div class="addcolumn centerbutton">', False)[1]
+                    data = re.findall('<img src="(.+?)"/>', htmlimg)
+                    ItemCount = len(data)
+                    if len(data) > 0:
+                        for item in data:
+                            img = item
+                    else:
+                        img = ''
+                    htmlplot = GetDataBeetwenMarkers(html, '<strong>Summary:</strong> </br>', '</div>', False)[1]
+                    ItemCount = len(htmlplot)
+                    if len(data) > 0:
+                        plot = clean_html(htmlplot)
+                    else:
+                        plot = ''
+                    scraper.scraper_add(host, name2, img, plot, '')
+                    scrap = scraper.scraper_check(host, name2)
+            except:
+                scrap = ''
+            try:
+                img = scrap[1]
+            except:
+                img = ''
+            try:
+                plot = scrap[2]
+            except:
+                plot = ''
+        else:
+            img = ''
+            plot = ''
+        fanart = fanartAol
         labs = {}
         try:
             labs['plot'] = plot

@@ -5,64 +5,18 @@
 		<setting visible="true" id="Animejoy" 								type="bool" label="Animejoy" 						default="true" />
         </category>
 	<category label="General">
-		<setting visible="false" id="core-player" type="labelenum" label="Player Core" values="AUTO|DVDPLAYER|MPLAYER|PAPLAYER"             default="AUTO"/>
-		<setting visible="false" id="pages"    type="labelenum" label="Number of Pages" values="1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|25|30|35|40|45|50|55|60|70|80|90|99|100"             default="1"/>
-		<setting visible="false" id="linksmaxshown" type="labelenum" label="Number of Links (Host Menu)" values="1|2|3|4|5|10|15|20|25|30|35|40|45|50|55|60|70|80|90|99|100|150|200|250|300|350|400|450|500|550|600|700|800|900|1000|1500|2000|3000|9000|9999"             default="9999"/>
-		<setting visible="false" id="label-empty-favorites" 		type="bool" label="Show Labels in List: Empty Favorites" default="false" />
-		<setting visible="false" id="oldmenu" 		type="bool" label="Display Old Items on the Main Menu" default="false" />
-		<setting visible="false" id="debug-enable" 	type="bool" label="Enable Debugging to File" default="false" />
-		<setting visible="false" id="debug-show" 		type="bool" label="Enable Debugging to Notice(s)" default="false" />
-		<setting id="enableMeta" 		type="bool" label="Enable Metadata" default="false" visible="false"/>
-		<setting visible="false" id="metadata_movies" 			type="bool" label="(Movies)" 									default="true" />
-		<setting visible="false" id="metadata_tv" 					type="bool" label="(TV)" 											default="true" />
-		<setting visible="false" id="metadata_tv_shows" 		type="bool" label="(TV) >> Shows" 						default="true" enable="!eq(-1,false)" />
-		<setting visible="false" id="metadata_tv_episodes" 	type="bool" label="(TV) >> Episodes" 					default="true" enable="!eq(-1,false)" />
-		<setting visible="false" id="metadata_tv_ep_plot" 	type="bool" label="(TV) >> Episodes >> Plot" 	default="true" enable="!eq(-1,false)" />
 		<setting visible="true" id="auto-view" type="bool"   label="Enable Automatic View" default="true"/>
 	</category>
 	<category label="Favorites">
 		<setting visible="true" type="text" default="W trakcie."   id="fav.tv.1.name"  label="Favourites  1: Watching" />
 		<setting visible="true" type="text" default="W planach."  id="fav.tv.2.name"  label="Favourites  2: In plans" />
 		<setting visible="true" type="text" default="Ukończone."  id="fav.tv.3.name"  label="Favourites  3: Completed" />
-		<setting visible="true" type="text" default="Porzucone."  id="fav.tv.4.name"  label="Favourites  4: Abandoned" />
-		<setting visible="false" id="tv-favorites-clear-enable" type="bool"   		label="  \/  ( Dummy Proofing )" default="false"/>
-		<setting visible="false" id="tv-zerolinks-show" type="bool"   		label="Show Episodes with 0 (Zero) Links" default="true"/>
-		<setting visible="false" type="text" default=""  id="fav.movies.1.name" label="Favorites 1: Name" />
-		<setting visible="false" type="text" default="2" id="fav.movies.2.name" label="Favorites 2: Name" />
-		<setting visible="false" type="text" default="3" id="fav.movies.3.name" label="Favorites 3: Name" />
-		<setting visible="false" type="text" default="4" id="fav.movies.4.name" label="Favorites 4: Name" />
-		<setting visible="false" type="text" default="5" id="fav.movies.5.name" label="Favorites 5: Name" />
-		<setting visible="false" type="text" default="6" id="fav.movies.6.name" label="Favorites 6: Name" />
-		<setting visible="false" type="text" default="7" id="fav.movies.7.name" label="Favorites 7: Name" />
-		<setting visible="false" type="text" default="8" id="fav.movies.8.name" label="Favorites 8: Name" />
-		<setting visible="false" type="text" default="9" id="fav.movies.9.name" label="Favorites 9: Name" />
-		<setting visible="false" type="text" default="10" id="fav.movies.10.name" label="Favorites 10: Name" />
-		<setting visible="false" type="text" default="11" id="fav.movies.11.name" label="Favorites 11: Name" />
-		<setting visible="false" id="movies-favorites-clear-enable" type="bool"   label="  \/  ( Dummy Proofing )" default="false"/>
-		<setting visible="false" type="text" default=""  id="fav.anime.1.name" label="Favorites 1: Name" />
-		<setting visible="false" type="text" default="2" id="fav.anime.2.name" label="Favorites 2: Name" />
-		<setting visible="false" type="text" default="3" id="fav.anime.3.name" label="Favorites 3: Name" />
-		<setting visible="false" type="text" default="4" id="fav.anime.4.name" label="Favorites 4: Name" />
-		<setting visible="false" type="text" default="5" id="fav.anime.5.name" label="Favorites 5: Name" />
-		<setting visible="false" type="text" default="6" id="fav.anime.6.name" label="Favorites 6: Name" />
-		<setting visible="false" type="text" default="7" id="fav.anime.7.name" label="Favorites 7: Name" />
-		<setting visible="false" type="text" default="8" id="fav.anime.8.name" label="Favorites 8: Name" />
-		<setting visible="false" type="text" default="9" id="fav.anime.9.name" label="Favorites 9: Name" />
-		<setting visible="false" type="text" default="10" id="fav.anime.10.name" label="Favorites 10: Name" />
-		<setting visible="false" type="text" default="11" id="fav.anime.11.name" label="Favorites 11: Name" />
-		<setting visible="false" id="anime-favorites-clear-enable" type="bool"   label="  \/  ( Dummy Proofing )" default="false"/>
-		<setting visible="false" type="text" default=""  id="fav.live.1.name" label="Favorites 1: Name" />
-		<setting visible="false" type="text" default="2" id="fav.live.2.name" label="Favorites 2: Name" />
-		<setting visible="false" type="text" default="3" id="fav.live.3.name" label="Favorites 3: Name" />
-		<setting visible="false" type="text" default="4" id="fav.live.4.name" label="Favorites 4: Name" />
-		<setting visible="false" type="text" default="5" id="fav.live.5.name" label="Favorites 5: Name" />
-		<setting visible="false" type="text" default="6" id="fav.live.6.name" label="Favorites 6: Name" />
-		<setting visible="false" type="text" default="7" id="fav.live.7.name" label="Favorites 7: Name" />
-		<setting visible="false" type="text" default="8" id="fav.live.8.name" label="Favorites 8: Name" />
-		<setting visible="false" type="text" default="9" id="fav.live.9.name" label="Favorites 9: Name" />
-		<setting visible="false" type="text" default="10" id="fav.live.10.name" label="Favorites 10: Name" />
-		<setting visible="false" type="text" default="11" id="fav.live.11.name" label="Favorites 11: Name" />
-		<setting visible="false" id="live-favorites-clear-enable" type="bool"   label="  \/  ( Dummy Proofing )" default="false"/>
+		<setting visible="true" type="text" default="Porzucone."  id="fav.tv.4.name"  label="Favourites  4: Abandoned" />			
+	</category>
+	<category label="Thumbnails">
+		<setting visible="true" id="aodc-thumbs" type="bool"   label="Anime-odcinki -- Enable thumbnails skan." default="true"/>
+		<setting visible="true" id="ajoy-thumbs" type="bool"   label="Anime-joy -- Enable thumbnails skan." default="true"/>
+		<setting id="reset_db" type="action" label="[COLOR red]Reset thumbnails[/COLOR]" enable="true" action="RunPlugin(plugin://plugin.video.anime-iptv/?mode=delete_table)"/>
 	</category>
 	<category label="Account Google">
 	<setting visible="true" id="googlelog" type="bool"   label="Włącz logowanie do Google Drive" default="false"/>

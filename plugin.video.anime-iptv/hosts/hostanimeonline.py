@@ -64,10 +64,10 @@ def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
             try:
                 if (name not in scrap):
                     if '?page=0'in strona:
-                        strona = strona.replace('?page=0','')
+                        strona2 = strona.replace('?page=0','')
                     else:
-                        strona = strona
-                    html = nURL(strona)
+                        strona2 = strona
+                    html = nURL(strona2)
                     html = GetDataBeetwenMarkers(html, 'field-type-image field-label-above', 'links list-inline', False)[1]
                     data = re.findall('Image" src="(.+?)\?(.+?)<p>(.+?)</p>', html)
                     ItemCount = len(data)
@@ -140,7 +140,6 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
 # next page
     npage = url[:-1] + str(int(url[-1:]) + 1)
-
     if -1 != html.find("do strony "):
         _addon.add_directory({'mode': 'EpisodesAnime', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
     set_view(content, view_mode=addst('links-view'))

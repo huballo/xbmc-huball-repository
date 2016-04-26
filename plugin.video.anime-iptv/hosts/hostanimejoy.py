@@ -137,13 +137,10 @@ def Browse_PlayAnimejoy(url, page='', content='episodes', view='515'):
     if item != -1:
         player = str(hosts[item][1])
         player = 'http:' + player
-        print player
         player = GetDataBeetwenMarkers(nURL(player), '<div id="video_container_div" style="display:none;">', '</div>')[1]
-        print player
         players = re.findall('src="(.+?)"', player)
         for item in players:
             from common import PlayFromHost
-            print item
             PlayFromHost(item)
     eod()
 

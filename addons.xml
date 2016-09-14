@@ -38,7 +38,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.Pac-12" version="1.1.13" name="Pac-12" provider-name="huball">
+<addon id="plugin.video.Pac-12" version="1.1.14" name="Pac-12" provider-name="huball">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
     </requires>

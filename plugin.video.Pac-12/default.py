@@ -36,34 +36,34 @@ def CATEGORIES():
 
 
 def addDir(name, url, mode, iconimage, fanart, description):
-    try:
-        if (len(description) == 0):
-            title = ''
-        else:
-            req = urllib2.Request('http://tvgo.xfinity.com/watch-live-tv')
-            response = urllib2.urlopen(req)
-            html = response.read()
-            response.close()
-            idx = html.find('<div id="sports" class="jump-anchor" >')
-            if idx == -1:
-                return
-            idx2 = html.find('<div id="family-kids" class="jump-anchor" >', idx)
-            if idx2 == -1:
-                return
-            html = html[idx:idx2]
-            html = html.replace('\n', '')
-            html = html.replace('  ', '')
-            try:
-                title = re.compile('alt="'+ description +'" class(.+?)<h2>(.+?)</h2>(.+?)"description">(.+?)</p>').findall(html)
-                if len(title) > 0:
-                    for xx, title, yy, title2 in title:
-                        title = ' - ' + title + ' - ' + title2
-                else:
-                    title = ''
-            except:
-                print 'problemy'
-    except:
-        print "problemy z opisem"
+    #try:
+        #if (len(description) == 0):
+            #title = ''
+        #else:
+            #req = urllib2.Request('http://tvgo.xfinity.com/watch-live-tv')
+            #response = urllib2.urlopen(req)
+            #html = response.read()
+            #response.close()
+            #idx = html.find('<div id="sports" class="jump-anchor" >')
+            #if idx == -1:
+                #return
+            #idx2 = html.find('<div id="family-kids" class="jump-anchor" >', idx)
+            #if idx2 == -1:
+                #return
+            #html = html[idx:idx2]
+            #html = html.replace('\n', '')
+            #html = html.replace('  ', '')
+            #try:
+                #title = re.compile('alt="'+ description +'" class(.+?)<h2>(.+?)</h2>(.+?)"description">(.+?)</p>').findall(html)
+                #if len(title) > 0:
+                    #for xx, title, yy, title2 in title:
+                        #title = ' - ' + title + ' - ' + title2
+            #except:
+                #print 'problemy'
+    #except:
+        #title = ''
+        #print "problemy z opisem"
+    title = ''
     u = sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)
     ok = True
     liz = xbmcgui.ListItem(name + '[I]' + title + '[/I]', iconImage="DefaultFolder.png", thumbnailImage=iconimage)

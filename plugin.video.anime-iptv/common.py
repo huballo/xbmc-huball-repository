@@ -383,10 +383,11 @@ def vk_vk(url):
 def vshare(url):
     try:
         url = nURL(url)
-        HD = re.compile("url: '(.+?)'").findall(url)[0]
+        HD = re.compile('url":"(.+?).flv').findall(url)[0]
         if HD == []:
             return
-        url = HD
+        url = HD + '.flv'
+        url = url.replace('/', '')
         return url
     except:
         myNote("Failed to Resolve Playable URL.")
@@ -434,6 +435,22 @@ def animeonline(url):
         return
 
 
+def tune(url):
+    url = url.replace('http://tune.pk/player/embed_player.php?vid=', '')
+    url = 'http://embed.tune.pk/play/%s?autoplay=no&ssl=no' % url
+    url = nURL(url)
+    try:
+        HD = re.compile('file":"(.+?).mp4').findall(url)[0]
+        if HD == []:
+            return
+        url = HD + '.mp4'
+        url = url.replace('/', '')
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
+
+
 def PlayFromHost(url):
     PlayerMethod = addst("core-player")
     if   (PlayerMethod == 'DVDPLAYER'):
@@ -470,6 +487,8 @@ def PlayFromHost(url):
         url = animeuploader(url)
     elif ('animeonline' in url):
         url = animeonline(url)
+    elif ('tune' in url):
+        url = tune(url)
     else:
         try:
             stream_url = urlresolver.HostedMediaFile(url).resolve()

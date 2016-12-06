@@ -108,7 +108,7 @@ def Animejoy(mode, url, page):
 def AnimeOnline(mode, url, page):
     import hostanimeonline
     if mode == "Pageanimeonline":
-        hostanimeonline.Pageanimeonline(url)
+        hostanimeonline.Pageanimeonline(url, page)
     elif mode == "EpisodesAnime":
         hostanimeonline.Browse_EpisodesAnime(url, page)
     elif mode == "PlayAnime":
@@ -123,9 +123,9 @@ def AnimeOnline(mode, url, page):
 def SubSubMenu():
 ###Anime-Online###
     if section == 'animeonline':
-        tUrl = mainSite4 + 'lista-anime/'
+        tUrl = mainSite4 + 'anime'
         for az, xy in zip(AonlineAlphabet, AonlineAlphabet):
-            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
+            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl, 'page' : xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
     if section == 'animedrama':
         tUrl = mainSite4 + 'Drama/viewpage.php?page_id='
         for az, xy in zip(MyAlphabet, AonlineDrama):

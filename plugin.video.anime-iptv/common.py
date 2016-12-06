@@ -467,9 +467,9 @@ def PlayFromHost(url):
     li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''))
     li.setInfo(type="Video", infoLabels=infoLabels)
     li.setProperty('IsPlayable', 'true')
-    if ('google' in url):
-        url = video_google(url)
-    elif ('vk' in url):
+#    if ('google' in url):
+#        url = video_google(url)
+    if ('vk' in url):
         url = vk_vk(url)
     elif ('sibnet' in url):
         url = sibnet(url)

@@ -12,7 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html, tfalse)
+from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html, tfalse,ParseDescription)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
@@ -42,21 +42,23 @@ nexticon = addonPath + '/art/next.png'
 host = 'AnimeOnline'
 
 
-def Pageanimeonline(url, page='', metamethod=''):
+def Pageanimeonline(url, page, metamethod=''):
     html = nURL(url)
-    Browse_ItemAol(html, metamethod)
+    Browse_ItemAol(html, page, metamethod)
     eod()
 
 
-def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
+def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
     html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
-    data = re.findall('<a href="/(.+?)">(.+?)</a>', html)
+    page = page.lower()
+    data = re.findall('<a href="http://anime-odcinki.pl/anime/' + page+ '(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:
-        strona = mainSite4 + item[0] + '?page=0'
+        strona =  'http://anime-odcinki.pl/anime/' + page + item[0]
         name = item[1].encode("utf-8")
+        name = ParseDescription(name)
 ### scraper
         if (tfalse(addst("aodc-thumbs")) == True):
             import scraper
@@ -68,15 +70,20 @@ def Browse_ItemAol(html, metamethod='', content='movies', view='515'):
                     else:
                         strona2 = strona
                     html = nURL(strona2)
-                    html = GetDataBeetwenMarkers(html, 'field-type-image field-label-above', 'links list-inline', False)[1]
-                    data = re.findall('Image" src="(.+?)\?(.+?)<p>(.+?)</p>', html)
+                    html = GetDataBeetwenMarkers(html, 'field-name-field-okladka field-type-image field-label-above', '<p>&nbsp;</p>', False)[1]
+                    data = re.findall('<img src="(.+?)"', html)
                     ItemCount = len(data)
                     if len(data) > 0:
                         for item in data:
-                            img = item[0]
-                            plot = item[2]
+                            img = item
                     else:
                         img = ''
+                    data = re.findall('<p><p>(.+?)</p>', html)
+                    ItemCount = len(data)
+                    if len(data) > 0:
+                        for item in data:
+                            plot = ParseDescription(item)
+                    else:
                         plot = ''
                     scraper.scraper_add(host, name, img, plot, '')
                     scrap = scraper.scraper_check(host, name)
@@ -118,12 +125,13 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
         link = url.replace('?page=0','')
     else:
         link = url
-    html = GetDataBeetwenMarkers(nURL(link), '<div class="views-row views-row-1 views-row-odd views-row-first', '</section> <!-- /.block -->', False)[1]
-    data = re.findall('<div class="field-content lista_odc_tytul_pozycja"><a href="/(.+?)">(.+?)</a>', html)
+    html = GetDataBeetwenMarkers(nURL(link), '<div id="block-views-lista-odcink-w-block', '</ul>', False)[1]
+    data = re.findall('<a href="(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:
-        url2 = mainSite4 + item[0]
+        url2 = item[0]
         name = item[1].encode("utf-8")
+        name = ParseDescription(name)
         img = ""
         fanart = fanartAol
         plot = ""
@@ -139,9 +147,9 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
 # next page
-    npage = url[:-1] + str(int(url[-1:]) + 1)
-    if -1 != html.find("do strony "):
-        _addon.add_directory({'mode': 'EpisodesAnime', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
+#    npage = url[:-1] + str(int(url[-1:]) + 1)
+#    if -1 != html.find("do strony "):
+#        _addon.add_directory({'mode': 'EpisodesAnime', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
     set_view(content, view_mode=addst('links-view'))
     eod()
 
@@ -182,21 +190,29 @@ def getItemTitles(table):
 def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    players = GetDataBeetwenMarkers(nURL(url), 'Pobierz:&nbsp;', "<ul")[1]
-    if len(players) == 0:
-        players = GetDataBeetwenMarkers(nURL(url), 'Numer odcinka:&nbsp;', "<ul")[1]
-    lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>').findall(players)
+    players = GetDataBeetwenMarkers(nURL(url), '<div id="video-player-control">', "</center>")[1]
+    players = players.replace('\n', '')
+    players = players.replace('\r', '')
+    players = players.replace('  ', '')
+#    players = GetDataBeetwenMarkers(nURL(url), 'Pobierz:&nbsp;', "<ul")[1]
+#    if len(players) == 0:
+#        players = GetDataBeetwenMarkers(nURL(url), 'Numer odcinka:&nbsp;', "<ul")[1]
+    lista = re.compile('div class="video-player-mode" data-hash="(.+?)">(.+?)</div>').findall(players)
+    lista = [tuple(reversed(t)) for t in lista]
+#    lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>').findall(players)
     import xbmcgui
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(lista))
     if item != -1:
         player = str(lista[item][1])
-        player = '{' + player + '}'
-        item = encryptPlayerUrl(player)
-        item = item.replace('https', '')
-        item = item.replace('http', '')
-        url = item.replace("&hd=3", "")
-        url = "http" + url.replace("amp;", "")
+#        player = '{' + player + '}'
+#        item = encryptPlayerUrl(player)
+#        item = item.replace('https', '')
+#        item = item.replace('http', '')
+#        url = item.replace("&hd=3", "")
+#        url = "http" + url.replace("amp;", "")
+        url= player
+        print url
         from common import PlayFromHost
         PlayFromHost(url)
     eod()

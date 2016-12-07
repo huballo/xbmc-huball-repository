@@ -116,26 +116,33 @@ def Play(url, name, icon):
         d = xbmcgui.Dialog()
         item = d.select("Select Quality", getItemTitles(lista))
         if item != -1:
-            quality = str(lista[item][1])
-            query_args = {'page': 'links', 'network': url, 'bitrate': quality}
-            encoded_args = urllib.urlencode(query_args)
-            request = urllib2.Request(site)
-            request.add_header('User-agent', 'Mozilla/5.0')
-            response = urllib2.urlopen(request, encoded_args)
-            data = response.read()
-            response.close()
-            link = re.compile('<input value="(.+?)" class=').findall(data)
-            if len(link) > 0:
-                for url in link:
-                    url = url.replace('.m3u8.m3u8' , '.m3u8')
-                    li = xbmcgui.ListItem(label=name, iconImage=icon, thumbnailImage=icon, path="")
-                    xbmc.Player().play(item=url, listitem=li)
-                    exit()
-            else:
-                addonname = my_addon.getAddonInfo('name')
-                line1 = "Try custom links"
-                line2 = "Greetings, huball"
-                xbmcgui.Dialog().ok(addonname, line1, line2)
+            try:
+                quality = str(lista[item][1])
+                query_args = {'page': 'links', 'network': url, 'bitrate': quality}
+                encoded_args = urllib.urlencode(query_args)
+                request = urllib2.Request(site)
+                request.add_header('User-agent', 'Mozilla/5.0')
+                response = urllib2.urlopen(request, encoded_args)
+                data = response.read()
+                response.close()
+                link = re.compile('<input value="(.+?)" class=').findall(data)
+                if len(link) > 0:
+                    for url in link:
+                        url = url.replace('.m3u8.m3u8' , '.m3u8')
+                        li = xbmcgui.ListItem(label=name, iconImage=icon, thumbnailImage=icon, path="")
+                        xbmc.Player().play(item=url, listitem=li)
+                        exit()
+                else:
+                    addonname = my_addon.getAddonInfo('name')
+                    line1 = "Try custom links"
+                    line2 = "Greetings, huball"
+                    xbmcgui.Dialog().ok(addonname, line1, line2)
+            except:
+                    addonname = my_addon.getAddonInfo('name')
+                    line1 = "http://xrxs.net/ probably is offline"
+                    line2 = "Try custom links"
+                    line3 = "Greetings, huball"
+                    xbmcgui.Dialog().ok(addonname, line1, line2, line3)
 
 
 def Playbtn(url, name, icon):

@@ -4,6 +4,7 @@
   <category label="$LOCALIZE[128]">
     <setting type="sep"/>
     <setting id="use_PAC-12_intro" type="bool" label="Use PAC-12 Intro" default="false"/>
+    <setting id="use_custom_links" type="bool" label="Use Custom Links" default="false"/>
   </category>
   <category label="Links">
     <setting type="lsep" label="Fill in the fields below with links to streamings."/>

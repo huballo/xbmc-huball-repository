@@ -137,7 +137,7 @@ def Play(url, name, icon):
                     line1 = "Try custom links"
                     line2 = "Greetings, huball"
                     xbmcgui.Dialog().ok(addonname, line1, line2)
-            except:
+            except ValueError:
                     addonname = my_addon.getAddonInfo('name')
                     line1 = "http://xrxs.net/ probably is offline"
                     line2 = "Try custom links"

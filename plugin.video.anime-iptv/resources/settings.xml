@@ -1,8 +1,8 @@
 <settings>
 	<category label="Sites">
-		<setting visible="true" id="Anime4fun" 								type="bool" label="Anime4fun" 						default="true" />
+		<setting visible="true" id="Anime4fun" 								type="bool" label="Anime4fun" 						default="false" />
 		<setting visible="true" id="AnimeOnline" 								type="bool" label="AnimeOnline" 						default="true" />
-		<setting visible="true" id="Animejoy" 								type="bool" label="Animejoy" 						default="true" />
+		<setting visible="true" id="Animejoy" 								type="bool" label="Animejoy" 						default="false" />
         </category>
 	<category label="General">
 		<setting visible="true" id="auto-view" type="bool"   label="Enable Automatic View" default="true"/>

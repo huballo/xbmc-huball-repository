@@ -171,7 +171,7 @@ def Fav_List(site='', section='', subfav=''):
     favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
     favs3 = fav__COMMON__list_fetcher(site=site, section='animejoy', subfav=subfav)
-    favs6 = fav__COMMON__list_fetcher(site=site, section='shnidenodc', subfav=subfav)
+    favs6 = fav__COMMON__list_fetcher(site=site, section='wbijam', subfav=subfav)
     ItemCount = len(favs) and len(favs2) and len(favs3) and len(favs4) and len(favs5) and len(favs6)
     if len(favs) == 0 and len(favs2) == 0 and len(favs3) == 0 and len(favs4) == 0 and len(favs5) == 0and len(favs6) == 0:
         myNote((lang(30001).encode('utf-8')), (lang(30007).encode('utf-8')))
@@ -223,8 +223,8 @@ def Fav_List(site='', section='', subfav=''):
         if _section == 'animejoy':
             host = cFL(' (A-JOY)', 'red')
             _title = _title + host
-        if _section == 'shnidenodc':
-            host = cFL(' (A-S)', 'yellow')
+        if _section == 'wbijam':
+            host = cFL(' (WB)', 'yellow')
             _title = _title + host
         if (len(_year) > 0) and (not _year == '0000'):
             _title += cFL('  (' + cFL(_year, 'deeppink') + ')', 'pink')

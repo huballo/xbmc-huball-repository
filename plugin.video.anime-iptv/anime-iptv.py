@@ -11,7 +11,7 @@ import sys
 ### ##########################################################################
 SiteName = 'AnimeIPTV'
 SiteTag = 'AnimeIPTV'
-mainSite = 'http://diff-anime.pl/'
+mainSite = 'http://wbijam.pl/'
 mainSite2 = 'http://animeonline.co/'
 mainSite3 = 'http://anime-joy.tv/'
 mainSite4 = 'http://anime-odcinki.pl/'
@@ -30,6 +30,7 @@ iconSite = addonPath + '/art/icon.png'
 iconAnime4fun = addonPath + '/art/japan/anime4fun.jpg'
 iconDiff = addonPath + '/art/japan/diffanime.jpg'
 iconOdcinki = addonPath + '/art/japan/animeodcinki.jpg'
+iconWbijam = addonPath + '/art/japan/wbijam.jpg'
 iconShniden = addonPath + '/art/japan/animeshniden.jpg'
 iconAnimeon = addonPath + '/art/japan/animeon.jpg'
 iconAnimejoy = addonPath + '/art/japan/animejoy.jpg'
@@ -120,6 +121,28 @@ def AnimeOnline(mode, url, page):
 ###############################################################################
 
 
+###############################################################################
+###############################################################################
+# Wbjam.pl
+###############################################################################
+###############################################################################
+def Wbijam(mode, url, page):
+    import hostwbijam
+    if mode == "Pagewbijam":
+        hostwbijam.Pagewbijam(url, page)
+    elif mode == "Browse_Itemslist":
+        hostwbijam.Browse_Itemslist(url, page)
+    elif mode == "Browse_Episodeswijam":
+        hostwbijam.Browse_Episodeswijam(url, page)
+    elif mode == "Browse_Episodeswijaminne":
+        hostwbijam.Browse_Episodeswijaminne(url, page)
+    elif mode == "Browse_PlayWbijam":
+        hostwbijam.Browse_PlayWbijam(url, page)
+    else:
+        return
+###############################################################################
+
+
 def SubSubMenu():
 ###Anime-Online###
     if section == 'animeonline':
@@ -166,6 +189,9 @@ def SectionMenu():
 ###Anime-Online###
         if __settings__.getSetting("AnimeOnline") == "true":
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+###Wbijam.pl###
+#        if __settings__.getSetting("AnimeOnline") == "true":
+        _addon.add_directory({'mode': 'Pagewbijam', 'site': site, 'section': 'wbijam', 'url': mainSite}, {'title': cFL('Wbijam.pl PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconWbijam)
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
@@ -208,6 +234,17 @@ def mode_subcheck(mode='', site='', section='', url=''):
         Animejoy(mode, url, page)
     elif (mode == 'PlayAnimejoy'):
         Animejoy(mode, url, page)
+# WBIJAM.PL
+    elif (mode == 'Pagewbijam'):
+        Wbijam(mode=mode, url=url, page=page)
+    elif (mode == 'Browse_Itemslist'):
+        Wbijam(mode, url, page)
+    elif (mode == 'Browse_Episodeswijam'):
+        Wbijam(mode, url, page)
+    elif (mode == 'Browse_Episodeswijaminne'):
+        Wbijam(mode, url, page)
+    elif (mode == 'Browse_PlayWbijam'):
+        Wbijam(mode, url, page)
 # PLAY FROM HOST
     elif (mode == 'PlayFromHost'):
         PlayFromHost(url)

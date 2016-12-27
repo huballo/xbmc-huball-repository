@@ -329,10 +329,11 @@ def video_google(url):
 def vidfile(url):
     try:
         url = nURL(url)
-        HD = re.compile("file: '(.+?)'").findall(url)[0]
+        HD = re.compile('src="(.+?)" type=""></source>').findall(url)[0]
         if HD == []:
             return
         url = HD
+        print 'aaaaaaaaa', url
         return url
     except:
         myNote("Failed to Resolve Playable URL.")

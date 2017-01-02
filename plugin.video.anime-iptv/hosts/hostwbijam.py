@@ -95,8 +95,9 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
         return
     elif url == 'http://www.inne.wbijam.pl':
         html = nURL(url)
-        data = GetDataBeetwenMarkers(html, 'pmenu_naglowek_red', '</ul>', False)[1]
-        data = re.findall('<a href="(.+?)">(.+?)</a></li>', data)
+        data = GetDataBeetwenMarkers(html, 'pmenu_naglowek_red', 'pmenu_naglowek_blue', False)[1]
+        data = re.findall('<a href="(.+?)">(.+?)</a>(|.+?)</li>', data)
+        data.sort()
         ItemCount = len(data)
         if len(data) > 0:
             for item in data:

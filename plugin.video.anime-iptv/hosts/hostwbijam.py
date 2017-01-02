@@ -204,11 +204,11 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
     else:
         html = nURL(url)
         html = GetDataBeetwenMarkers(html, '<table class="lista">', '</table>', False)[1]
-        data = re.findall('<td><a href="(.+?)"><img src="images/artykul_info.gif" alt="">(.+?)</a></td>', html)
+        data = re.findall('<td><a href="(.+?)"><img src="images/(artykul_info|tv_info).gif" alt="">(.+?)</a></td>', html)
         ItemCount = len(data)
         for item in data:
             strona = page + '/' + item[0]
-            name = item[1].encode('utf-8')
+            name = item[2].encode('utf-8')
             plot = ''
             img = ''
             fanart = ''

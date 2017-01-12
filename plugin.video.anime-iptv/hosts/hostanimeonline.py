@@ -194,25 +194,19 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     players = players.replace('\n', '')
     players = players.replace('\r', '')
     players = players.replace('  ', '')
-#    players = GetDataBeetwenMarkers(nURL(url), 'Pobierz:&nbsp;', "<ul")[1]
-#    if len(players) == 0:
-#        players = GetDataBeetwenMarkers(nURL(url), 'Numer odcinka:&nbsp;', "<ul")[1]
-    lista = re.compile('div class="video-player-mode" data-hash="(.+?)">(.+?)</div>').findall(players)
+    lista = re.compile("data-hash='{(.+?)}'>(.+?)</div>").findall(players)
     lista = [tuple(reversed(t)) for t in lista]
-#    lista = re.compile('above"><div class="field-label">(.+?):&nbsp;</div><div class="field-items"><div class="field-item even">{(.+?)}</div></div>').findall(players)
     import xbmcgui
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(lista))
     if item != -1:
         player = str(lista[item][1])
-#        player = '{' + player + '}'
-#        item = encryptPlayerUrl(player)
-#        item = item.replace('https', '')
-#        item = item.replace('http', '')
-#        url = item.replace("&hd=3", "")
-#        url = "http" + url.replace("amp;", "")
-        url= player
-        print url
+        player = '{' + player + '}'
+        item = encryptPlayerUrl(player)
+        item = item.replace('https', '')
+        item = item.replace('http', '')
+        url = item.replace("&hd=3", "")
+        url = "http" + url.replace("amp;", "")
         from common import PlayFromHost
         PlayFromHost(url)
     eod()

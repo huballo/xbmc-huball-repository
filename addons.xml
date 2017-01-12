@@ -2,7 +2,7 @@
 <addons>
 <addon
   id="plugin.video.anime-iptv"
-  version="1.2.2"
+  version="1.2.3"
   name="Anime-IPTV"
   provider-name="huball">
   <requires>

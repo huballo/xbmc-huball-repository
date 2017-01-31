@@ -329,11 +329,11 @@ def video_google(url):
 def vidfile(url):
     try:
         url = nURL(url)
-        HD = re.compile('src="(.+?)" type=""></source>').findall(url)[0]
+        print url
+        HD = re.compile('<source src="(.+?)" type=""></source>').findall(url)[0]
         if HD == []:
             return
         url = HD
-        print 'aaaaaaaaa', url
         return url
     except:
         myNote("Failed to Resolve Playable URL.")
@@ -478,8 +478,8 @@ def PlayFromHost(url):
         url = dailymotion(url)
     elif ('youtube.com' in url):
         stream_url = url
-    elif ('vidfile' in url):
-        url = vidfile(url)
+#    elif ('vidfile' in url):
+#        url = vidfile(url)
     elif ('mp4upload.com' in url):
         url = mp4upload(url)
     elif ('vshare' in url):
@@ -488,8 +488,8 @@ def PlayFromHost(url):
         url = animeuploader(url)
     elif ('animeonline' in url):
         url = animeonline(url)
-    elif ('tune' in url):
-        url = tune(url)
+#    elif ('tune' in url):
+#        url = tune(url)
     else:
         try:
             stream_url = urlresolver.HostedMediaFile(url).resolve()

@@ -53,7 +53,7 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
         return
     html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
     page = page.lower()
-    data = re.findall('<a href="http://anime-odcinki.pl/anime/' + page+ '(.+?)">(.+?)</a>', html)
+    data = re.findall('<a href="https://anime-odcinki.pl/anime/' + page+ '(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:
         strona =  'http://anime-odcinki.pl/anime/' + page + item[0]

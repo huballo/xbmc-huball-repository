@@ -166,7 +166,7 @@ def fav__COMMON__add(site, section, name, year='', img=_artIcon, fanart=_artFana
 
 
 def Fav_List(site='', section='', subfav=''):
-    favs = fav__COMMON__list_fetcher(site=site, section='diffanime', subfav=subfav)
+    favs = fav__COMMON__list_fetcher(site=site, section='animezone', subfav=subfav)
     favs2 = fav__COMMON__list_fetcher(site=site, section='anime4fun', subfav=subfav)
     favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
@@ -179,8 +179,6 @@ def Fav_List(site='', section='', subfav=''):
         return
     if len(favs) == 0:
             favs = []
-    if len(favs) > 0:
-            logged_inDiff = weblogin.doLogin(addonPath, login, password)
     if len(favs2) == 0:
             favs2 = []
     if len(favs3) == 0:
@@ -208,8 +206,8 @@ def Fav_List(site='', section='', subfav=''):
         pars = _addon.parse_query(_ToDoParams)
         _section
         _title = _name
-        if _section == 'diffanime':
-            host = cFL(' (D-A)', 'blueviolet')
+        if _section == 'animezone':
+            host = cFL(' (A-Z)', 'blueviolet')
             _title = _title + host
         if _section == 'anime4fun':
             host = cFL(' (A-ONL)', 'blue')

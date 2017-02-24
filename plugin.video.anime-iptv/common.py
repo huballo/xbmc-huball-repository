@@ -480,8 +480,8 @@ def PlayFromHost(url):
         stream_url = url
 #    elif ('vidfile' in url):
 #        url = vidfile(url)
-    elif ('mp4upload.com' in url):
-        url = mp4upload(url)
+#    elif ('mp4upload.com' in url):
+#        url = mp4upload(url)
     elif ('vshare' in url):
         url = vshare(url)
     elif ('animeuploader' in url):

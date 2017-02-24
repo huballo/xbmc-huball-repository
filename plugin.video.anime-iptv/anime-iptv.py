@@ -17,6 +17,7 @@ mainSite3 = 'http://anime-joy.tv/'
 mainSite4 = 'http://anime-odcinki.pl/'
 mainSite5 = 'http://shinden.pl/'
 mainSite6 = 'http://animeon.pl/'
+mainSite7 = 'http://www.animezone.pl/'
 
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
@@ -64,7 +65,7 @@ site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
 nmr = addpr('nmr', '')
-sections = {'diffanime': 'diffanime', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon'}
+sections = {'diffanime': 'diffanime', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
@@ -143,6 +144,24 @@ def Wbijam(mode, url, page):
 ###############################################################################
 
 
+###############################################################################
+###############################################################################
+# AnimeZone
+###############################################################################
+###############################################################################
+def Animezone(mode, url, page):
+    import hostanimezone
+    if mode == "Pagezone":
+        hostanimezone.Pagezone(url, page)
+    elif mode == "Episodeszone":
+        hostanimezone.Browse_Episodeszone(url, page)
+    elif mode == "PlayAnimezone":
+        hostanimezone.Browse_PlayAnimezone(url, page)
+    else:
+        return
+###############################################################################
+
+
 def SubSubMenu():
 ###Anime-Online###
     if section == 'animeonline':
@@ -177,6 +196,13 @@ def SubMenu():
         _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': ''}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
     set_view('list', view_mode=addst('default-view'))
     eod()
+###animezone##
+    if section == 'animezone':
+        tUrl = mainSite7 + 'anime/lista/'
+        _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/'+ az +'.png')
+
 
 
 def SectionMenu():
@@ -192,6 +218,9 @@ def SectionMenu():
 ###Wbijam.pl###
 #        if __settings__.getSetting("AnimeOnline") == "true":
         _addon.add_directory({'mode': 'Pagewbijam', 'site': site, 'section': 'wbijam', 'url': mainSite}, {'title': cFL('Wbijam.pl PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconWbijam)
+###AnimeZone###
+        if __settings__.getSetting("AnimeZone") == "true":
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animezone'}, {'title': cFL('AnimeZone PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
@@ -245,6 +274,13 @@ def mode_subcheck(mode='', site='', section='', url=''):
         Wbijam(mode, url, page)
     elif (mode == 'Browse_PlayWbijam'):
         Wbijam(mode, url, page)
+# ANIMEZONE
+    elif (mode == 'Pagezone'):
+        Animezone(mode=mode, url=url, page=page)
+    elif (mode == 'Episodeszone'):
+        Animezone(mode, url, page)
+    elif (mode == 'PlayAnimezone'):
+        Animezone(mode, url, page)
 # PLAY FROM HOST
     elif (mode == 'PlayFromHost'):
         PlayFromHost(url)

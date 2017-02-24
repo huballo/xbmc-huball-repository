@@ -154,7 +154,11 @@ def getItemTitles(table):
     out = []
     for i in range(len(table)):
         value = table[i]
-        out.append(value[0])
+        if 'Google' in value[0]:
+            value = 'Google'
+            out.append(value)
+        else:
+            out.append(value[0])
     return out
 
 

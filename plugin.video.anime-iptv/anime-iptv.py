@@ -33,7 +33,7 @@ iconDiff = addonPath + '/art/japan/diffanime.jpg'
 iconOdcinki = addonPath + '/art/japan/animeodcinki.jpg'
 iconWbijam = addonPath + '/art/japan/wbijam.jpg'
 iconShniden = addonPath + '/art/japan/animeshniden.jpg'
-iconAnimeon = addonPath + '/art/japan/animeon.jpg'
+iconAnimezone = addonPath + '/art/japan/animezone.jpg'
 iconAnimejoy = addonPath + '/art/japan/animejoy.jpg'
 iconFavs = addonPath + '/art/japan/ulubione.jpg'
 fanartSite = addonPath + '/art/japan/fanart.jpg'
@@ -199,9 +199,9 @@ def SubMenu():
 ###animezone##
     if section == 'animezone':
         tUrl = mainSite7 + 'anime/lista/'
-        _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
+        _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/'+ az +'.png')
+            _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
 
 
 
@@ -220,7 +220,7 @@ def SectionMenu():
         _addon.add_directory({'mode': 'Pagewbijam', 'site': site, 'section': 'wbijam', 'url': mainSite}, {'title': cFL('Wbijam.pl PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconWbijam)
 ###AnimeZone###
         if __settings__.getSetting("AnimeZone") == "true":
-            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animezone'}, {'title': cFL('AnimeZone PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animezone'}, {'title': cFL('AnimeZone PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconAnimezone)
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)

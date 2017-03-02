@@ -343,7 +343,6 @@ def vidfile(url):
 def mp4upload(url):
     try:
         url = nURL(url)
-        print url
         HD = re.compile("'file': '(.+?)'").findall(url)[0]
         if HD == []:
             return
@@ -453,57 +452,25 @@ def tune(url):
 
 
 def PlayFromHost(url):
-    PlayerMethod = addst("core-player")
-    if   (PlayerMethod == 'DVDPLAYER'):
-        PlayerMeth = xbmc.PLAYER_CORE_DVDPLAYER
-    elif (PlayerMethod == 'MPLAYER'):
-        PlayerMeth = xbmc.PLAYER_CORE_MPLAYER
-    elif (PlayerMethod == 'PAPLAYER'):
-        PlayerMeth = xbmc.PLAYER_CORE_PAPLAYER
-    else:
-        PlayerMeth = xbmc.PLAYER_CORE_AUTO
-    play = xbmc.Player(PlayerMeth)
     import urlresolver
     infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
-    li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''))
-    li.setInfo(type="Video", infoLabels=infoLabels)
-    li.setProperty('IsPlayable', 'true')
-#    if ('google' in url):
-#        url = video_google(url)
-    if ('vk' in url):
-        url = vk_vk(url)
-    elif ('sibnet' in url):
-        url = sibnet(url)
-    elif ('dailymotion' in url):
-        url = dailymotion(url)
-    elif ('youtube.com' in url):
-        stream_url = url
-#    elif ('vidfile' in url):
-#        url = vidfile(url)
-#    elif ('mp4upload.com' in url):
-#        url = mp4upload(url)
-    elif ('vshare' in url):
-        url = vshare(url)
-    elif ('animeuploader' in url):
-        url = animeuploader(url)
-    elif ('animeonline' in url):
-        url = animeonline(url)
-#    elif ('tune' in url):
-#        url = tune(url)
-    else:
-        try:
-            stream_url = urlresolver.HostedMediaFile(url).resolve()
-        except:
-            myNote("urlresolver.HostedMediaFile(url).resolve()", "Failed to Resolve Playable URL.")
-            return
     try:
-        _addon.resolve_url(url)
+        if ('youtube' in url):
+            li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=url)
+            li.setInfo(type='video', infoLabels=infoLabels)
+            li.setProperty('IsPlayable', 'true')
+            xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+        else:
+            try:
+                stream_url = urlresolver.HostedMediaFile(url).resolve()
+                li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
+                li.setInfo(type='video', infoLabels=infoLabels)
+                li.setProperty('IsPlayable', 'true')
+                xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+            except:
+                myNote("Urlresolver Failed to Resolve Playable URL.")
     except:
-        t = ''
-    try:
-        play.play(stream_url, li)
-    except:
-        t = ''
+        myNote("Nie udało się niestety :( BUUUUU")
 
 
 def GetDataBeetwenMarkers(data, marker1, marker2, withMarkers=True, caseSensitive=True):

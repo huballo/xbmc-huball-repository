@@ -18,6 +18,7 @@ mainSite4 = 'http://anime-odcinki.pl/'
 mainSite5 = 'http://shinden.pl/'
 mainSite6 = 'http://animeon.pl/'
 mainSite7 = 'http://www.animezone.pl/'
+mainSite8 = 'https://www.kreskoweczki.pl/'
 
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
@@ -35,6 +36,7 @@ iconWbijam = addonPath + '/art/japan/wbijam.jpg'
 iconShniden = addonPath + '/art/japan/animeshniden.jpg'
 iconAnimezone = addonPath + '/art/japan/animezone.jpg'
 iconAnimejoy = addonPath + '/art/japan/animejoy.jpg'
+iconkresk = addonPath + '/art/japan/kreskoweczki.jpg'
 iconFavs = addonPath + '/art/japan/ulubione.jpg'
 fanartSite = addonPath + '/art/japan/fanart.jpg'
 fanartIPTV = addonPath + '/art/japan/fanart.jpg'
@@ -65,7 +67,7 @@ site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
 nmr = addpr('nmr', '')
-sections = {'diffanime': 'diffanime', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone'}
+sections = {'diffanime': 'diffanime', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone', 'kreskoweczki': 'kreskoweczki'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
@@ -162,6 +164,22 @@ def Animezone(mode, url, page):
 ###############################################################################
 
 
+###############################################################################
+###############################################################################
+# Kreskoweczki
+###############################################################################
+###############################################################################
+def Animekresk(mode, url, page):
+    import hostkreskoweczki
+    if mode == "Pagekresk":
+        hostkreskoweczki.Pagekresk(url, page)
+    elif mode == "Episodeskresk":
+        hostkreskoweczki.Browse_Episodeskresk(mode, url, page)
+    elif mode == "PlayAnimekresk":
+        hostkreskoweczki.Browse_PlayAnimekresk(url, page)
+    else:
+        return
+###############################################################################
 def SubSubMenu():
 ###Anime-Online###
     if section == 'animeonline':
@@ -194,15 +212,20 @@ def SubMenu():
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 #        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
         _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': ''}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
-    set_view('list', view_mode=addst('default-view'))
-    eod()
 ###animezone##
     if section == 'animezone':
         tUrl = mainSite7 + 'anime/lista/'
         _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
             _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-
+###kreskoweczki##
+    if section == 'kreskoweczki':
+        tUrl = mainSite8 + 'na-litere/'
+        _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + '0-9#anime'}, {'title': '0-9'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + az + '#anime', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
+    set_view('list', view_mode=addst('default-view'))
+    eod()
 
 
 def SectionMenu():
@@ -221,6 +244,10 @@ def SectionMenu():
 ###AnimeZone###
         if __settings__.getSetting("AnimeZone") == "true":
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animezone'}, {'title': cFL('AnimeZone PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconAnimezone)
+###Kreskoweczki###
+        if __settings__.getSetting("Kreskoweczki") == "true":
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'kreskoweczki'}, {'title': cFL('Kreskoweczki PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconkresk)
+
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
@@ -281,6 +308,13 @@ def mode_subcheck(mode='', site='', section='', url=''):
         Animezone(mode, url, page)
     elif (mode == 'PlayAnimezone'):
         Animezone(mode, url, page)
+# KRESKOWECZKI
+    elif (mode == 'Pagekresk'):
+        Animekresk(mode=mode, url=url, page=page)
+    elif (mode == 'Episodeskresk'):
+        Animekresk(mode, url, page)
+    elif (mode == 'PlayAnimekresk'):
+        Animekresk(mode, url, page)
 # PLAY FROM HOST
     elif (mode == 'PlayFromHost'):
         PlayFromHost(url)

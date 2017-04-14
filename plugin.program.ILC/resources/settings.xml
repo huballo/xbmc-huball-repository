@@ -13,8 +13,8 @@
     <!-- Channels list -->
     <setting label="Lista kanałów" type="lsep" visible="gt(-4,-1)"/> 
     <setting id="m3uPathType_1" type="enum" label="Lokalizacja" lvalues="Ścieżka lokalna obejmuje lokalną sieć|Ścieżka zdalna adres internetowy" default="0" visible="gt(-5,-1)"/>
-    <setting id="m3uPath_1" type="file" label="30011" default="" visible="eq(-1,0)+gt(-6,-1)"/>
-    <setting id="m3uUrl_1" type="text" label="30012" default="" visible="eq(-2,1)+gt(-7,-1)"/>
+    <setting id="m3uPath_1" type="file" label="Path" default="" visible="eq(-1,0)+gt(-6,-1)"/>
+    <setting id="m3uUrl_1" type="text" label="Url" default="" visible="eq(-2,1)+gt(-7,-1)"/>
 
     <!-- _____________________________________________________________________________ -->
     
@@ -25,8 +25,8 @@
     <!-- Channels list -->
     <setting label="Lista kanałów" type="lsep" visible="gt(-11,0)"/> 
     <setting id="m3uPathType_2" type="enum" label="Lokalizacja" lvalues="Ścieżka lokalna obejmuje lokalną sieć|Ścieżka zdalna adres internetowy" default="0" visible="gt(-12,0)"/>
-    <setting id="m3uPath_2" type="file" label="30011" default="" visible="eq(-1,0)+gt(-13,0)"/>
-    <setting id="m3uUrl_2" type="text" label="30012" default="" visible="eq(-2,1)+gt(-14,0)"/>
+    <setting id="m3uPath_2" type="file" label="Path" default="" visible="eq(-1,0)+gt(-13,0)"/>
+    <setting id="m3uUrl_2" type="text" label="Url" default="" visible="eq(-2,1)+gt(-14,0)"/>
 
     <!-- _____________________________________________________________________________ -->
     
@@ -37,8 +37,9 @@
     <!-- Channels list -->
     <setting label="Lista kanałów" type="lsep" visible="gt(-18,1)"/> 
     <setting id="m3uPathType_3" type="enum" label="Lokalizacja" lvalues="Ścieżka lokalna obejmuje lokalną sieć|Ścieżka zdalna adres internetowy" default="0" visible="gt(-19,1)"/>
-    <setting id="m3uPath_3" type="file" label="30011" default="" visible="eq(-1,0)+gt(-20,1)"/>
-    <setting id="m3uUrl_3" type="text" label="30012" default="" visible="eq(-2,1)+gt(-21,1)"/>
-
+    <setting id="m3uPath_3" type="file" label="Path" default="" visible="eq(-1,0)+gt(-20,1)"/>
+    <setting id="m3uUrl_3" type="text" label="Url" default="" visible="eq(-2,1)+gt(-21,1)"/>
+	<setting label="Inne źródła" type="lsep" visible="gt(-4,-1)"/>
+    <setting id="txtPath" type="file" label="Plik z adresami list" default="" visible="true"/>
 	</category>
 </settings>

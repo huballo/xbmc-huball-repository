@@ -29,42 +29,65 @@ m3uPathType_1 = my_addon.getSetting("m3uPathType_1")
 m3uPathType_2 = my_addon.getSetting("m3uPathType_2")
 m3uPathType_3 = my_addon.getSetting("m3uPathType_3")
 
+txtpath = my_addon.getSetting("txtPath")
+
 
 def CATEGORIES():
     if my_addon.getSetting("sourceCount") == '0':
-        if m3uPathType_1 == '1':
-            lista = [[m3uPath_1, m3uPath_1]]
-        else:
-            lista = [[m3uUrl_1, m3uUrl_1]]
+        if m3uPathType_1 == '0':
+            lista = [[m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath']]
+        elif m3uPathType_1 == '1':
+            lista = [[m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath']]
         menu(lista)
     elif my_addon.getSetting("sourceCount") == '1':
         if m3uPathType_1 == '0' and m3uPathType_2 == '0':
-            lista = [[m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2]]
+            lista = [[m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '0':
-            lista = [[m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2]]
+            lista = [[m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath']]
         elif m3uPathType_1 == '0' and m3uPathType_2 == '1':
-            lista = [[m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2]]
+            lista = [[m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '1':
-            lista = [[m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2]]
+            lista = [[m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath']]
         menu(lista)
 
 
 def read_data(lista):
-    with open(settingsiptv, 'r') as f:
-        read_data = f.read()
-        if 'http:' in lista:
-            read_data=re.sub('<setting id="m3uPathType" value="\d" />','<setting id="m3uPathType" value="1" />',read_data)
-            read_data=re.sub('<setting id="m3uUrl" value(.+?)/>','<setting id="m3uUrl" ''value'+'="'+lista+'" />',read_data)
-        else:
-            read_data=re.sub('<setting id="m3uPathType" value="\d" />','<setting id="m3uPathType" value="0" />',read_data)
-            lista = lista.replace(os.path.sep, '/')
-            read_data=re.sub('<setting id="m3uPath" value(.+?)/>','<setting id="m3uPath" ''value'+'="'+lista+'" />',read_data)
+    if 'txtpath' in lista:
+        txtfile()
+    else:
+        with open(settingsiptv, 'r') as f:
+            read_data = f.read()
+            if 'http:' in lista:
+                read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="1" />', read_data)
+                read_data = re.sub('<setting id="m3uUrl" value(.+?)/>', '<setting id="m3uUrl" ''value' + '="' + lista + '" />', read_data)
+            else:
+                read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="0" />', read_data)
+                lista = lista.replace(os.path.sep, '/')
+                read_data = re.sub('<setting id="m3uPath" value(.+?)/>', '<setting id="m3uPath" ''value' + '="' + lista + '" />', read_data)
+            f.close()
+        with open(settingsiptv, 'wb') as f:
+            f.write(read_data)
+            f.close()
+        xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":false}}')
+        xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":true}}')
+
+
+def txtfile():
+    with open(txtpath, 'r') as f:
+        lists = []
+        for line in f:
+            lists.append(line.rstrip().split(","))
         f.close()
-    with open(settingsiptv, 'wb') as f:
-        f.write(read_data)
-        f.close()
-    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":false}}')
-    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":true}}')
+        menufile(lists)
+
+
+def menufile(lista):
+    d = xbmcgui.Dialog()
+    item = d.select("Wybierz listę", getItemTitles(lista))
+    if item != -1:
+        lista = str(lista[item][0])
+        lista2 = lista.lower()
+        read_data(lista2)
 
 
 def menu(lista):

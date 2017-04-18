@@ -70,7 +70,10 @@ def read_data(lista):
             f.write(read_data)
             f.close()
         dis_or_enable_addon('pvr.iptvsimple', enable="false")
-        os.remove(iptvcachefile)
+        try:
+            os.remove(iptvcachefile)
+        except:
+            print "Nie ma pliku z cache"
         dis_or_enable_addon('pvr.iptvsimple')
 
 

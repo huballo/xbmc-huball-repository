@@ -68,8 +68,8 @@ def read_data(lista):
         with open(settingsiptv, 'wb') as f:
             f.write(read_data)
             f.close()
-        xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":false}}')
-        xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":true}}')
+        dis_or_enable_addon('pvr.iptvsimple', enable="false")
+        dis_or_enable_addon('pvr.iptvsimple')
 
 
 def txtfile():
@@ -105,6 +105,23 @@ def getItemTitles(table):
         value = table[i]
         out.append(value[0])
     return out
+
+
+def dis_or_enable_addon(addon_id, enable="true"):
+    import json
+    addon = '"%s"' % addon_id
+    if xbmc.getCondVisibility("System.HasAddon(%s)" % addon_id) and enable == "true":
+        return xbmc.log("### Skipped %s, reason = allready enabled" % addon_id)
+    elif not xbmc.getCondVisibility("System.HasAddon(%s)" % addon_id) and enable == "false":
+        return xbmc.log("### Skipped %s, reason = not installed" % addon_id)
+    else:
+        do_json = '{"jsonrpc":"2.0","id":1,"method":"Addons.SetAddonEnabled","params":{"addonid":%s,"enabled":%s}}' % (addon, enable)
+        query = xbmc.executeJSONRPC(do_json)
+        response = json.loads(query)
+        if enable == "true":
+            xbmc.log("### Enabled %s, response = %s" % (addon_id, response))
+        else:
+            xbmc.log("### Disabled %s, response = %s" % (addon_id, response))
 
 CATEGORIES()
 

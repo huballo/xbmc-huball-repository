@@ -12,6 +12,7 @@ try:
     iptvsimple_addon = xbmcaddon.Addon('pvr.iptvsimple')
     iptvsimpledir = xbmc.translatePath(iptvsimple_addon.getAddonInfo('profile'))
     settingsiptv = iptvsimpledir + 'settings.xml'
+    iptvcachefile = iptvsimpledir + 'iptv.m3u.cache'
 except:
     xbmc.executebuiltin("Notification(%s,%s,%i,%s)" % ('ILM', "IPTVsimple wyłączony", 1, ''))
     exit()
@@ -69,6 +70,7 @@ def read_data(lista):
             f.write(read_data)
             f.close()
         dis_or_enable_addon('pvr.iptvsimple', enable="false")
+        os.remove(iptvcachefile)
         dis_or_enable_addon('pvr.iptvsimple')
 
 

@@ -85,7 +85,7 @@ def getItemTitles(table):
 def Play(url, name, icon):
     if my_addon.getSetting("use_custom_links") == "true":
         lista = [['1080p', '4728.m3u8'], ['720p', '2328.m3u8'], ['SD', '1164.m3u8']]
-        lista2 = [['1080p', 'index_4728_av-p.m3u8'], ['720p', 'index_2328_av-b.m3u8'], ['SD', 'index_1164_av-b.m3u8']]
+        lista2 = [['1080p', '4728.m3u8'], ['720p', '2328.m3u8'], ['SD', '1164.m3u8']]
         d = xbmcgui.Dialog()
         item = d.select("Select Quality", getItemTitles(lista))
         if item != -1:

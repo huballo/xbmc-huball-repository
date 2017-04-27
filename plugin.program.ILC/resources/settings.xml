@@ -42,4 +42,8 @@
 	<setting label="Inne źródła" type="lsep" visible="gt(-4,-1)"/>
     <setting id="txtPath" type="file" label="Plik z adresami list" default="" visible="true"/>
 	</category>
-</settings>
+	<category label="Konto ShareTV">
+	<setting label="Username" type="text"   id="username" 						default="" enable="true"/>
+	<setting label="Password" type="text"   id="password" option="hidden" 		default="" enable="true"/>
+	</category>
+	</settings>

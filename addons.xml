@@ -2,7 +2,7 @@
 <addons>
 <addon id="plugin.program.ILC"
        name="ILC"
-       version="0.3.0"
+       version="0.3.1"
        provider-name="huball">
   <requires>
     <import addon="script.module.requests" version="2.12.4"/>

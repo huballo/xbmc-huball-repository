@@ -39,19 +39,19 @@ password = my_addon.getSetting("password")
 def CATEGORIES():
     if my_addon.getSetting("sourceCount") == '0':
         if m3uPathType_1 == '0':
-            lista = [[m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath'],['Importuj listę Wojtu', 'Wojtu']]
+            lista = [[m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '1':
-            lista = [[m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath'],['Importuj listę Wojtu', 'Wojtu']]
+            lista = [[m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath']]
         menu(lista)
     elif my_addon.getSetting("sourceCount") == '1':
         if m3uPathType_1 == '0' and m3uPathType_2 == '0':
-            lista = [[m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath'],['Importuj listę Wojtu', 'Wojtu']]
+            lista = [[m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '0':
-            lista = [[m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath'],['Importuj listę Wojtu', 'Wojtu']]
+            lista = [[m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath']]
         elif m3uPathType_1 == '0' and m3uPathType_2 == '1':
-            lista = [[m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath'],['Importuj listę Wojtu', 'Wojtu']]
+            lista = [[m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '1':
-            lista = [[m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath'],['Importuj listę Wojtu', 'Wojtu']]
+            lista = [[m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath']]
         menu(lista)
 
 

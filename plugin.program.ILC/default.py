@@ -40,19 +40,19 @@ password = my_addon.getSetting("password")
 def CATEGORIES():
     if my_addon.getSetting("sourceCount") == '0':
         if m3uPathType_1 == '0':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Mix', 'Mix'], [m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         elif m3uPathType_1 == '1':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Mix', 'Mix'], [m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         menu(lista)
     elif my_addon.getSetting("sourceCount") == '1':
         if m3uPathType_1 == '0' and m3uPathType_2 == '0':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Mix', 'Mix'], [m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '0':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Mix', 'Mix'], [m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '0' and m3uPathType_2 == '1':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Mix', 'Mix'], [m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '1':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Mix', 'Mix'], [m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
         menu(lista)
 
 
@@ -61,6 +61,8 @@ def read_data(lista):
         ShareTV('wojtu')
     elif 'gold' in lista:
         ShareTV('gold')
+    elif 'mix' in lista:
+        ShareTV('mix')
     elif 'txtpath' in lista:
         txtfile()
     else:
@@ -144,10 +146,16 @@ def ShareTV(lista):
     else:
         if 'wojtu' in lista:
             link = 'http://sharetv.esy.es/listawojtu.php?uname=' + username + '&upass=' + password
+            dialog = xbmcgui.Dialog()
             dialog.notification('Sharetv.tk', 'Wczytano listę Wojtu Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
         elif 'gold' in lista:
             link = 'http://sharetv.esy.es/listagold.php?uname=' + username + '&upass=' + password
+            dialog = xbmcgui.Dialog()
             dialog.notification('Sharetv.tk', 'Wczytano listę Gold Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
+        elif 'mix' in lista:
+            link = 'http://sharetv.esy.es/listamix.php?uname=' + username + '&upass=' + password
+            dialog = xbmcgui.Dialog()
+            dialog.notification('Sharetv.tk', 'Wczytano listę Mix Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
         with open(settingsiptv, 'r') as f:
             read_data = f.read()
             read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="1" />', read_data)

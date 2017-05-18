@@ -14,7 +14,8 @@ try:
     settingsiptv = iptvsimpledir + 'settings.xml'
     iptvcachefile = iptvsimpledir + 'iptv.m3u.cache'
 except:
-    xbmc.executebuiltin("Notification(%s,%s,%i,%s)" % ('ILM', "IPTVsimple wyłączony", 1, ''))
+#    xbmc.executebuiltin("Notification(%s,%s,%i,%s)" % ('ILM', "IPTVsimple wyłączony", 1, ''))
+    xbmc.executeJSONRPC('{"jsonrpc":"2.0","method":"Addons.SetAddonEnabled","id":8,"params":{"addonid":"pvr.iptvsimple","enabled":true}}')
     exit()
 
 
@@ -39,32 +40,33 @@ password = my_addon.getSetting("password")
 def CATEGORIES():
     if my_addon.getSetting("sourceCount") == '0':
         if m3uPathType_1 == '0':
-            lista = [[m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         elif m3uPathType_1 == '1':
-            lista = [[m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         menu(lista)
     elif my_addon.getSetting("sourceCount") == '1':
         if m3uPathType_1 == '0' and m3uPathType_2 == '0':
-            lista = [[m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '0':
-            lista = [[m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['plik txt', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '0' and m3uPathType_2 == '1':
-            lista = [[m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '1':
-            lista = [[m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['plik txt', 'txtpath']]
+            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], [m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
         menu(lista)
 
 
 def read_data(lista):
     if 'wojtu' in lista:
-        Wojtu()
+        ShareTV('wojtu')
+    elif 'gold' in lista:
+        ShareTV('gold')
     elif 'txtpath' in lista:
         txtfile()
     else:
         with open(settingsiptv, 'r') as f:
             read_data = f.read()
             if 'http:' in lista:
-                print 'cccccccccccccccccccccccccccccc'
                 read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="1" />', read_data)
                 read_data = re.sub('<setting id="m3uUrl" value(.+?)/>', '<setting id="m3uUrl" ''value' + '="' + lista + '" />', read_data)
             else:
@@ -135,37 +137,32 @@ def dis_or_enable_addon(addon_id, enable="true"):
             xbmc.log("### Disabled %s, response = %s" % (addon_id, response))
 
 
-def Wojtu():
+def ShareTV(lista):
     if username is '' or password is '':
         dialog = xbmcgui.Dialog()
         dialog.notification('Sharetv.tk', 'Musisz wprowadzic login i hasło', xbmcgui.NOTIFICATION_INFO, 5000)
     else:
-        data = [('user_name', username), ('user_pass', password), ('login', 'Zaloguj')]
-        import requests
-        import re
-        with requests.Session() as s:
-            s.post('http://sharetv.blutu.pl/forum/viewthread.php',data=data)
-            cookies = (s.cookies)
-            r = requests.get('http://sharetv.blutu.pl/forum/viewthread.php?thread_id=832', cookies=cookies)
-            read_data = r.text
-            lista = re.compile("<code style='white-space:nowrap'>(.+?)<br />").findall(read_data)
-            for item in lista:
-                link = item
-                dialog = xbmcgui.Dialog()
-                dialog.notification('Sharetv.tk', 'Pobrano listę Wojtu Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
-                with open(settingsiptv, 'r') as f:
-                    read_data = f.read()
-                    read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="1" />', read_data)
-                    read_data = re.sub('<setting id="m3uUrl" value(.+?)/>', '<setting id="m3uUrl" ''value' + '="' + link + '" />', read_data)
-                    f.close()
-                with open(settingsiptv, 'wb') as f:
-                    f.write(read_data)
-                    f.close()
-                dis_or_enable_addon('pvr.iptvsimple', enable="false")
-                try:
-                    os.remove(iptvcachefile)
-                except:
-                    print "Nie ma pliku z cache"
-                dis_or_enable_addon('pvr.iptvsimple')
+        if 'wojtu' in lista:
+            link = 'http://sharetv.esy.es/listawojtu.php?uname=' + username + '&upass=' + password
+            dialog.notification('Sharetv.tk', 'Wczytano listę Wojtu Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
+        elif 'gold' in lista:
+            link = 'http://sharetv.esy.es/listagold.php?uname=' + username + '&upass=' + password
+            dialog.notification('Sharetv.tk', 'Wczytano listę Gold Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
+        with open(settingsiptv, 'r') as f:
+            read_data = f.read()
+            read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="1" />', read_data)
+            read_data = re.sub('<setting id="m3uUrl" value(.+?)/>', '<setting id="m3uUrl" ''value' + '="' + link + '" />', read_data)
+            f.close()
+        with open(settingsiptv, 'wb') as f:
+            f.write(read_data)
+            f.close()
+        dis_or_enable_addon('pvr.iptvsimple', enable="false")
+        try:
+            os.remove(iptvcachefile)
+        except:
+            print "Nie ma pliku z cache"
+        dis_or_enable_addon('pvr.iptvsimple')
+
+
 CATEGORIES()
 

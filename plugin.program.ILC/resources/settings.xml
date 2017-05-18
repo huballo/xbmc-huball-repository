@@ -1,45 +1,49 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
 
-  
+
   <category label="30050">
     <setting id="sourceCount" type="enum" label="30051" default="0" values="1|2"/>
-    
+
     <!-- _______________________________ Source 1 _____________________________________ -->
     <setting label="" type="lsep" visible="gt(-1,-1)"/>
     <setting label="$ADDON[pvr.iptvsimple 30052] 1" type="lsep" visible="gt(-2,-1)"/>
     <setting type="sep" visible="gt(-3,-1)"/>
-    
+
     <!-- Channels list -->
-    <setting label="Lista kanałów" type="lsep" visible="gt(-4,-1)"/> 
+    <setting label="Lista kanałów" type="lsep" visible="gt(-4,-1)"/>
     <setting id="m3uPathType_1" type="enum" label="Lokalizacja" lvalues="Ścieżka lokalna obejmuje lokalną sieć|Ścieżka zdalna adres internetowy" default="0" visible="gt(-5,-1)"/>
     <setting id="m3uPath_1" type="file" label="Path" default="" visible="eq(-1,0)+gt(-6,-1)"/>
     <setting id="m3uUrl_1" type="text" label="Url" default="" visible="eq(-2,1)+gt(-7,-1)"/>
 
     <!-- _____________________________________________________________________________ -->
-    
+
     <!-- _______________________________ Source 2 _____________________________________ -->
     <setting label="" type="lsep" visible="gt(-8,0)"/>
     <setting label="$ADDON[pvr.iptvsimple 30052] 2" type="lsep" visible="gt(-9,0)"/>
     <setting type="sep" visible="gt(-10,0)"/>
     <!-- Channels list -->
-    <setting label="Lista kanałów" type="lsep" visible="gt(-11,0)"/> 
+    <setting label="Lista kanałów" type="lsep" visible="gt(-11,0)"/>
     <setting id="m3uPathType_2" type="enum" label="Lokalizacja" lvalues="Ścieżka lokalna obejmuje lokalną sieć|Ścieżka zdalna adres internetowy" default="0" visible="gt(-12,0)"/>
     <setting id="m3uPath_2" type="file" label="Path" default="" visible="eq(-1,0)+gt(-13,0)"/>
     <setting id="m3uUrl_2" type="text" label="Url" default="" visible="eq(-2,1)+gt(-14,0)"/>
 
     <!-- _____________________________________________________________________________ -->
-    
+
     <!-- _______________________________ Source 3 _____________________________________ -->
     <setting label="" type="lsep" visible="gt(-15,1)"/>
     <setting label="$ADDON[pvr.iptvsimple 30052] 3" type="lsep" visible="gt(-16,1)"/>
     <setting type="sep" visible="gt(-17,1)"/>
     <!-- Channels list -->
-    <setting label="Lista kanałów" type="lsep" visible="gt(-18,1)"/> 
+    <setting label="Lista kanałów" type="lsep" visible="gt(-18,1)"/>
     <setting id="m3uPathType_3" type="enum" label="Lokalizacja" lvalues="Ścieżka lokalna obejmuje lokalną sieć|Ścieżka zdalna adres internetowy" default="0" visible="gt(-19,1)"/>
     <setting id="m3uPath_3" type="file" label="Path" default="" visible="eq(-1,0)+gt(-20,1)"/>
     <setting id="m3uUrl_3" type="text" label="Url" default="" visible="eq(-2,1)+gt(-21,1)"/>
-	<setting label="Inne źródła" type="lsep" visible="gt(-4,-1)"/>
+    <setting label="Inne źródła" type="lsep" visible="gt(-4,-1)"/>
     <setting id="txtPath" type="file" label="Plik z adresami list" default="" visible="true"/>
-	</category>
-	</settings>
+    </category>
+    <category label="Konto ShareTV">
+    <setting label="Username" type="text"   id="username" 						default="" enable="true"/>
+    <setting label="Password" type="text"   id="password" option="hidden" 		default="" enable="true"/>
+    </category>
+    </settings>

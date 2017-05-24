@@ -450,6 +450,31 @@ def tune(url):
         myNote("Failed to Resolve Playable URL.")
         return
 
+def vidlox(url):
+    url = nURL(url)
+    try:
+        HD = re.compile(',"https://(.+?).mp4"').findall(url)[0]
+        if HD == []:
+            return
+        url = "https://" + HD + ".mp4"
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
+
+
+def rapidvideo(url):
+    url = nURL(url)
+    try:
+        HD = re.compile('"sources": \[{"file":"https:(.+?).mp4').findall(url)[0]
+        if HD == []:
+            return
+        url = "https://" + HD + ".mp4"
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
+
 
 def PlayFromHost(url):
     import urlresolver
@@ -468,7 +493,14 @@ def PlayFromHost(url):
                 li.setProperty('IsPlayable', 'true')
                 xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
             except:
-                myNote("Urlresolver Failed to Resolve Playable URL.")
+                if 'vidlox' in url:
+                    stream_url = vidlox(url)
+                elif 'rapidvideo' in url:
+                    stream_url = rapidvideo(url)
+                li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
+                li.setInfo(type='video', infoLabels=infoLabels)
+                li.setProperty('IsPlayable', 'true')
+                xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
     except:
         myNote("Nie udało się niestety :( BUUUUU")
 

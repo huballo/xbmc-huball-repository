@@ -139,6 +139,8 @@ def Wbijam(mode, url, page):
         hostwbijam.Browse_Episodeswijam(url, page)
     elif mode == "Browse_Episodeswijaminne":
         hostwbijam.Browse_Episodeswijaminne(url, page)
+    elif mode == "Browse_Episodeswijaminne2":
+        hostwbijam.Browse_Episodeswijaminne2(url, page)
     elif mode == "Browse_PlayWbijam":
         hostwbijam.Browse_PlayWbijam(url, page)
     else:
@@ -298,6 +300,8 @@ def mode_subcheck(mode='', site='', section='', url=''):
     elif (mode == 'Browse_Episodeswijam'):
         Wbijam(mode, url, page)
     elif (mode == 'Browse_Episodeswijaminne'):
+        Wbijam(mode, url, page)
+    elif (mode == 'Browse_Episodeswijaminne2'):
         Wbijam(mode, url, page)
     elif (mode == 'Browse_PlayWbijam'):
         Wbijam(mode, url, page)

@@ -11,7 +11,7 @@ import sys
 ### ##########################################################################
 SiteName = 'AnimeIPTV'
 SiteTag = 'AnimeIPTV'
-mainSite = 'http://wbijam.pl/'
+mainSite = 'http://www.inne.wbijam.pl/'
 mainSite2 = 'http://animeonline.co/'
 mainSite3 = 'http://anime-joy.tv/'
 mainSite4 = 'http://anime-odcinki.pl/'

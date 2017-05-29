@@ -23,7 +23,6 @@ host = 'Wbijam'
 
 
 def Pagewbijam(url, page):
-    url = 'http://www.inne.wbijam.pl/'
     html = nURL(url)
     Browse_Itemscen(html, '')
     eod()
@@ -188,7 +187,6 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
 
 
 def Browse_Episodeswijaminne(url, page, content='episodes', view='515'):
-
     if url == '':
         return
     html = nURL(url)
@@ -232,11 +230,11 @@ def Browse_Episodeswijaminne2(url, page, content='episodes', view='515'):
     html = html.replace('\r', '')
     html = html.replace('\t', '')
     html = html.replace('  ', '')
-    print html.encode('ascii', 'ignore')
+    #print html.encode('ascii', 'ignore')
     data = re.findall('<a href="(.+?)"(.+?)alt="">(.+?)<\/a>', html)
     ItemCount = len(data)
     for item in data:
-        strona = 'http://www.sng.wbijam.pl/' + item[0]
+        strona = page + item[0]
         name = item[2].encode('utf-8')
         plot = ''
         img = ''
@@ -248,7 +246,7 @@ def Browse_Episodeswijaminne2(url, page, content='episodes', view='515'):
 ###
         contextLabs = {'title': name, 'year': '0000', 'url': strona, 'img': img, 'fanart': fanart, 'DateAdded': '', 'plot': labs['plot']}
         contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
-        pars = {'mode': 'Browse_PlayWbijam', 'site': site, 'section': section, 'title': name, 'url': strona,'page': name, 'img': img, 'fanart': fanart}
+        pars = {'mode': 'Browse_PlayWbijam', 'site': site, 'section': section, 'title': name, 'url': strona,'page': url, 'img': img, 'fanart': fanart}
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
     set_view(content, view_mode=addst('links-view'))
@@ -264,8 +262,8 @@ def getItemTitles(table):
 
 
 def Browse_PlayWbijam(url, page, content='episodes', view='515'):
-    url = url.replace('/kolejnosc_ogladania.html','')
-    page = page.replace('/kolejnosc_ogladania.html','')
+    url = url.replace('/kolejnosc_ogladania.html', '')
+    page = page.replace('/kolejnosc_ogladania.html', '')
     if url == '':
         return
     elif ('http://www.inne.wbijam.pl' in url):
@@ -298,16 +296,18 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
         players = players.replace('\t', '')
         players = players.replace('  ', '')
         players = players.replace('</td><td class="center">', ' ')
+        players = players.replace('</td> <td class="center">', ' ')
+        #print players.encode('ascii', 'ignore')
         hosts = re.findall(' ONLINE (.+?)<a href="(.+?)">', players)
         import xbmcgui
         d = xbmcgui.Dialog()
         item = d.select("Wybór playera", getItemTitles(hosts))
         if item != -1:
             player = str(hosts[item][1])
-            player = 'http://www.sng.wbijam.pl/' + player
-            print player
+            page = page.split(".pl/")
+            player = page[0] + '.pl/' + player
             html = nURL(player)
-            html= html.replace('swf', 'php')
+            html = html.replace('swf', 'php')
             players = re.findall('<iframe src="(.+?)"', html)
             for item in players:
                 from common import PlayFromHost

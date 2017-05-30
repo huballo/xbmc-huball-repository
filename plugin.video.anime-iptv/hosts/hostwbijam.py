@@ -7,7 +7,7 @@
 ### Imports ###
 import re
 import xbmcaddon
-from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers, tfalse)
+from common import (_addon, addpr, nURL, eod, addst, GetDataBeetwenMarkers, tfalse)
 from contextmenu import (ContextMenu_Series, ContextMenu_Episodes)
 ### ##########################################################################
 ### ##########################################################################
@@ -54,7 +54,6 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
             contextMenuItems = ContextMenu_Series(contextLabs)
             labs['title'] = name
             _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('links-view'))
     eod()
 
 
@@ -128,7 +127,6 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
             contextMenuItems = ContextMenu_Series(contextLabs)
             labs['title'] = name
             _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('links-view'))
     eod()
 
 
@@ -158,7 +156,6 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
                 contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
                 labs['title'] = name
                 _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-        set_view(content, view_mode=addst('links-view'))
         eod()
     else:
         html2 = GetDataBeetwenMarkers(html, '<div class="pmenu_naglowek_red">Odcinki anime online</div>', '</ul>', False)[1]
@@ -182,7 +179,6 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
             pars = {'mode': 'Browse_Episodeswijaminne2', 'site': site, 'section': section, 'title': name, 'url': strona,'page': page, 'img': img, 'fanart': fanart}
             labs['title'] = name
             _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-        set_view(content, view_mode=addst('links-view'))
         eod()
 
 
@@ -216,7 +212,6 @@ def Browse_Episodeswijaminne(url, page, content='episodes', view='515'):
         pars = {'mode': 'Browse_PlayWbijam', 'site': site, 'section': section, 'title': name, 'url': url,'page': name, 'img': img, 'fanart': fanart}
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('links-view'))
     eod()
 
 
@@ -249,7 +244,6 @@ def Browse_Episodeswijaminne2(url, page, content='episodes', view='515'):
         pars = {'mode': 'Browse_PlayWbijam', 'site': site, 'section': section, 'title': name, 'url': strona,'page': url, 'img': img, 'fanart': fanart}
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('links-view'))
     eod()
 
 

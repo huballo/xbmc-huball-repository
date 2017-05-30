@@ -12,7 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html, tfalse,ParseDescription)
+from common import (_addon, addpr, nURL, eod, addst, addonPath, GetDataBeetwenMarkers, byteify, clean_html, tfalse,ParseDescription)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
@@ -115,7 +115,6 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
             contextMenuItems = []
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('tvshows-view'))
 
 
 def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
@@ -150,7 +149,6 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
 #    npage = url[:-1] + str(int(url[-1:]) + 1)
 #    if -1 != html.find("do strony "):
 #        _addon.add_directory({'mode': 'EpisodesAnime', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
-    set_view(content, view_mode=addst('links-view'))
     eod()
 
 
@@ -243,7 +241,6 @@ def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
         pars = {'mode': 'PlayFromHost', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-#    set_view(content, int(addst('links-view')))
     eod()
 
 

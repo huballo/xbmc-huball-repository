@@ -25,7 +25,7 @@ addonPath = __settings__.getAddonInfo('path')
 sys.path.append(os.path.join(addonPath, 'hosts'))
 sys.path.append(os.path.join(addonPath, 'resources/libs'))
 
-from common import (_addon, addpr, eod, set_view, addst, cFL, PlayFromHost)
+from common import (_addon, addpr, eod, addst, cFL, PlayFromHost)
 from favourites import (fav__COMMON__add, fav__COMMON__remove, Fav_List)
 
 iconSite = addonPath + '/art/icon.png'
@@ -192,7 +192,6 @@ def SubSubMenu():
         tUrl = mainSite4 + 'Drama/viewpage.php?page_id='
         for az, xy in zip(MyAlphabet, AonlineDrama):
             _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-    set_view('list', view_mode=addst('default-view'))
     eod()
 
 
@@ -226,7 +225,6 @@ def SubMenu():
         _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + '0-9#anime'}, {'title': '0-9'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
             _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + az + '#anime', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-    set_view('list', view_mode=addst('default-view'))
     eod()
 
 
@@ -255,7 +253,6 @@ def SectionMenu():
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '3'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.3.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '4'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.4.name'))}, fanart=fanartIPTV, img=iconFavs)
-        set_view('list', view_mode=addst('default-view'))
         eod()
 
 

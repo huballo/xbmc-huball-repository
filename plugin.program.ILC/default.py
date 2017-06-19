@@ -145,15 +145,15 @@ def ShareTV(lista):
         dialog.notification('Sharetv.tk', 'Musisz wprowadzic login i hasło', xbmcgui.NOTIFICATION_INFO, 5000)
     else:
         if 'wojtu' in lista:
-            link = 'http://sharetv.sldc.pl/lista/listy/listawojtu.php?uname=' + username + '&upass=' + password
+            link = 'http://sharetv.pl/lista/listy/listawojtu.php?uname=' + username + '&upass=' + password
             dialog = xbmcgui.Dialog()
             dialog.notification('Sharetv.tk', 'Wczytano listę Wojtu Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
         elif 'gold' in lista:
-            link = 'http://sharetv.sldc.pl/lista/listy/listagold.php?uname=' + username + '&upass=' + password
+            link = 'http://sharetv.pl/lista/listy/listagold.php?uname=' + username + '&upass=' + password
             dialog = xbmcgui.Dialog()
             dialog.notification('Sharetv.tk', 'Wczytano listę Gold Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
         elif 'mix' in lista:
-            link = 'http://sharetv.sldc.pl/lista/listy/listamix.php?uname=' + username + '&upass=' + password
+            link = 'http://sharetv.pl/lista/listy/listamix.php?uname=' + username + '&upass=' + password
             dialog = xbmcgui.Dialog()
             dialog.notification('Sharetv.tk', 'Wczytano listę Mix Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
         with open(settingsiptv, 'r') as f:

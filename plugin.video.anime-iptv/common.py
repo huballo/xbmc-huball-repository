@@ -477,6 +477,8 @@ def rapidvideo(url):
 
 
 def PlayFromHost(url):
+    if 'google' in url:
+        url = url.replace('preview', 'view')
     import urlresolver
     infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
     try:

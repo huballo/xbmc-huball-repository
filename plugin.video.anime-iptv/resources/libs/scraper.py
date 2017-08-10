@@ -87,7 +87,7 @@ def getItemTitles(table):
 
 
 def delete_table():
-    lista = [['Anime-Odcinki', 'AnimeOnline'], ['Anime-joy', 'AnimeJoy'], ['AnimeZone', 'AnimeZone'], ['Kreskoweczki', 'Kreskoweczki']]
+    lista = [['Anime-Odcinki', 'AnimeOnline'], ['Anime-joy', 'AnimeJoy'], ['AnimeZone', 'AnimeZone'], ['Kreskoweczki', 'Kreskoweczki'], ['animecentrum', 'animecentrum']]
     d = xbmcgui.Dialog()
     item = d.select("Choose host:", getItemTitles(lista))
     if item != -1:

@@ -19,6 +19,7 @@ mainSite5 = 'http://shinden.pl/'
 mainSite6 = 'http://animeon.pl/'
 mainSite7 = 'http://www.animezone.pl/'
 mainSite8 = 'https://www.kreskoweczki.pl/'
+mainSite9 = 'http://anime-centrum.pl/'
 
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
@@ -29,6 +30,7 @@ from common import (_addon, addpr, eod, addst, cFL, PlayFromHost)
 from favourites import (fav__COMMON__add, fav__COMMON__remove, Fav_List)
 
 iconSite = addonPath + '/art/icon.png'
+icnoAnimecentrum = addonPath + '/art/japan/animecentrum.jpg'
 iconAnime4fun = addonPath + '/art/japan/anime4fun.jpg'
 iconDiff = addonPath + '/art/japan/diffanime.jpg'
 iconOdcinki = addonPath + '/art/japan/animeodcinki.jpg'
@@ -67,7 +69,7 @@ site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
 nmr = addpr('nmr', '')
-sections = {'diffanime': 'diffanime', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone', 'kreskoweczki': 'kreskoweczki'}
+sections = {'animecentrum': 'animecentrum', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone', 'kreskoweczki': 'kreskoweczki'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
@@ -102,6 +104,24 @@ def Animejoy(mode, url, page):
         hostanimejoy.Browse_Episodesjoy(url, page)
     elif mode == "PlayAnimejoy":
         hostanimejoy.Browse_PlayAnimejoy(url, page)
+
+
+###############################################################################
+###############################################################################
+# Anime-Centrum
+###############################################################################
+###############################################################################
+def Animecentrum(mode, url, page):
+    import hostanimecentrum
+    if mode == "Pageanimecentrum":
+        hostanimecentrum.Pageanimecentrum(url, page)
+    elif mode == "EpisodesAnimecentrum":
+        hostanimecentrum.Browse_EpisodesAnimecentrum(url, page)
+    elif mode == "PlayAnimecentrum":
+        hostanimecentrum.Browse_PlayAnimecentrum(url, page)
+    else:
+        return
+###############################################################################
 
 
 ###############################################################################
@@ -208,6 +228,12 @@ def SubMenu():
         _addon.add_directory({'mode': 'Pagejoy', 'site': site, 'section': section, 'url': tUrl + '1'}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
             _addon.add_directory({'mode': 'Pagejoy', 'site': site, 'section': section, 'url': tUrl + az, 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/'+ az +'.png')
+###Anime-Centrum##
+    if section == 'animecentrum':
+        tUrl = mainSite9
+        _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl , 'page': '#'}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pageanimecentrum', 'site': site, 'section': section, 'url': tUrl, 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
 ###Anime-Online###
     if section == 'animeonline':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
@@ -235,9 +261,12 @@ def SectionMenu():
 ###Animejoy###
         if __settings__.getSetting("Animejoy") == "true":
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animejoy'}, {'title': cFL('Anime-joy EN', 'blue')}, is_folder=True, fanart=fanartAnime4fun, img=iconAnimejoy)
+###Anime-Centrum###
+        if __settings__.getSetting("Anime-centrum") == "true":
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Anime-Online###
         if __settings__.getSetting("AnimeOnline") == "true":
-            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=icnoAnimecentrum)
 ###Wbijam.pl###
 #        if __settings__.getSetting("AnimeOnline") == "true":
         _addon.add_directory({'mode': 'Pagewbijam', 'site': site, 'section': 'wbijam', 'url': mainSite}, {'title': cFL('Wbijam.pl PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconWbijam)
@@ -273,6 +302,13 @@ def mode_subcheck(mode='', site='', section='', url=''):
         Anime4fun(mode, url, page)
     elif (mode == 'PlayAnime4fun'):
         Anime4fun(mode, url, page)
+# ANIME-CENTRUM
+    elif (mode == 'Pageanimecentrum'):
+        Animecentrum(mode=mode, url=url, page=page)
+    elif (mode == 'EpisodesAnimecentrum'):
+        Animecentrum(mode, url, page)
+    elif (mode == 'PlayAnimecentrum'):
+        Animecentrum(mode, url, page)
 # ANIME-ONLINE
     elif (mode == 'Pageanimeonline'):
         AnimeOnline(mode=mode, url=url, page=page)

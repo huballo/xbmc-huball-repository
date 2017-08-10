@@ -12,7 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, addst, addonPath, GetDataBeetwenMarkers, tfalse,ParseDescription)
+from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, tfalse,ParseDescription)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
@@ -105,6 +105,7 @@ def Browse_ItemAol(html, url, metamethod='', content='movies', view='515'):
             contextMenuItems = []
         labs['title'] = name
         _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+    set_view(content, view_mode=addst('tvshows-view'))
     eod()
 
 

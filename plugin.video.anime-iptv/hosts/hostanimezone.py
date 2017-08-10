@@ -12,7 +12,7 @@ import xbmcaddon
 import os
 import sys
 
-from common import (_addon, addpr, nURL, eod, addst, addonPath, GetDataBeetwenMarkers, tfalse,ParseDescription)
+from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, tfalse,ParseDescription)
 from contextmenu import ( ContextMenu_Series, ContextMenu_Episodes)
 try:
     import json
@@ -114,7 +114,7 @@ def Browse_ItemAol(html, url, metamethod='', content='movies', view='515'):
     npage = url[:-1] + str(int(url[-1:]) + 1)
 #    if -1 != html.find("do strony "):
     _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
-
+    set_view(content, view_mode=addst('tvshows-view'))
 
 def Browse_Episodeszone(url, page='', content='episodes', view='515'):
     if url == '':

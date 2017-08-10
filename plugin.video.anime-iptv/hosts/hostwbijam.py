@@ -7,7 +7,7 @@
 ### Imports ###
 import re
 import xbmcaddon
-from common import (_addon, addpr, nURL, eod, addst, GetDataBeetwenMarkers, tfalse)
+from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers, tfalse)
 from contextmenu import (ContextMenu_Series, ContextMenu_Episodes)
 ### ##########################################################################
 ### ##########################################################################
@@ -127,6 +127,7 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
             contextMenuItems = ContextMenu_Series(contextLabs)
             labs['title'] = name
             _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+    set_view(content, view_mode=addst('tvshows-view'))
     eod()
 
 

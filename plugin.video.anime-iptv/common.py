@@ -499,6 +499,8 @@ def PlayFromHost(url):
                     stream_url = vidlox(url)
                 elif 'rapidvideo' in url:
                     stream_url = rapidvideo(url)
+                elif 'anime-centrum' in url:
+                    stream_url = url
                 li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
                 li.setInfo(type='video', infoLabels=infoLabels)
                 li.setProperty('IsPlayable', 'true')

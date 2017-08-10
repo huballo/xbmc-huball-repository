@@ -170,7 +170,7 @@ def Fav_List(site='', section='', subfav=''):
     favs2 = fav__COMMON__list_fetcher(site=site, section='anime4fun', subfav=subfav)
     favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
-    favs3 = fav__COMMON__list_fetcher(site=site, section='animejoy', subfav=subfav)
+    favs3 = fav__COMMON__list_fetcher(site=site, section='animecentrum', subfav=subfav)
     favs6 = fav__COMMON__list_fetcher(site=site, section='wbijam', subfav=subfav)
     favs7 = fav__COMMON__list_fetcher(site=site, section='kreskoweczki', subfav=subfav)
     ItemCount = len(favs) and len(favs2) and len(favs3) and len(favs4) and len(favs5) and len(favs6) and len(favs7)
@@ -222,8 +222,8 @@ def Fav_List(site='', section='', subfav=''):
         if _section == 'animeonline':
             host = cFL(' (A-O)', 'orange')
             _title = _title + host
-        if _section == 'animejoy':
-            host = cFL(' (A-JOY)', 'red')
+        if _section == 'animecentrum':
+            host = cFL(' (A-C)', 'red')
             _title = _title + host
         if _section == 'wbijam':
             host = cFL(' (WB)', 'yellow')

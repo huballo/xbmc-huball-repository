@@ -69,7 +69,7 @@ def Pageanimecentrum(url, page, metamethod=''):
     data = [
           ('title', 'none'),
           ('letter', page),
-          ('species', 'none'),
+          ('species', ''),
           ('type', 'none'),
           ('season', 'none'),
           ('year', 'none'),

@@ -29,6 +29,7 @@ def Pagewbijam(url, page):
 
 
 def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
+
     if (len(html) == 0):
         return
     html = html.encode('utf-8', '')
@@ -58,6 +59,7 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
 
 
 def Browse_Itemslist(url, page='', content='episodes', view='515'):
+
     data = 'http://www.inne.wbijam.pl/'
     html = nURL(data)
     html = html.encode('utf-8', '')
@@ -76,6 +78,7 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
         data2 = '<div class="pmenu_naglowek_red">Lżejsze klimaty</div>'
         link = 'http://www.inne.wbijam.pl/'
         mode = 'Browse_Episodeswijaminne'
+
     data = GetDataBeetwenMarkers(html, data1, data2, False)[1]
     data = re.findall('<a href="(.+?)">(.+?)</a></li>', data)
     data.sort()
@@ -96,7 +99,7 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
                         if len(data) > 0:
                             for item in data:
                                 img = url + '/grafika/' + item
-                                print img
+
                         else:
                             img = ''
                         plot = ''
@@ -134,8 +137,11 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
 def Browse_Episodeswijam(url, page, content='episodes', view='515'):
     if url == '':
         return
-    html = nURL(url)
-    html = html.encode('utf-8', '')
+    if 'blackclover'in url:
+        html = nURL(url)
+    else:
+        html = nURL(url)
+        html = html.encode('utf-8', '')
     if ('kolejnosc_ogladania.html' in html):
         data = GetDataBeetwenMarkers(html, 'html">Kolejność oglądania</a></li>', '</ul>', False)[1]
         data = re.findall('<a href="(.+?)">(.+?)</a>', data)
@@ -157,30 +163,30 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
                 contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
                 labs['title'] = name
                 _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-        eod()
+            eod()
     else:
         html2 = GetDataBeetwenMarkers(html, '<div class="pmenu_naglowek_red">Odcinki anime online</div>', '</ul>', False)[1]
-        data = re.findall('<a href="(.+?)">(.+?)<', html2)
+        data = re.findall('<a href="(.+?)">(.+?)</a>', html2)
         ItemCount = len(data)
         if len(data) > 0:
             for item in data:
-                strona = url + item[1]
-                name = item[0]
+                strona = url + item[0]
+                name = item[1]
                 img = ''
                 plot = ''
                 fanart = fanartAol
                 labs = {}
-            try:
-                labs['plot'] = plot
-            except:
-                labs['plot'] = ''
-    ###
-            contextLabs = {'title': name, 'year': '0000', 'url': strona, 'img': img, 'fanart': fanart, 'DateAdded': '', 'plot': labs['plot']}
-            contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
-            pars = {'mode': 'Browse_Episodeswijaminne2', 'site': site, 'section': section, 'title': name, 'url': strona,'page': page, 'img': img, 'fanart': fanart}
-            labs['title'] = name
-            _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+                try:
+                    labs['plot'] = plot
+                except:
+                    labs['plot'] = ''
+                pars = {'mode': 'Browse_Episodeswijaminne2', 'site': site, 'section': section, 'title': name, 'url': strona, 'page': url, 'img': img, 'fanart': fanart}
+                contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
+                contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
+                labs['title'] = name
+                _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
         eod()
+
 
 
 def Browse_Episodeswijaminne(url, page, content='episodes', view='515'):

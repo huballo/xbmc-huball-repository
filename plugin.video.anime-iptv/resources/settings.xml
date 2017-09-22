@@ -26,6 +26,10 @@
 		<setting visible="true" id="zone-thumbs" type="bool"   label="AnimeZone -- Enable thumbnails skan." default="true"/>
 		<setting visible="true" id="zone-thumbs" type="bool"   label="Kreskoweczki -- Enable thumbnails skan." default="true"/>
 		<setting id="reset_db" type="action" label="[COLOR red]Reset thumbnails[/COLOR]" enable="true" action="RunPlugin(plugin://plugin.video.anime-iptv/?mode=delete_table)"/>
+
+	</category>
+	<category label="Backup">
+	<setting id="backup" type="action" label="[COLOR red]Backup[/COLOR]" enable="true" action="RunScript(script.xbmcbackup)"/>
 	</category>
 	<category label="Account Google">
 	<setting visible="true" id="googlelog" type="bool"   label="Włącz logowanie do Google Drive" default="false"/>

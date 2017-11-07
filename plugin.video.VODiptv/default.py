@@ -124,7 +124,7 @@ def PlxCategory(url, cache):
 def metacheck(media_type, name, imdb_id='', tmdb_id='', year=''):
     from metahandler import metahandlers
     metaget = metahandlers.MetaData(preparezip=False)
-    meta = metaget.get_meta('movie', name,'', '', '2017')
+    meta = metaget.get_meta('movie', name,'', '', year)
     return meta
 
 

@@ -59,4 +59,20 @@
         <platform>all</platform>
     </extension>
 </addon>
+
+<addon id="plugin.video.VODiptv" name="VODiptv" version="1.0.0" provider-name="huball">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="repository.xbmc-avigdork" />
+	<import addon="script.module.metahandler" version="3.0.2"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">VODiptv</summary>
+    <description lang="en">VODiptv</description>
+    <platform>all</platform>
+  </extension>
+</addon>
 </addons>

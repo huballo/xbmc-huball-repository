@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # code by Avigdor (https://github.com/cubicle-vdo/xbmc-israel)
 import urllib, urlparse, sys, xbmcplugin ,xbmcgui, xbmcaddon, xbmc, os, json, hashlib
-
+import re
 AddonID = 'plugin.video.VODiptv'
 Addon = xbmcaddon.Addon(AddonID)
 AddonName = Addon.getAddonInfo("name")
@@ -132,13 +132,20 @@ def m3uCategory(url, logos, cache):
     tmpList = []
     list = common.m3u2list(url, cache)
     for channel in list:
-        import re
         name = common.GetEncodeString(channel["display_name"])
         name = re.sub('\(', '#', name)
         name = re.sub('\) EN', '', name)
         name, year = name.split('#')
-        meta = metacheck('movie', name,'', '', year)
-        image = str(meta['cover_url'])
+        try:
+            meta = metacheck('movie', name, '', '', year)
+            image = str(meta['cover_url'])
+        except:
+            try:
+                meta = metacheck('movie', name, '', '', '')
+                image = str(meta['cover_url'])
+            except:
+                meta = ''
+                image = logos
         #image = channel.get("tvg_logo", "")
         #if image == "":
         #    image = channel.get("logo", "")

@@ -167,7 +167,7 @@ def fav__COMMON__add(site, section, name, year='', img=_artIcon, fanart=_artFana
 
 def Fav_List(site='', section='', subfav=''):
     favs = fav__COMMON__list_fetcher(site=site, section='animezone', subfav=subfav)
-    favs2 = fav__COMMON__list_fetcher(site=site, section='anime4fun', subfav=subfav)
+    favs2 = fav__COMMON__list_fetcher(site=site, section='senpai', subfav=subfav)
     favs5 = fav__COMMON__list_fetcher(site=site, section='animeon', subfav=subfav)
     favs4 = fav__COMMON__list_fetcher(site=site, section='animeonline', subfav=subfav)
     favs3 = fav__COMMON__list_fetcher(site=site, section='animecentrum', subfav=subfav)
@@ -213,8 +213,8 @@ def Fav_List(site='', section='', subfav=''):
         if _section == 'animezone':
             host = cFL(' (A-Z)', 'blueviolet')
             _title = _title + host
-        if _section == 'anime4fun':
-            host = cFL(' (A-ONL)', 'blue')
+        if _section == 'senpai':
+            host = cFL(' (Senpai)', 'blue')
             _title = _title + host
         if _section == 'animeon':
             host = cFL(' (A-ON)', 'lime')

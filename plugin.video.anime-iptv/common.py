@@ -340,13 +340,31 @@ def vidfile(url):
         return
 
 
-def mp4upload(url):
+def mp4upload(url, page):
+    import time
     try:
-        url = nURL(url)
-        HD = re.compile("'file': '(.+?)'").findall(url)[0]
-        if HD == []:
-            return
-        url = HD
+        import requests
+        headers = {
+    'Pragma': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'pl-PL,pl;q=0.8,en-US;q=0.6,en;q=0.4',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'Referer': 'http://senpai.com.pl/anime/Yuri^!^!^!^%^20on^%^20Ice/12.0',
+    'Connection': 'keep-alive',
+    'Cache-Control': 'no-cache',
+}
+        s = requests.Session()
+        r = s.get('http://senpai.com.pl/anime/Yuri!!!%20on%20Ice/12.0', headers=headers)
+        time.sleep(5)
+        r = requests.get(url,  headers=headers, cookies=s.cookies )
+        data = r.text
+        print data
+        data = GetDataBeetwenMarkers(data, "</video>", '</script>', False)[1]
+        host = GetDataBeetwenMarkers(data, "mp4|", '|www', False)[1]
+        token = GetDataBeetwenMarkers(data, "quot||", '|', False)[1]
+        url = 'https://' + host + '.mp4upload.com:282/d/' + token + '/video.mp4'
         return url
     except:
         myNote("Failed to Resolve Playable URL.")
@@ -450,6 +468,7 @@ def tune(url):
         myNote("Failed to Resolve Playable URL.")
         return
 
+
 def vidlox(url):
     url = nURL(url)
     try:
@@ -476,7 +495,7 @@ def rapidvideo(url):
         return
 
 
-def PlayFromHost(url):
+def PlayFromHost(url, page=''):
     if 'google' in url:
         url = url.replace('preview', 'view')
     import urlresolver
@@ -501,6 +520,8 @@ def PlayFromHost(url):
                     stream_url = rapidvideo(url)
                 elif 'anime-centrum' in url:
                     stream_url = url
+                elif 'mp4upload' in url:
+                    stream_url = mp4upload(url, page)
                 li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
                 li.setInfo(type='video', infoLabels=infoLabels)
                 li.setProperty('IsPlayable', 'true')

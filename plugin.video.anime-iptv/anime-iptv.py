@@ -20,6 +20,7 @@ mainSite6 = 'http://animeon.pl/'
 mainSite7 = 'http://www.animezone.pl/'
 mainSite8 = 'https://www.kreskoweczki.pl/'
 mainSite9 = 'http://anime-centrum.pl/'
+mainSite10 = 'http://senpai.com.pl/anime/'
 
 __settings__ = xbmcaddon.Addon(id="plugin.video.anime-iptv")
 addonPath = __settings__.getAddonInfo('path')
@@ -39,6 +40,7 @@ iconShniden = addonPath + '/art/japan/animeshniden.jpg'
 iconAnimezone = addonPath + '/art/japan/animezone.jpg'
 iconAnimejoy = addonPath + '/art/japan/animejoy.jpg'
 iconkresk = addonPath + '/art/japan/kreskoweczki.jpg'
+iconsenpai = addonPath + '/art/japan/senpai.jpg'
 iconFavs = addonPath + '/art/japan/ulubione.jpg'
 fanartSite = addonPath + '/art/japan/fanart.jpg'
 fanartIPTV = addonPath + '/art/japan/fanart.jpg'
@@ -69,7 +71,7 @@ site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
 nmr = addpr('nmr', '')
-sections = {'animecentrum': 'animecentrum', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone', 'kreskoweczki': 'kreskoweczki'}
+sections = {'animecentrum': 'animecentrum', 'anime4fun': 'anime4fun', 'animejoy': 'animejoy', 'Dramadrama': 'Dramadrama', 'Dramamovie': 'Dramamovie','animeonline': 'animeonline','animeodc': 'animeodc', 'aktualnosci': "aktualnosci", 'movies': 'movies', 'animeshinden': 'animeshinden', 'shnidenodc': 'shnidenodc', 'shnidengat': 'shnidengat', 'animeon': 'animeon','animezone':'animezone', 'kreskoweczki': 'kreskoweczki', 'senpai': 'senpai'}
 thumbnail = addpr('img', '')
 fanart = addpr('fanart', '')
 page = addpr('page', '')
@@ -202,6 +204,26 @@ def Animekresk(mode, url, page):
     else:
         return
 ###############################################################################
+
+
+###############################################################################
+###############################################################################
+# Senpai
+###############################################################################
+###############################################################################
+def AnimeSenpai(mode, url, page):
+    import hostSenpai
+    if mode == "Senpai":
+        hostSenpai.PageSenpai(url, page)
+    elif mode == "EpisodesSenpai":
+        hostSenpai.Browse_EpisodesSenpai(url, page)
+    elif mode == "PlaySenpai":
+        hostSenpai.Browse_PlaySenpai(url, page)
+    else:
+        return
+###############################################################################
+
+
 def SubSubMenu():
 ###Anime-Online###
     if section == 'animeonline':
@@ -251,6 +273,11 @@ def SubMenu():
         _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + '0-9#anime'}, {'title': '0-9'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
         for az in MyAlphabet:
             _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + az + '#anime', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
+###Senpai##
+    if section == 'senpai':
+        tUrl = mainSite10
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Senpai', 'site': site, 'section': section, 'url': tUrl, 'page' : az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
     eod()
 
 
@@ -263,10 +290,10 @@ def SectionMenu():
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animejoy'}, {'title': cFL('Anime-joy EN', 'blue')}, is_folder=True, fanart=fanartAnime4fun, img=iconAnimejoy)
 ###Anime-Centrum###
         if __settings__.getSetting("Anime-centrum") == "true":
-            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animecentrum'}, {'title': cFL('Anime-Centrum PL', 'blue')}, is_folder=True, fanart=fanartAol, img=icnoAnimecentrum)
 ###Anime-Online###
         if __settings__.getSetting("AnimeOnline") == "true":
-            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=icnoAnimecentrum)
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'animeonline'}, {'title': cFL('Anime-Odcinki PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 ###Wbijam.pl###
 #        if __settings__.getSetting("AnimeOnline") == "true":
         _addon.add_directory({'mode': 'Pagewbijam', 'site': site, 'section': 'wbijam', 'url': mainSite}, {'title': cFL('Wbijam.pl PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconWbijam)
@@ -276,6 +303,9 @@ def SectionMenu():
 ###Kreskoweczki###
         if __settings__.getSetting("Kreskoweczki") == "true":
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'kreskoweczki'}, {'title': cFL('Kreskoweczki PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconkresk)
+###Senpai###
+        if __settings__.getSetting("Senpai") == "true":
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'senpai'}, {'title': cFL('Senpai PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconsenpai)
 
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
@@ -352,9 +382,17 @@ def mode_subcheck(mode='', site='', section='', url=''):
         Animekresk(mode, url, page)
     elif (mode == 'PlayAnimekresk'):
         Animekresk(mode, url, page)
+# SENPAI
+    elif (mode == 'Senpai'):
+        AnimeSenpai(mode=mode, url=url, page=page)
+    elif (mode == 'EpisodesSenpai'):
+        AnimeSenpai(mode, url, page)
+    elif (mode == 'PlaySenpai'):
+        AnimeSenpai(mode, url, page)
+
 # PLAY FROM HOST
     elif (mode == 'PlayFromHost'):
-        PlayFromHost(url)
+        PlayFromHost(url, page)
 # ULUBIONE
     elif (mode == 'FavoritesList'):
         Fav_List(site=site, section=section, subfav=addpr('subfav', ''))

@@ -25,8 +25,8 @@
 		<setting visible="true" id="ajoy-thumbs" type="bool"   label="Anime-joy -- Enable thumbnails skan." default="true"/>
 		<setting visible="true" id="wbij-thumbs" type="bool"   label="Wbijam.pl -- Enable thumbnails skan." default="true"/>
 		<setting visible="true" id="zone-thumbs" type="bool"   label="AnimeZone -- Enable thumbnails skan." default="true"/>
-		<setting visible="true" id="zone-thumbs" type="bool"   label="Kreskoweczki -- Enable thumbnails skan." default="true"/>
-		<setting visible="true" id="senpai" type="bool"   label="Senpai -- Enable thumbnails skan." default="true"/>
+		<setting visible="true" id="kresk-thumbs" type="bool"   label="Kreskoweczki -- Enable thumbnails skan." default="true"/>
+		<setting visible="true" id="senpai-thumbs" type="bool"   label="Senpai -- Enable thumbnails skan." default="true"/>
 		<setting id="reset_db" type="action" label="[COLOR red]Reset thumbnails[/COLOR]" enable="true" action="RunPlugin(plugin://plugin.video.anime-iptv/?mode=delete_table)"/>
 
 	</category>

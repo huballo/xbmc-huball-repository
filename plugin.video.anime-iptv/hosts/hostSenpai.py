@@ -49,7 +49,7 @@ def Browse_ItemSenpai(html, page, metamethod='', content='movies', view='515'):
         name = urllib2.unquote(page + item[0].encode("utf-8"))
         name = ParseDescription(name)
 ### scraper
-        if (tfalse(addst("aodc-thumbs")) == True):
+        if (tfalse(addst("senpai-thumbs")) == True):
             import scraper
             scrap = scraper.scraper_check(host, name)
             try:

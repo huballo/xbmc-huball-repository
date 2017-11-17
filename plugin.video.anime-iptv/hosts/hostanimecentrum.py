@@ -105,7 +105,7 @@ def Browse_ItemAnimecentrum(html, url, metamethod='', content='movies', view='51
                     ItemCount = len(data)
                     if len(data) > 0:
                         for item in data:
-                            img = item
+                            img = item+ "|Referer=http://anime-centrum.pl/"
                     else:
                         img = ''
                     data = re.findall('<p>(.+?)</p>', html)
@@ -180,26 +180,12 @@ def Browse_EpisodesAnimecentrum(url, page='', content='episodes', view='515'):
     eod()
 
 
-def getItemTitles(table):
-    out = []
-    for i in range(len(table)):
-        value = table[i]
-        out.append(value[0])
-    return out
-
-
 def Browse_PlayAnimecentrum(url, page='', content='episodes', view='515'):
     if url == '':
         return
     html = nURL(url)
-    lista = re.compile('<source src="(.+?)" type="(.+?)">').findall(html)
-    lista = [tuple(reversed(t)) for t in lista]
-    import xbmcgui
-    d = xbmcgui.Dialog()
-    item = d.select("Wybór źrodła", getItemTitles(lista))
-    if item != -1:
-        player = str(lista[item][1])
-        url = player
+    data = re.compile('file: "(.+?)"').findall(html)
+    for item in data:
         from common import PlayFromHost
-        PlayFromHost(url)
+        PlayFromHost(item)
     eod()

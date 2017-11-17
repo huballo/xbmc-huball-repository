@@ -506,6 +506,12 @@ def PlayFromHost(url, page=''):
             li.setInfo(type='video', infoLabels=infoLabels)
             li.setProperty('IsPlayable', 'true')
             xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+        elif 'anime-centrum' in url:
+            stream_url = url + "|Referer=http://anime-centrum.pl/"
+            li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''),path=stream_url)
+            li.setInfo(type='video', infoLabels=infoLabels)
+            li.setProperty('IsPlayable', 'true')
+            xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
         else:
             try:
                 stream_url = urlresolver.HostedMediaFile(url).resolve()

@@ -59,7 +59,7 @@ def Browse_ItemAol(html, url, metamethod='', content='movies', view='515'):
         name = item[2].encode("utf-8")
         name = ParseDescription(name)
 ### scraper
-        if (tfalse(addst("aodc-thumbs")) == True):
+        if (tfalse(addst("kresk-thumbs")) == True):
             import scraper
             scrap = scraper.scraper_check(host, name)
             try:

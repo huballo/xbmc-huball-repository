@@ -495,6 +495,21 @@ def rapidvideo(url):
         return
 
 
+def bitporno(url):
+    url = url.replace('http', 'https')
+    url = nURL(url)
+    print url
+    try:
+        HD = re.compile('<source src="(.+?)" type="video/mp4" data-res="720p">').findall(url)[0]
+        if HD == []:
+            return
+        url = HD
+        return url
+    except:
+        myNote("Failed to Resolve Playable URL.")
+        return
+
+
 def PlayFromHost(url, page=''):
     if 'google' in url:
         url = url.replace('preview', 'view')
@@ -524,10 +539,10 @@ def PlayFromHost(url, page=''):
                     stream_url = vidlox(url)
                 elif 'rapidvideo' in url:
                     stream_url = rapidvideo(url)
-                elif 'anime-centrum' in url:
-                    stream_url = url
                 elif 'mp4upload' in url:
                     stream_url = mp4upload(url, page)
+                elif 'bitporno.com' in url:
+                    stream_url = bitporno(url)
                 li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
                 li.setInfo(type='video', infoLabels=infoLabels)
                 li.setProperty('IsPlayable', 'true')

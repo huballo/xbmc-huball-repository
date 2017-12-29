@@ -139,6 +139,8 @@ def AnimeOnline(mode, url, page):
         hostanimeonline.Browse_EpisodesAnime(url, page)
     elif mode == "PlayAnime":
         hostanimeonline.Browse_PlayAnime(url, page)
+    elif mode == "Filmy":
+        hostanimeonline.Browse_Filmy(url, page)
     elif mode == "recenzje":
         hostanimeonline.Recenzje(url)
     else:
@@ -260,6 +262,7 @@ def SubMenu():
     if section == 'animeonline':
         _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
 #        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+        _addon.add_directory({'mode': 'Filmy', 'site': site, 'section': 'animeonline'}, {'title': "Filmy Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
         _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': ''}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
 ###animezone##
     if section == 'animezone':
@@ -345,6 +348,8 @@ def mode_subcheck(mode='', site='', section='', url=''):
     elif (mode == 'EpisodesAnime'):
         AnimeOnline(mode, url, page)
     elif (mode == 'PlayAnime'):
+        AnimeOnline(mode, url, page)
+    elif (mode == 'Filmy'):
         AnimeOnline(mode, url, page)
     elif (mode == 'recenzje'):
         AnimeOnline(mode, url=url, page=page)

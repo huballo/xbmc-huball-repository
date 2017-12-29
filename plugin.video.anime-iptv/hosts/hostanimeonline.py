@@ -117,6 +117,75 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
         _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
     set_view(content, view_mode=addst('tvshows-view'))
 
+
+def Browse_Filmy(url, page='', content='episodes', view='515'):
+    html = nURL('https://a-o.ninja/filmy')
+    if (len(html) == 0):
+        return
+    html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
+    data = re.findall('<a href="(.+?)">(.+?)</a>', html)
+    ItemCount = len(data)
+    for item in data:
+        strona = item[0]
+        name = item[1].encode("utf-8")
+        name = ParseDescription(name)
+### scraper
+        if (tfalse(addst("aodc-thumbs")) == True):
+            import scraper
+            scrap = scraper.scraper_check(host, name)
+            try:
+                if (name not in scrap):
+                    if '?page=0'in strona:
+                        strona2 = strona.replace('?page=0','')
+                    else:
+                        strona2 = strona
+                    html = nURL(strona2)
+                    html = GetDataBeetwenMarkers(html, 'field-name-field-okladka field-type-image field-label-above', '<p>&nbsp;</p>', False)[1]
+                    data = re.findall('<img src="(.+?)"', html)
+                    ItemCount = len(data)
+                    if len(data) > 0:
+                        for item in data:
+                            img = item
+                    else:
+                        img = ''
+                    data = re.findall('<p><p>(.+?)</p>', html)
+                    ItemCount = len(data)
+                    if len(data) > 0:
+                        for item in data:
+                            plot = ParseDescription(item)
+                    else:
+                        plot = ''
+                    scraper.scraper_add(host, name, img, plot, '')
+                    scrap = scraper.scraper_check(host, name)
+            except:
+                scrap = ''
+            try:
+                img = scrap[1]
+            except:
+                img = ''
+            try:
+                plot = scrap[2]
+            except:
+                plot = ''
+        else:
+            img = ''
+            plot =''
+        fanart = fanartAol
+        labs = {}
+        try:
+            labs['plot'] = plot
+        except:
+            labs['plot'] = ''
+###
+        pars = {'mode': 'EpisodesAnime', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
+        contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
+        if section == 'animeonline':
+            contextMenuItems = ContextMenu_Series(contextLabs)
+        labs['title'] = name
+        _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+    eod()
+
+
 def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return

@@ -10,7 +10,6 @@ import xbmcgui
 import xbmcaddon
 import xbmcvfs
 from addon.common.addon import Addon  # może trzeba więcej
-import weblogingoogle
 from addon.common.net import Net  # może trzeba więcej
 try:
     import json

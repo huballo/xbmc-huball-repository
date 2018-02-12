@@ -103,7 +103,7 @@ def Browse_EpisodesSenpai(url, page='', content='episodes', view='515'):
     ItemCount = len(data)
     for item in data:
         url2 = mainSite + item
-        name = urllib2.unquote(item).replace('/', ' - ')
+        name = (urllib2.unquote(item).replace('/', ' - ')).encode("utf-8")
         name = ParseDescription(name)
         img = ""
         fanart = fanartAol

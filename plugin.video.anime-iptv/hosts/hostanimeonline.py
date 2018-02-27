@@ -257,7 +257,7 @@ def getItemTitles(table):
 def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    players = GetDataBeetwenMarkers(nURL(url), '<div id="video-player-control">', "</center>")[1]
+    players = GetDataBeetwenMarkers(nURL(url), '<div id="video-player-control">', '<div id="video-player')[1]
     players = players.replace('\n', '')
     players = players.replace('\r', '')
     players = players.replace('  ', '')

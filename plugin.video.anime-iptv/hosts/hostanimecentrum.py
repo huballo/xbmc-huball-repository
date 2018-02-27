@@ -74,7 +74,7 @@ def Pageanimecentrum(url, page, metamethod=''):
           ('season', 'none'),
           ('year', 'none'),
         ]
-    r = requests.post('http://anime-centrum.pl/anime/online/pl/list/search', headers=headers, cookies=s.cookies, data=data)
+    r = requests.post('https://anime-centrum.pl/anime/online/pl/list/search', headers=headers, cookies=s.cookies, data=data)
     r = r.text
     r = r.replace('\\n', '')
     r = r.replace('\\t', '')

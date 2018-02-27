@@ -116,6 +116,7 @@ def Browse_ItemAol(html, url, metamethod='', content='movies', view='515'):
     _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': npage, 'page': npage}, {'title': "Next page"}, is_folder=True, fanart=fanartAol, img=nexticon)
     set_view(content, view_mode=addst('tvshows-view'))
 
+
 def Browse_Episodeszone(url, page='', content='episodes', view='515'):
     if url == '':
         return
@@ -129,7 +130,8 @@ def Browse_Episodeszone(url, page='', content='episodes', view='515'):
     ItemCount = len(data)
     for item in data:
         url2 = url + '/' + item
-        name = 'Odcinek '+ item
+        url2 = url2.replace('cinki', 'cinek')
+        name = 'Odcinek ' + item
         name = ParseDescription(name)
         img = ""
         fanart = fanartAol

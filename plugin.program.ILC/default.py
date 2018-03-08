@@ -33,37 +33,28 @@ m3uPathType_3 = my_addon.getSetting("m3uPathType_3")
 
 txtpath = my_addon.getSetting("txtPath")
 
-username = my_addon.getSetting("username")
-password = my_addon.getSetting("password")
-
 
 def CATEGORIES():
     if my_addon.getSetting("sourceCount") == '0':
         if m3uPathType_1 == '0':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Koti', 'Mix'], [m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
+            lista = [[m3uPath_1, m3uPath_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         elif m3uPathType_1 == '1':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Koti', 'Mix'], [m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
+            lista = [[m3uUrl_1, m3uUrl_1], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         menu(lista)
     elif my_addon.getSetting("sourceCount") == '1':
         if m3uPathType_1 == '0' and m3uPathType_2 == '0':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Koti', 'Mix'], [m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
+            lista = [[m3uPath_1, m3uPath_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '0':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Koti', 'Mix'], [m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath']]
+            lista = [[m3uUrl_1, m3uUrl_1], [m3uPath_2, m3uPath_2], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         elif m3uPathType_1 == '0' and m3uPathType_2 == '1':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Koti', 'Mix'], [m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
+            lista = [[m3uPath_1, m3uPath_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         elif m3uPathType_1 == '1' and m3uPathType_2 == '1':
-            lista = [['Sharetv.tk Lista Wojtu', 'Wojtu'], ['Sharetv.tk Lista Gold', 'Gold'], ['Sharetv.tk Lista Koti', 'Mix'], [m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath']]
+            lista = [[m3uUrl_1, m3uUrl_1], [m3uUrl_2, m3uUrl_2], ['Plik z adresami list', 'txtpath'], ['Reset SimpleClient', 'reset']]
         menu(lista)
 
 
 def read_data(lista):
-    if 'wojtu' in lista:
-        ShareTV('wojtu')
-    elif 'gold' in lista:
-        ShareTV('gold')
-    elif 'mix' in lista:
-        ShareTV('mix')
-    elif 'txtpath' in lista:
+    if 'txtpath' in lista:
         txtfile()
     else:
         with open(settingsiptv, 'r') as f:
@@ -88,12 +79,16 @@ def read_data(lista):
 
 
 def txtfile():
-    with open(txtpath, 'r') as f:
-        lists = []
-        for line in f:
-            lists.append(line.rstrip().split(","))
-        f.close()
-        menufile(lists)
+    if txtpath == '':
+        dialog = xbmcgui.Dialog()
+        dialog.notification('Plik z adresami - błąd.', 'Nie wybrano pliku.', xbmcgui.NOTIFICATION_INFO, 5000)
+    else:
+        with open(txtpath, 'r') as f:
+            lists = []
+            for line in f:
+                lists.append(line.rstrip().split(","))
+            f.close()
+            menufile(lists)
 
 
 def menufile(lista):
@@ -137,40 +132,6 @@ def dis_or_enable_addon(addon_id, enable="true"):
             xbmc.log("### Enabled %s, response = %s" % (addon_id, response))
         else:
             xbmc.log("### Disabled %s, response = %s" % (addon_id, response))
-
-
-def ShareTV(lista):
-    if username is '' or password is '':
-        dialog = xbmcgui.Dialog()
-        dialog.notification('Sharetv.tk', 'Musisz wprowadzic login i hasło', xbmcgui.NOTIFICATION_INFO, 5000)
-    else:
-        if 'wojtu' in lista:
-            link = 'http://sharetv.pl/listy/lista.m3u?uname=' + username + '&upass=' + password + '&ulist=wojtu'
-            dialog = xbmcgui.Dialog()
-            dialog.notification('Sharetv.tk', 'Wczytano listę Wojtu Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
-        elif 'gold' in lista:
-            link = 'http://sharetv.pl/listy/lista.m3u?uname=' + username + '&upass=' + password + '&ulist=gold'
-            dialog = xbmcgui.Dialog()
-            dialog.notification('Sharetv.tk', 'Wczytano listę Gold Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
-        elif 'mix' in lista:
-            link = 'http://sharetv.pl/listy/lista.m3u?uname=' + username + '&upass=' + password + '&ulist=koti'
-            dialog = xbmcgui.Dialog()
-            dialog.notification('Sharetv.tk', 'Wczytano listę KotiTV Zapraszamy na forum', xbmcgui.NOTIFICATION_INFO, 5000)
-        with open(settingsiptv, 'r') as f:
-            read_data = f.read()
-            read_data = re.sub('<setting id="m3uPathType" value="\d" />', '<setting id="m3uPathType" value="1" />', read_data)
-            read_data = re.sub('<setting id="m3uUrl" value(.+?)/>', '<setting id="m3uUrl" ''value' + '="' + link + '" />', read_data)
-            f.close()
-        with open(settingsiptv, 'wb') as f:
-            f.write(read_data)
-            f.close()
-        dis_or_enable_addon('pvr.iptvsimple', enable="false")
-        try:
-            os.remove(iptvcachefile)
-        except:
-            print "Nie ma pliku z cache"
-        dis_or_enable_addon('pvr.iptvsimple')
-
 
 CATEGORIES()
 

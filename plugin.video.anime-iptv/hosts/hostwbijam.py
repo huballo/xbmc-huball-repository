@@ -188,12 +188,11 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
         eod()
 
 
-
 def Browse_Episodeswijaminne(url, page, content='episodes', view='515'):
     if url == '':
         return
     html = nURL(url)
-    html = GetDataBeetwenMarkers(html, '<table class="lista">', '</table>', False)[1]
+    html = GetDataBeetwenMarkers(html, '<table class="lista">', '<center>', False)[1]
     html = html.replace('\'', '')
     html = html.replace('\n', '')
     html = html.replace('\r', '')
@@ -275,14 +274,15 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
         players = players.replace('\r', '')
         players = players.replace('\t', '')
         players = players.replace('  ', '')
-        hosts = re.findall('<a href="(.+?)">(.+?)</a>', players)
+        #print players.decode('ascii', 'ignore')
+        hosts = re.findall('<span class="odtwarzacz_link" rel="(.+?)">(.+?)<', players)
         hosts = [tuple(reversed(t)) for t in hosts]
         import xbmcgui
         d = xbmcgui.Dialog()
         item = d.select("Wybór playera", getItemTitles(hosts))
         if item != -1:
             player = str(hosts[item][1])
-            player = 'http://www.inne.wbijam.pl/' + player
+            player = 'http://www.inne.wbijam.pl/odtwarzacz-' + player + ".html"
             player = nURL(player)
             players = re.findall('<iframe src="(.+?)"', player)
             for item in players:
@@ -299,14 +299,14 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
         players = players.replace('</td><td class="center">', ' ')
         players = players.replace('</td> <td class="center">', ' ')
         #print players.encode('ascii', 'ignore')
-        hosts = re.findall(' ONLINE (.+?)<a href="(.+?)">', players)
+        hosts = re.findall(' ONLINE (.+?) <span class="odtwarzacz_link" rel="(.+?)"', players)
         import xbmcgui
         d = xbmcgui.Dialog()
         item = d.select("Wybór playera", getItemTitles(hosts))
         if item != -1:
             player = str(hosts[item][1])
-            page = page.split(".pl/")
-            player = page[0] + '.pl/' + player
+            #page = page.split(".pl/")
+            player = 'http://www.accelworld.wbijam.pl/odtwarzacz-' + player + ".html"
             html = nURL(player)
             html = html.replace('swf', 'php')
             players = re.findall('<iframe src="(.+?)"', html)

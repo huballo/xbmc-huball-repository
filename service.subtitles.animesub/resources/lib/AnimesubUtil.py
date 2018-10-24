@@ -17,7 +17,7 @@ class AnimesubUtil:
         return title_episode
 
     def episode(self):
-        episode = re.sub("\d{2}.\d{2,}", "", self.__file)
+        episode = re.sub("[\s._-]\d{2}.\d{2,}", "", self.__file)
         match = re.search("[\se_\[](?P<episode>\d{2,3})[\s._v\]]", episode)
         if not match:
             return False
@@ -25,8 +25,8 @@ class AnimesubUtil:
 
     def title(self):
         title = os.path.splitext(self.__file)[0]
-        title = re.sub("\[.*?\]|\(.*?\)|season|s\d{1,2}", "", title)
-        match = re.findall("[\s.a-z_]*", title)
+        title = re.sub("\[.*?\]|\(.*?\)|season|s\d{1,2}e\d{1,2}.*|s\d{1,2}", "", title)
+        match = re.findall("[a-z][\s.a-z_]*[a-z]", title)
 
         if isinstance(match, list) and len(match) > 0:
             title = match[0]

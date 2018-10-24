@@ -8,6 +8,12 @@ class TestAnimesubUtil(TestCase):
     def assertTitle(self, expected, actual):
         self.assertEqual(expected, AnimesubUtil(actual).searchable())
 
+    def test_empty_string(self):
+        self.assertEqual("", "")
+
+    def test_none(self):
+        self.assertEqual(None, None)
+
     def test_horriblesubs_shingeki_no_kyojin(self):
         self.assertTitle("shingeki no kyojin ep40", "[HorribleSubs] Shingeki no Kyojin S3 - 40 [1080p].mkv")
 
@@ -103,3 +109,18 @@ class TestAnimesubUtil(TestCase):
 
     def test_fch1993_clannad_movie(self):
         self.assertTitle("clannad", "CLANNAD [DVD 720x480 23.976fps AVC-yuv420p10 FLAC] - fch1993.mkv")
+
+    def test_tinymz_steins_gate(self):
+        self.assertTitle("steins gate ep01", "Steins_Gate_S01E01_720p_BrRip_TINYMZ.mkv")
+
+    def test_unknown_steins_gate_0(self):
+        self.assertTitle("steins gate ep01", "Steins Gate 0 - 01 [720p].mkv")
+
+    def test_fardadl_tokyo_ghoul_s01_ep01(self):
+        self.assertTitle("tokyo ghoul ep01", "Tokyo.Ghoul.S01E01.Tragedy.1080p.x265.FardaDL.mkv")
+
+    def test_fardadl_tokyo_ghoul_s02_ep06(self):
+        self.assertTitle("tokyo ghoul ep06", "Tokyo.Ghoul.S02E06.1080p.x265.Pseudo.FardaDL")
+
+    def test_fardadl_tokyo_ghoul_s03_ep01(self):
+        self.assertTitle("tokyo ghoul ep01", "Tokyo.Ghoul.S03E01.Those.Who.Hunt.START.1080p.x265.10bit.Dual.Audio.DedSec.FardaDL")

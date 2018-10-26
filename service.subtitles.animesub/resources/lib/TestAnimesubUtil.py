@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from unittest import TestCase
+from zipfile import ZipFile
+from StringIO import StringIO
 from AnimesubUtil import AnimesubUtil
 
 
@@ -15,11 +17,14 @@ class TestAnimesubUtil(TestCase):
         self.assertEpisode(None, "")
 
     def test_episode_none(self):
-        with self.assertRaises(TypeError):
+        with self.assertRaises(Exception):
             self.assertEpisode(None, None)
 
     def test_episode(self):
         self.assertEpisode("01", "[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv")
+
+    def test_episode_unicode(self):
+        self.assertEpisode('01', u'[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv')
 
     def test_episode_in_brackets(self):
         self.assertEpisode("01", "[Lorem] Ipsum Dolor Sit - [01] (1080p x265 10bit).mkv")
@@ -36,11 +41,14 @@ class TestAnimesubUtil(TestCase):
     def test_episode_fps(self):
         self.assertEpisode(None, "[Lorem] Ipsum Dolor Sit (1080p x265 23.976fps 10bit).mkv")
 
+    def test_episode_ep(self):
+        self.assertEpisode("01", "Ipsum Dolor Sit ep01")
+
     def test_searchable_string(self):
         self.assertTitle("", "")
 
     def test_searchable_none(self):
-        with self.assertRaises(TypeError):
+        with self.assertRaises(Exception):
             self.assertTitle(None, None)
 
     def test_searchable_brackets(self):
@@ -87,3 +95,56 @@ class TestAnimesubUtil(TestCase):
 
     def test_searchable_dots_episode_title(self):
         self.assertTitle("Ipsum Dolor Sit ep01", "Ipsum.Dolor.Sit.S01E01.Amet.1080p.x265.Lorem.mkv")
+
+    def assertPrepareZip(self, search_name, check_name, zip_content):
+        prepared_content = AnimesubUtil(search_name).prepare_zip(zip_content)
+        with ZipFile(prepared_content, 'r') as prepared_zip:
+            self.assertEquals(1, len(prepared_zip.filelist))
+            self.assertEquals(check_name, prepared_zip.filelist[0].filename)
+
+    def test_prepare_zip_one_episode(self):
+        zip_content = StringIO()
+        with ZipFile(zip_content, 'w') as myzip:
+            myzip.writestr('[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv', '')
+
+        search = check = '[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv'
+        self.assertPrepareZip(search, check, zip_content)
+
+    def test_prepare_zip_one_episode_in_directory(self):
+        zip_content = StringIO()
+        with ZipFile(zip_content, 'w') as myzip:
+            myzip.writestr('Ipsum Dolor\\[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv', '')
+
+        search = check = '[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv'
+        self.assertPrepareZip(search, check, zip_content)
+
+    def test_prepare_zip_three_episodes(self):
+        zip_content = StringIO()
+        with ZipFile(zip_content, 'w') as myzip:
+            myzip.writestr('[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv', '')
+            myzip.writestr('[Lorem] Ipsum Dolor Sit - 02 (1080p x265 10bit).mkv', '')
+            myzip.writestr('[Lorem] Ipsum Dolor Sit - 03 (1080p x265 10bit).mkv', '')
+
+        search = check = '[Lorem] Ipsum Dolor Sit - 02 (1080p x265 10bit).mkv'
+        self.assertPrepareZip(search, check, zip_content)
+
+    def test_prepare_zip_three_episodes_in_directory(self):
+        zip_content = StringIO()
+        with ZipFile(zip_content, 'w') as myzip:
+            myzip.writestr('Ipsum Dolor\\[Lorem] Ipsum Dolor Sit - 01 (1080p x265 10bit).mkv', '')
+            myzip.writestr('Ipsum Dolor\\[Lorem] Ipsum Dolor Sit - 02 (1080p x265 10bit).mkv', '')
+            myzip.writestr('Ipsum Dolor\\[Lorem] Ipsum Dolor Sit - 03 (1080p x265 10bit).mkv', '')
+
+        search = check = '[Lorem] Ipsum Dolor Sit - 02 (1080p x265 10bit).mkv'
+        self.assertPrepareZip(search, check, zip_content)
+
+    def test_prepare_zip_three_episodes_in_directory_episode_match(self):
+        zip_content = StringIO()
+        with ZipFile(zip_content, 'w') as myzip:
+            myzip.writestr('Ipsum Dolor\\[Consectetur] Ipsum Dolor Sit - 01 [720p x265 10bit].mkv', '')
+            myzip.writestr('Ipsum Dolor\\[Consectetur] Ipsum Dolor Sit - 02 [720p x265 10bit].mkv', '')
+            myzip.writestr('Ipsum Dolor\\[Consectetur] Ipsum Dolor Sit - 03 [720p x265 10bit].mkv', '')
+
+        search = '[Lorem] Ipsum Dolor Sit - 02 (1080p x265 10bit).mkv'
+        check = '[Consectetur] Ipsum Dolor Sit - 02 [720p x265 10bit].mkv'
+        self.assertPrepareZip(search, check, zip_content)

@@ -35,23 +35,24 @@ from NapisyUtils import parse_rls_title
 def search(item):
     helper = NapisyHelper()
     subtitles_list = helper.get_subtitle_list(item)
+    file_name = item["file_original_name"]
     if subtitles_list:
         for it in subtitles_list:
             listitem = xbmcgui.ListItem(label="Polish", label2=it["title"], iconImage=str("0"), thumbnailImage="pl")
             numer = it["kod"]
             token = it["token"]
             cookie = it["cookie"]
-            url = "plugin://%s/?action=download&id=%s&token=%s&cookie=%s" % (__scriptid__, numer, token, cookie)
+            url = "plugin://%s/?action=download&id=%s&token=%s&cookie=%s&file_name=%s" % (__scriptid__, numer, token, cookie, file_name)
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=False)
     return
 
 
-def download(sub_id, token, cookie):  # standard input
+def download(sub_id, token, cookie, file_name):  # standard input
     subtitle_list = []
     exts = [".srt", ".sub", ".txt", ".ass"]
     zip_filename = os.path.join(__temp__, "subs.zip")
     helper = NapisyHelper()
-    helper.download(sub_id, token, zip_filename, cookie)
+    helper.download(sub_id, token, zip_filename, cookie, file_name)
     for file in xbmcvfs.listdir(__temp__)[1]:
         full_path = os.path.join(__temp__, file)
         if os.path.splitext(full_path)[1] in exts:
@@ -143,7 +144,8 @@ elif params['action'] == 'download':
     numer = params["id"]
     token = params["token"]
     cookie = params["cookie"]
-    subs = download(numer, token, cookie)
+    file_name = params["file_name"]
+    subs = download(numer, token, cookie, file_name)
 
     ## we can return more than one subtitle for multi CD versions, for now we are still working out how to handle that in XBMC core
     for sub in subs:

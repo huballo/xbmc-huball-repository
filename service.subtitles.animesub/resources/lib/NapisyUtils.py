@@ -114,7 +114,7 @@ class NapisyHelper:
             results = self.get_results(name, "pl")
         return results
 
-    def download(self, kod, token, zip_filename, cookie):
+    def download(self, kod, token, zip_filename, cookie, file_name):
         ## Cleanup temp dir, we recomend you download/unzip your subs in temp folder and
         ## pass that to XBMC to copy and activate
         if xbmcvfs.exists(__temp__):
@@ -126,5 +126,6 @@ class NapisyHelper:
         with open(zip_filename, "wb") as subFile:
             subFile.write(r.content)
         subFile.close()
+        AnimesubUtil(file_name).prepare_zip(zip_filename)
         xbmc.Monitor().waitForAbort(0.5)
         xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip_filename, __temp__,)).encode('utf-8'), True)

@@ -148,3 +148,18 @@ class TestAnimesubUtil(TestCase):
         search = '[Lorem] Ipsum Dolor Sit - 02 (1080p x265 10bit).mkv'
         check = '[Consectetur] Ipsum Dolor Sit - 02 [720p x265 10bit].mkv'
         self.assertPrepareZip(search, check, zip_content)
+
+    def assertSortBySimilarity(self, search):
+        results = [{'title': 'Ipsum ep01'}, {'title': 'Ipsum Dolor ep01'}, {'title': 'Ipsum Dolor Sit ep01'}]
+        AnimesubUtil.sort_by_similarity(search, 'title', results)
+        first_item = results[0]
+        self.assertEqual(search, first_item['title'])
+
+    def test_sort_by_similarity_1(self):
+        self.assertSortBySimilarity('Ipsum ep01')
+
+    def test_sort_by_similarity_2(self):
+        self.assertSortBySimilarity('Ipsum Dolor ep01')
+
+    def test_sort_by_similarity_2(self):
+        self.assertSortBySimilarity('Ipsum Dolor Sit ep01')

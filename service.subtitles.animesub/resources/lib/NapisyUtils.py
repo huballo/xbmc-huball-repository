@@ -102,6 +102,8 @@ class NapisyHelper:
                 cookie = (s.cookies.items())
                 cookie = (cookie[0][1])
                 results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
+
+            AnimesubUtil.sort_by_similarity(name, "title", results)
         return results
 
     def _search_tvshow(self, item):

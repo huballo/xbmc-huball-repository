@@ -94,3 +94,10 @@ class AnimesubUtil:
         value = re.sub("-|\.+|\_", " ", value, flags=re.IGNORECASE)
         value = re.sub(" +", " ", value, flags=re.IGNORECASE)
         return value.strip()
+
+    @staticmethod
+    def sort_by_similarity(search, key, list):
+        search = search.lower()
+        for item in list:
+            item["similarity"] = SequenceMatcher(None, search, item[key].lower()).ratio()
+        list.sort(key=lambda x: x["similarity"], reverse=True)

@@ -1,25 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
-<addon id="plugin.program.ILC"
-       name="ILC"
-       version="0.5.0"
-       provider-name="huball">
-  <requires>
-    <import addon="script.module.requests" version="2.12.4"/>
-    <import addon="xbmc.python" version="2.1.0"/>
-  </requires>
-  <extension point="xbmc.python.pluginsource"
-             library="default.py">
-    <provides>executable</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">ILC</summary>
-    <description lang="en">ILC</description>
-    <platform>all</platform>
-    <language></language>
-  </extension>
-</addon>
-
 <addon
   id="plugin.video.anime-iptv"
   version="1.7.5"
@@ -60,22 +40,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.VODiptv" name="VODiptv" version="1.0.4" provider-name="huball">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
-	<import addon="script.module.metahandler" version="3.0.2"/>
-  </requires>
-  <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-  </extension>
-  <extension point="xbmc.addon.metadata">
-    <summary lang="en">VODiptv</summary>
-    <description lang="en">VODiptv</description>
-    <platform>all</platform>
-  </extension>
-</addon>
-
-<addon id="service.subtitles.animesub" name="Animesub.info" version="0.1.0" provider-name="huball">
+<addon id="service.subtitles.animesub" name="Animesub.info" version="0.1.1" provider-name="huball">
     <requires>
         <import addon="xbmc.python" version="2.14.0"/>
 		<import addon="script.module.beautifulsoup4" version="4.3.2"/>

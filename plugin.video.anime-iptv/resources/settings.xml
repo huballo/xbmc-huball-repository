@@ -1,11 +1,11 @@
 <settings>
 	<category label="Sites">
-	<setting visible="true" id="Anime-centrum" type="bool" label="Anime-centrum" default="true" />
+	<setting visible="true" id="Anime-centrum" type="bool" label="Anime-centrum" default="false" />
 	<setting visible="true" id="Anime4fun" type="bool" label="Anime4fun" default="false" />
 	<setting visible="true" id="AnimeOnline" type="bool" label="AnimeOnline" default="true" />
 	<setting visible="true" id="Animejoy" type="bool" label="Animejoy" default="false" />
 	<setting visible="true" id="Wbijam" type="bool" label="Wbijam.pl" default="true" />
-	<setting visible="true" id="AnimeZone" type="bool" label="AnimeZone" default="true" />
+	<setting visible="true" id="AnimeZone" type="bool" label="AnimeZone" default="false" />
 	<setting visible="true" id="Kreskoweczki" type="bool" label="Kreskoweczki" default="true" />
 	<setting visible="true" id="Senpai" type="bool" label="Senpai" default="true" />
 	<setting visible="true" id="Dragonball" type="bool" label="Dragonball" default="true" />

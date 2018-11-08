@@ -1,4 +1,4 @@
-service.subtitles.napisy24pl
+service.subtitles.animesub
 ======================
 
-service.subtitles.napisy24pl
+service.subtitles.animesub

@@ -8,6 +8,7 @@ import requests
 import xbmc
 import xbmcvfs
 import xbmcaddon
+from AnimesubUtil import AnimesubUtil
 
 __addon__ = xbmcaddon.Addon()
 __version__ = __addon__.getAddonInfo('version')  # Module version
@@ -80,73 +81,42 @@ def parse_rls_title(item):
 
 
 class NapisyHelper:
-
     def get_subtitle_list(self, item):
         search_results = self._search_tvshow(item)
         log("Search results: %s" % search_results)
-#        results = self._build_subtitle_list(search_results, item)
-        #log("Results: %s" % results)
-#        return results
         return search_results
 
-    def _search_tvshow(self, item):
-
-        import re
+    def get_results(self, name, language):
         results = []
-        nazwa = re.split(r'\s\(\w+\)$', item["tvshow"])[0]
-        if nazwa == '':
-            nazwa = re.split(r'\s\(\w+\)$', item["title"])[0]
-        nazwa = nazwa.replace('.', '')
-        sezon = 'sezon ' + re.split(r'\s\(\w+\)$', item["season"])[0]
-        odcinek = ' ep0' + re.split(r'\s\(\w+\)$', item["episode"])[0]
-        log("Szukana nazwa: %s" % (nazwa))
-        url = "http://animesub.info/szukaj.php?szukane=%s%s" % (nazwa, odcinek) + '&pTitle=en'
+        url = "http://animesub.info/szukaj.php?szukane={0}&pTitle={1}".format(name, language)
         s = requests.Session()
         r = s.get(url)
-        read_data = (r.text)
-        listaen = re.compile('<tr class="KNap"><td align="left">(.+?)<\/td>([\S\s]+?)value="(.+?)">([\S\s]+?)value="(.+?)">').findall(read_data)
-        ItemCount = len(listaen)
-        if ItemCount > 0:
-            for item in listaen:
+        read_data = r.text
+        list_items = re.compile('<tr class="KNap"><td align="left">(.+?)<\/td>([\S\s]+?)value="(.+?)">([\S\s]+?)value="(.+?)">').findall(read_data)
+        count = len(list_items)
+        if count > 0:
+            for item in list_items:
                 title = item[0]
                 kod = item[2]
                 token = item[4]
                 cookie = (s.cookies.items())
                 cookie = (cookie[0][1])
                 results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
-        else :
-            url = "http://animesub.info/szukaj.php?szukane=%s%s" % (nazwa, odcinek) + '&pTitle=org'
-            s = requests.Session()
-            r = s.get(url)
-            read_data = (r.text)
-            listaorg = re.compile('<tr class="KNap"><td align="left">(.+?)<\/td>([\S\s]+?)value="(.+?)">([\S\s]+?)value="(.+?)">').findall(read_data)
-            ItemCount = len(listaorg)
-            if ItemCount > 0:
-                for item in listaorg:
-                    title = item[0]
-                    kod = item[2]
-                    token = item[4]
-                    cookie = (s.cookies.items())
-                    cookie = (cookie[0][1])
-                    results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
-            else :
-                url = "http://animesub.info/szukaj.php?szukane=%s%s" % (nazwa, odcinek) + '&pTitle=en'
-                s = requests.Session()
-                r = s.get(url)
-                read_data = (r.text)
-                listapl = re.compile('<tr class="KNap"><td align="left">(.+?)<\/td>([\S\s]+?)value="(.+?)">([\S\s]+?)value="(.+?)">').findall(read_data)
-                ItemCount = len(listapl)
-                if ItemCount > 0:
-                    for item in listapl:
-                        title = item[0]
-                        kod = item[2]
-                        token = item[4]
-                        cookie = (s.cookies.items())
-                        cookie = (cookie[0][1])
-                        results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
+
+            AnimesubUtil.sort_by_similarity(name, "title", results)
         return results
 
-    def download(self, kod, token, zip_filename, cookie):
+    def _search_tvshow(self, item):
+        name = AnimesubUtil(item["file_original_name"]).searchable()
+        log("Szukana nazwa: %s" % name)
+        results = self.get_results(name, "org")
+        if len(results) == 0:
+            results = self.get_results(name, "en")
+        if len(results) == 0:
+            results = self.get_results(name, "pl")
+        return results
+
+    def download(self, kod, token, zip_filename, cookie, file_name):
         ## Cleanup temp dir, we recomend you download/unzip your subs in temp folder and
         ## pass that to XBMC to copy and activate
         if xbmcvfs.exists(__temp__):
@@ -158,5 +128,6 @@ class NapisyHelper:
         with open(zip_filename, "wb") as subFile:
             subFile.write(r.content)
         subFile.close()
+        AnimesubUtil(file_name).prepare_zip(zip_filename)
         xbmc.Monitor().waitForAbort(0.5)
         xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip_filename, __temp__,)).encode('utf-8'), True)

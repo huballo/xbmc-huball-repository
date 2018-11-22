@@ -107,7 +107,10 @@ class NapisyHelper:
         return results
 
     def _search_tvshow(self, item):
-        name = AnimesubUtil(item["file_original_name"]).searchable()
+        if item.get('searchstring', None):
+            name = item['searchstring']
+        else:
+            name = AnimesubUtil(item["file_original_name"]).searchable()
         log("Szukana nazwa: %s" % name)
         results = self.get_results(name, "org")
         if len(results) == 0:

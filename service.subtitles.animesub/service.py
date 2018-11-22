@@ -104,10 +104,7 @@ if params['action'] in ['search', 'manualsearch']:
         item['title'] = normalizeString(xbmc.getInfoLabel("VideoPlayer.Title"))  # no original title, get just Title
 
     if params['action'] == 'manualsearch':
-        if item['season'] != '' or item['episode']:
-            item['tvshow'] = urllib.unquote(params['searchstring'])
-        else:
-            item['title'] = urllib.unquote(params['searchstring'])
+        item['searchstring'] = urllib.unquote(params['searchstring'])
 
     for lang in unicode(urllib.unquote(params['languages']), 'utf-8').split(","):
         item['3let_language'].append(xbmc.convertLanguage(lang, xbmc.ISO_639_2))

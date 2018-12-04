@@ -307,7 +307,7 @@ def SubMenu():
         _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-z.html'}, {'title': 'Dragon Ball Z'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNGM5MTEyZDItZWNhOS00NzNkLTgwZTAtNWIzY2IzZmExOWMxXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
         _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-gt.html'}, {'title': 'Dragon Ball GT'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BYzY3YjhiYTMtNDQ4OS00ZGI0LWE0ODQtOGM1N2M5OTQyNjk1XkEyXkFqcGdeQXVyMjc2Nzg5OTQ@._V1_.jpg')
         _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-kai.html'}, {'title': 'Dragon Ball KAI'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNWRlNWI5ZmQtMWU2NC00ZDYzLThkOWMtYTA2NWJjZWZjMGI5XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/db-super.html'}, {'title': 'Dragon Ball Super'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BY2I2MzI1ODYtMWRlOS00MzdhLWEyOWEtYWJhNmFiZTIxMGJhXkEyXkFqcGdeQXVyMTExNDQ2MTI@._V1_SY1000_CR0,0,666,1000_AL_.jpg')
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragonball-super.html'}, {'title': 'Dragon Ball Super'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BY2I2MzI1ODYtMWRlOS00MzdhLWEyOWEtYWJhNmFiZTIxMGJhXkEyXkFqcGdeQXVyMTExNDQ2MTI@._V1_SY1000_CR0,0,666,1000_AL_.jpg')
         _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dbz-abridged.html'}, {'title': 'DBZ Abridged'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
         _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/filmy-kinowe.html'}, {'title': 'Kinowki'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
 
@@ -341,7 +341,7 @@ def SectionMenu():
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'senpai'}, {'title': cFL('Senpai PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconsenpai)
 ###Dragonball###
         if __settings__.getSetting("Dragonball") == "true":
-            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'dragonball'}, {'title': cFL('StrefaDB.PL', 'blue') + cFL(' - W budowie', 'red')}, is_folder=True, fanart=fanartAol, img=iconstrefadb)
+            _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'dragonball'}, {'title': cFL('StrefaDB.PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconstrefadb)
 
 
 ###Ulubione###

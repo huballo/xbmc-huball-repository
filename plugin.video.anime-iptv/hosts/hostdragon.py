@@ -40,7 +40,6 @@ passworddb = addst('passworddb', '')
 
 def Pagedragon(url, page, metamethod=''):
     html = nURL(url)
-
     Browse_Itemdragon(html, page, metamethod)
     eod()
 
@@ -86,18 +85,40 @@ def getItemTitles(table):
 def Browse_Playdragon(url, page='', content='episodes', view='515'):
     if url == '':
         return
-    lista = [('Napisy', '?typ=napisy'), ('Lektor', '?typ=lektor')]
+    data = {'login': logindb, 'password': passworddb, 'signin': 'OK'}
+    headers = {
+    'authority': 'strefadb.pl',
+    'upgrade-insecure-requests': '1',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7',
+    }
+    s = requests.Session()
+    r = s.get('https://strefadb.pl/', headers=headers)
+    r = s.post('https://strefadb.pl/', data=data)
+    r = s.get('https://strefadb.pl/', headers=headers)
+    r = requests.post(url, data=data)
+    html = r.text
+    html = GetDataBeetwenMarkers(html, '<tbody>', '</tbody>')[1]
+    html = re.sub('<td><span style="color: red;">Brak</span></td>', '', html)
+    html = re.sub('<td><span style="color: red;">Nie</span></td>', '', html)
+    html = re.sub('<td>Tak</td>', '<td> Lektor</td>', html)
+    html = re.sub('</a></b></td><td>', ' - ', html)
+    html = re.sub('p</td>', 'p</td>#', html)
+    html = re.sub('</td><td>', ' - ', html)
+#    text = html.encode('ascii', 'ignore')
+#    print text
+    lista = re.findall('href="(.+?)" target="_blank" style="color: white;">(.+?)</td>#', html)
+    lista = [tuple(reversed(t)) for t in lista]
     import xbmcgui
     d = xbmcgui.Dialog()
     item = d.select("Wybór jakości", getItemTitles(lista))
     if item != -1:
-        link = str(lista[item][1])
-        link = url + link
-    data = {'login': logindb, 'password': passworddb, 'signin': 'OK'}
-    r = requests.post(link, data=data)
-    lista = re.compile('<iframe src="(.+?).mp4"').findall(r.text)
-    for item in lista:
-        url = item + '.mp4'
+        parametry = str(lista[item][1])
+        url2 = 'https://strefadb.pl' + parametry
+        r = requests.get(url2, cookies=s.cookies, headers=headers)
+        urldata = r.url
         from common import PlayFromHost
-        PlayFromHost(url)
+        PlayFromHost(urldata)
     eod()

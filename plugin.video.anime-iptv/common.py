@@ -509,6 +509,27 @@ def bitporno(url):
         return
 
 
+def cloudvideo(url):
+    import requests
+    import re
+    try:
+        r = requests.get(url)
+        text = r.text
+        HD = re.compile('<source src="(.+?),(.+?),(.+?),(.+?),').findall(text)
+        ItemCount = len(HD)
+        if ItemCount > 0:
+            for item in HD:
+                strona = item[0]+item[3]+'/index-v1-a1.m3u8'
+        else:
+            HD = re.compile('<source src="(.+?),(.+?),(.+?),').findall(text)
+            for item in HD:
+                strona = item[0]+item[2]+'/index-v1-a1.m3u8'
+        return strona
+    except:
+        myNote("Failed to Resolve Playable URL from cloudvideo")
+        return
+
+
 def PlayFromHost(url, page=''):
     if 'google' in url:
         url = url.replace('preview', 'view')
@@ -542,6 +563,8 @@ def PlayFromHost(url, page=''):
                     stream_url = mp4upload(url, page)
                 elif 'bitporno.com' in url:
                     stream_url = bitporno(url)
+                elif 'cloudvideo' in url:
+                    stream_url = cloudvideo(url)
                 li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
                 li.setInfo(type='video', infoLabels=infoLabels)
                 li.setProperty('IsPlayable', 'true')

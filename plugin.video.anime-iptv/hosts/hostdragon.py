@@ -107,13 +107,12 @@ def Browse_Playdragon(url, page='', content='episodes', view='515'):
     html = re.sub('</a></b></td><td>', ' - ', html)
     html = re.sub('p</td>', 'p</td>#', html)
     html = re.sub('</td><td>', ' - ', html)
-#    text = html.encode('ascii', 'ignore')
-#    print text
-    lista = re.findall('href="(.+?)" target="_blank" style="color: white;">(.+?)</td>#', html)
+    #text = html.encode('ascii', 'ignore')
+    lista = re.findall('<a href="(.+?)" target="_blank" style="color: white;">(.+?)</td>#', html)
     lista = [tuple(reversed(t)) for t in lista]
     import xbmcgui
     d = xbmcgui.Dialog()
-    item = d.select("Wybór jakości", getItemTitles(lista))
+    item = d.select("Wybór hostingu", getItemTitles(lista))
     if item != -1:
         parametry = str(lista[item][1])
         url2 = 'https://strefadb.pl' + parametry

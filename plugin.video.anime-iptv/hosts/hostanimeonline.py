@@ -36,7 +36,7 @@ youtube_api_key = 'AIzaSyBbDY0UzvF5Es77M7S1UChMzNp0KsbaDPI'
 site = addpr('site', '')
 section = addpr('section', '')
 url = addpr('url', '')
-mainSite4 = 'https://a-o.ninja/'
+mainSite4 = 'https://anime-odcinki.pl/'
 fanartAol = addonPath + '/art/japan/fanart.jpg'
 nexticon = addonPath + '/art/next.png'
 host = 'AnimeOnline'
@@ -53,10 +53,10 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
         return
     html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
     page = page.lower()
-    data = re.findall('<a href="https://a-o.ninja/anime/' + page+ '(.+?)">(.+?)</a>', html)
+    data = re.findall('<a href="https://anime-odcinki.pl/anime/' + page+ '(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:
-        strona =  'https://a-o.ninja/anime/' + page + item[0]
+        strona =  'https://anime-odcinki.pl/anime/' + page + item[0]
         name = item[1].encode("utf-8")
         name = ParseDescription(name)
 ### scraper
@@ -119,7 +119,7 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
 
 
 def Browse_Filmy(url, page='', content='episodes', view='515'):
-    html = nURL('https://a-o.ninja/filmy')
+    html = nURL('https://anime-odcinki.pl/filmy')
     if (len(html) == 0):
         return
     html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]

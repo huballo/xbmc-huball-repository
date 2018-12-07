@@ -29,17 +29,17 @@ def Pagewbijam(url, page):
 
 
 def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
-
     if (len(html) == 0):
         return
     html = html.encode('utf-8', '')
+    html = re.sub('>Gry MMO anime</div>', '>Gry MMO anime', html)
+    html = re.sub('>Polecane gry online</div', '>Polecane gry online', html)
     html = GetDataBeetwenMarkers(html, 'Menu Główne</div>', 'pod_naglowek">Wiadomości</p>', False)[1]
     data = re.findall('">(.+?)</div>', html)
     ItemCount = len(data)
     if len(data) > 0:
         for item in data:
             strona = item
-
             name = strona
             img = ''
             plot = ''
@@ -59,18 +59,18 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
 
 
 def Browse_Itemslist(url, page='', content='episodes', view='515'):
-
     data = 'http://www.inne.wbijam.pl/'
     html = nURL(data)
     html = html.encode('utf-8', '')
     if 'Polecane serie anime' in url:
+        print "fff"
         data1 = '<div class="pmenu_naglowek_blue">Polecane serie anime</div>'
-        data2 = '<a href="http://www.inne.wb'
+        data2 = '<a href="https://www.wbijam.pl/">Anime online</a></li>'
         link = ''
         mode = 'Browse_Episodeswijam'
     elif 'Lżejsze klimaty' in url:
         data1 = '<div class="pmenu_naglowek_red">Lżejsze klimaty</div>'
-        data2 = '<div class="pmenu_naglowek_blue">Polecane serie anime</div>'
+        data2 = '>Gry MMO anime'
         link = 'http://www.inne.wbijam.pl/'
         mode = 'Browse_Episodeswijaminne'
     elif 'Akcja' in url:
@@ -78,7 +78,6 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
         data2 = '<div class="pmenu_naglowek_red">Lżejsze klimaty</div>'
         link = 'http://www.inne.wbijam.pl/'
         mode = 'Browse_Episodeswijaminne'
-
     data = GetDataBeetwenMarkers(html, data1, data2, False)[1]
     data = re.findall('<a href="(.+?)">(.+?)</a></li>', data)
     data.sort()
@@ -86,7 +85,7 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
     if len(data) > 0:
         for item in data:
             strona = link + item[0]
-            name = item[1].encode('utf-8', '')
+            name = item[1]
 ### scrper
             if (tfalse(addst("wbij-thumbs")) == True):
                 import scraper
@@ -99,7 +98,6 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
                         if len(data) > 0:
                             for item in data:
                                 img = url + '/grafika/' + item
-
                         else:
                             img = ''
                         plot = ''

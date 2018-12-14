@@ -64,7 +64,7 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
     html = html.encode('utf-8', '')
     if 'Polecane serie anime' in url:
         data1 = '<div class="pmenu_naglowek_blue">Polecane serie anime</div>'
-        data2 = '<a href="http://inne.wbijam.pl/">Pozostałe serie</a>'
+        data2 = '//inne.wbijam.pl/">Pozostałe serie</a>'
         link = ''
         mode = 'Browse_Episodeswijam'
     elif 'Lżejsze klimaty' in url:

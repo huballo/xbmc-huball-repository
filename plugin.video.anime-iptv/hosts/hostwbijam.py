@@ -34,7 +34,7 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
     html = html.encode('utf-8', '')
     html = re.sub('>Gry MMO anime</div>', '>Gry MMO anime', html)
     html = re.sub('>Polecane gry online</div', '>Polecane gry online', html)
-    html = GetDataBeetwenMarkers(html, 'Menu Główne</div>', 'pod_naglowek">Wiadomości</p>', False)[1]
+    html = GetDataBeetwenMarkers(html, 'Menu Główne</div>', '<script type=', False)[1]
     data = re.findall('">(.+?)</div>', html)
     ItemCount = len(data)
     if len(data) > 0:
@@ -313,11 +313,3 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
                     item = 'http:' + item
                 PlayFromHost(item)
         eod()
-
-
-
-
-
-
-
-

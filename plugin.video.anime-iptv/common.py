@@ -373,10 +373,10 @@ def mp4upload(url, page):
 def sibnet(url):
     try:
         url = nURL(url)
-        HD = re.compile("file' : '(.+?)'").findall(url)[0]
+        HD = re.compile(',{src: "(.+?)"').findall(url)[0]
         if HD == []:
             return
-        url = 'http://video.sibnet.ru' + HD
+        url = 'https://video.sibnet.ru' + HD
         return url
     except:
         myNote("Failed to Resolve Playable URL.")
@@ -565,6 +565,9 @@ def PlayFromHost(url, page=''):
                     stream_url = bitporno(url)
                 elif 'cloudvideo' in url:
                     stream_url = cloudvideo(url)
+                elif 'sibnet' in url:
+                    stream_url = sibnet(url)
+                    stream_url = stream_url + "|Referer=https://video.sibnet.ru"
                 li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
                 li.setInfo(type='video', infoLabels=infoLabels)
                 li.setProperty('IsPlayable', 'true')

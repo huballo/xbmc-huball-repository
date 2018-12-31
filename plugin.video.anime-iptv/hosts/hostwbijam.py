@@ -63,18 +63,18 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
     html = nURL(data)
     html = html.encode('utf-8', '')
     if 'Polecane serie anime' in url:
-        data1 = '<div class="pmenu_naglowek_blue">Polecane serie anime</div>'
+        data1 = '>Polecane serie anime</div>'
         data2 = '//inne.wbijam.pl/">Pozostałe serie</a>'
         link = ''
         mode = 'Browse_Episodeswijam'
     elif 'Lżejsze klimaty' in url:
-        data1 = '<div class="pmenu_naglowek_red">Lżejsze klimaty</div>'
+        data1 = '>Lżejsze klimaty</div>'
         data2 = '>Gry MMO anime'
         link = 'http://www.inne.wbijam.pl/'
         mode = 'Browse_Episodeswijaminne'
     elif 'Akcja' in url:
-        data1 = '<div class="pmenu_naglowek_red">Akcja</div>'
-        data2 = '<div class="pmenu_naglowek_red">Lżejsze klimaty</div>'
+        data1 = '>Akcja</div>'
+        data2 = '>Lżejsze klimaty</div>'
         link = 'http://www.inne.wbijam.pl/'
         mode = 'Browse_Episodeswijaminne'
     data = GetDataBeetwenMarkers(html, data1, data2, False)[1]
@@ -136,6 +136,7 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
         return
     if 'blackclover'in url:
         html = nURL(url)
+        print 'aaaaaaaaa', url
     else:
         html = nURL(url)
         html = html.encode('utf-8', '')
@@ -162,7 +163,7 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
                 _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
             eod()
     else:
-        html2 = GetDataBeetwenMarkers(html, '<div class="pmenu_naglowek_red">Odcinki anime online</div>', '</ul>', False)[1]
+        html2 = GetDataBeetwenMarkers(html, '>Odcinki anime online</div>', '</ul>', False)[1]
         data = re.findall('<a href="(.+?)">(.+?)</a>', html2)
         ItemCount = len(data)
         if len(data) > 0:
@@ -306,10 +307,21 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
             player = 'http://www.accelworld.wbijam.pl/odtwarzacz-' + player + ".html"
             html = nURL(player)
             html = html.replace('swf', 'php')
+            from common import PlayFromHost
             players = re.findall('<iframe src="(.+?)"', html)
-            for item in players:
-                from common import PlayFromHost
-                if 'sibnet.ru' in item:
-                    item = 'http:' + item
-                PlayFromHost(item)
+            if len(players) > 0:
+                for item in players:
+                    PlayFromHost(item)
+            else:
+                #print html.encode('ascii', 'ignore')
+                if 'vk.com' in html:
+                        players = re.findall('rel="(.+?)" id="(.+?)">', html)
+                        for item in players:
+                            players = 'https://vk.com/video' + item[0] + '_' + item[1]
+                            PlayFromHost(players)
+                else:
+                    players = re.findall('src="https://video.sibnet.ru/(.+?)"', html)
+                    for item in players:
+                        item = 'https://video.sibnet.ru/' + item
+                        PlayFromHost(item)
         eod()

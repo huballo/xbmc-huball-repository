@@ -41,4 +41,9 @@
 	<category label="Backup">
 	<setting id="backup" type="action" label="[COLOR red]Backup[/COLOR]" enable="true" action="RunScript(script.xbmcbackup)"/>
 	</category>
+	
+	<category label="Download">
+	<setting visible="true" id="download.opp" type="bool" label="Download" default="false" />
+	<setting id="download.path" type="folder" label="Download path" enable="!eq(-1,false)" default="" />
+	</category>
 </settings>

@@ -530,30 +530,44 @@ def cloudvideo(url):
         return
 
 
-def PlayFromHost(url, page=''):
+def PlayFromHost(url, mode, page=''):
+    if (addst("download.path") == ''):
+            dialog = xbmcgui.Dialog()
+            dialog.notification('Download', 'Download patch is empty', xbmcgui.NOTIFICATION_INFO, 5000)
+            return
     if 'google' in url:
         url = url.replace('preview', 'view')
     import urlresolver
     infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
     try:
         if ('youtube' in url):
-            li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=url)
-            li.setInfo(type='video', infoLabels=infoLabels)
-            li.setProperty('IsPlayable', 'true')
-            xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+            if mode == 'play':
+                li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=url)
+                li.setInfo(type='video', infoLabels=infoLabels)
+                li.setProperty('IsPlayable', 'true')
+                xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+            elif mode == 'download':
+                import downloader
+                dest = addst("download.path")
+                downloader.download('name', 'image', url, dest)
         elif 'anime-centrum' in url:
             stream_url = url + "|Referer=http://anime-centrum.pl/"
-            li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''),path=stream_url)
+            li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
             li.setInfo(type='video', infoLabels=infoLabels)
             li.setProperty('IsPlayable', 'true')
             xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
         else:
             try:
                 stream_url = urlresolver.HostedMediaFile(url).resolve()
-                li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
-                li.setInfo(type='video', infoLabels=infoLabels)
-                li.setProperty('IsPlayable', 'true')
-                xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+                if mode == 'play':
+                    li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
+                    li.setInfo(type='video', infoLabels=infoLabels)
+                    li.setProperty('IsPlayable', 'true')
+                    xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+                elif mode == 'download':
+                    import downloader
+                    dest = addst("download.path")
+                    downloader.download('name', 'image', stream_url, dest)
             except:
                 if 'vidlox' in url:
                     stream_url = vidlox(url)
@@ -568,10 +582,15 @@ def PlayFromHost(url, page=''):
                 elif 'sibnet' in url:
                     stream_url = sibnet(url)
                     stream_url = stream_url + "|Referer=https://video.sibnet.ru"
-                li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
-                li.setInfo(type='video', infoLabels=infoLabels)
-                li.setProperty('IsPlayable', 'true')
-                xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+                if mode == 'play':
+                    li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
+                    li.setInfo(type='video', infoLabels=infoLabels)
+                    li.setProperty('IsPlayable', 'true')
+                    xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
+                elif mode == 'download':
+                    import downloader
+                    dest = addst("download.path")
+                    downloader.download('name', 'image', stream_url, dest)
     except:
         myNote("Nie udało się niestety :( BUUUUU")
 

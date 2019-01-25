@@ -438,7 +438,7 @@ def mode_subcheck(mode='', site='', section='', url=''):
 
 # PLAY FROM HOST
     elif (mode == 'PlayFromHost'):
-        PlayFromHost(url, page)
+        PlayFromHost(url,mode, page)
 # ULUBIONE
     elif (mode == 'FavoritesList'):
         Fav_List(site=site, section=section, subfav=addpr('subfav', ''))

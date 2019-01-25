@@ -311,17 +311,38 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
             players = re.findall('<iframe src="(.+?)"', html)
             if len(players) > 0:
                 for item in players:
-                    PlayFromHost(item)
+                    if (tfalse(addst("download.opp")) == True):
+                        ret = d.yesno('Download', 'Do you want to download?')
+                        if ret == True:
+                            PlayFromHost(url, 'download')
+                        if ret == False:
+                            PlayFromHost(url, 'play')
+                    if (tfalse(addst("download.opp")) == False):
+                        PlayFromHost(url, 'play')
             else:
                 #print html.encode('ascii', 'ignore')
                 if 'vk.com' in html:
                         players = re.findall('rel="(.+?)" id="(.+?)">', html)
                         for item in players:
                             players = 'https://vk.com/video' + item[0] + '_' + item[1]
-                            PlayFromHost(players)
+                            if (tfalse(addst("download.opp")) == True):
+                                ret = d.yesno('Download', 'Do you want to download?')
+                                if ret == True:
+                                    PlayFromHost(players, 'download')
+                                if ret == False:
+                                    PlayFromHost(players, 'play')
+                            if (tfalse(addst("download.opp")) == False):
+                                    PlayFromHost(players, 'play')
                 else:
                     players = re.findall('src="https://video.sibnet.ru/(.+?)"', html)
                     for item in players:
                         item = 'https://video.sibnet.ru/' + item
-                        PlayFromHost(item)
+                        if (tfalse(addst("download.opp")) == True):
+                            ret = d.yesno('Download', 'Do you want to download?')
+                            if ret == True:
+                                PlayFromHost(item, 'download')
+                            if ret == False:
+                                PlayFromHost(item, 'play')
+                        if (tfalse(addst("download.opp")) == False):
+                            PlayFromHost(item, 'play')
         eod()

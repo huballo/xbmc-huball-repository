@@ -148,10 +148,17 @@ def Browse_PlaySenpai(url, page='', content='episodes', view='515'):
     if item != -1:
         host = str(lista[item][0])
         player = str(lista[item][1])
-        url2 = 'http://'+ host + '/' + player
+        url2 = 'http://' + host + '/' + player
         if 'openload' in url:
             url2 = url.replace('openload.co', 'oload.info')
             url2 = url.replace('http', 'https')
         from common import PlayFromHost
-        PlayFromHost(url2, url)
+        if (tfalse(addst("download.opp")) == True):
+            ret = d.yesno('Download', 'Do you want to download?')
+            if ret == True:
+                PlayFromHost(url2, 'download')
+            if ret == False:
+                PlayFromHost(url2, 'play')
+        if (tfalse(addst("download.opp")) == False):
+            PlayFromHost(url2, 'play')
     eod()

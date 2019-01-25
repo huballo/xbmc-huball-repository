@@ -119,5 +119,12 @@ def Browse_Playdragon(url, page='', content='episodes', view='515'):
         r = requests.get(url2, cookies=s.cookies, headers=headers)
         urldata = r.url
         from common import PlayFromHost
-        PlayFromHost(urldata)
+        if (tfalse(addst("download.opp")) == True):
+            ret = d.yesno('Download', 'Do you want to download?')
+            if ret == True:
+                PlayFromHost(urldata, 'download')
+            if ret == False:
+                PlayFromHost(urldata, 'play')
+        if (tfalse(addst("download.opp")) == False):
+            PlayFromHost(urldata, 'play')
     eod()

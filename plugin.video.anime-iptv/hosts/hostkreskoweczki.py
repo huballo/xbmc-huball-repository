@@ -185,7 +185,14 @@ def Browse_PlayAnimekresk(url, page='', content='episodes', view='515'):
                 url = 'https://' + item
 
         from common import PlayFromHost
-        PlayFromHost(url)
+        if (tfalse(addst("download.opp")) == True):
+            ret = d.yesno('Download', 'Do you want to download?')
+            if ret == True:
+                PlayFromHost(url, 'download')
+            if ret == False:
+                PlayFromHost(url, 'play')
+        if (tfalse(addst("download.opp")) == False):
+            PlayFromHost(url, 'play')
     eod()
 
 

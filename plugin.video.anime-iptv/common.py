@@ -531,6 +531,8 @@ def cloudvideo(url):
 
 
 def PlayFromHost(url, mode, page=''):
+    infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
+    title = addpr('title', '')
     if (addst("download.path") == ''):
             dialog = xbmcgui.Dialog()
             dialog.notification('Download', 'Download patch is empty', xbmcgui.NOTIFICATION_INFO, 5000)
@@ -538,7 +540,7 @@ def PlayFromHost(url, mode, page=''):
     if 'google' in url:
         url = url.replace('preview', 'view')
     import urlresolver
-    infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
+    #infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
     try:
         if ('youtube' in url):
             if mode == 'play':
@@ -549,7 +551,7 @@ def PlayFromHost(url, mode, page=''):
             elif mode == 'download':
                 import downloader
                 dest = addst("download.path")
-                downloader.download('name', 'image', url, dest)
+                downloader.download(title, 'image', url, dest)
         elif 'anime-centrum' in url:
             stream_url = url + "|Referer=http://anime-centrum.pl/"
             li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
@@ -567,7 +569,7 @@ def PlayFromHost(url, mode, page=''):
                 elif mode == 'download':
                     import downloader
                     dest = addst("download.path")
-                    downloader.download('name', 'image', stream_url, dest)
+                    downloader.download(title, 'image', stream_url, dest)
             except:
                 if 'vidlox' in url:
                     stream_url = vidlox(url)
@@ -590,7 +592,7 @@ def PlayFromHost(url, mode, page=''):
                 elif mode == 'download':
                     import downloader
                     dest = addst("download.path")
-                    downloader.download('name', 'image', stream_url, dest)
+                    downloader.download(title, 'image', stream_url, dest)
     except:
         myNote("Nie udało się niestety :( BUUUUU")
 

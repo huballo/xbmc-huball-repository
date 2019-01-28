@@ -85,6 +85,11 @@ def getItemTitles(table):
 def Browse_Playdragon(url, page='', content='episodes', view='515'):
     if url == '':
         return
+    import xbmcgui
+    d = xbmcgui.Dialog()
+    if (addst("usernamedb") == ''):
+        d.notification('Dane konta', 'Wprowadź login i hasło w ustawieniach', xbmcgui.NOTIFICATION_INFO, 5000)
+        return
     data = {'login': logindb, 'password': passworddb, 'signin': 'OK'}
     headers = {
     'authority': 'strefadb.pl',
@@ -110,8 +115,6 @@ def Browse_Playdragon(url, page='', content='episodes', view='515'):
     #text = html.encode('ascii', 'ignore')
     lista = re.findall('<a href="(.+?)" target="_blank" style="color: white;">(.+?)</td>#', html)
     lista = [tuple(reversed(t)) for t in lista]
-    import xbmcgui
-    d = xbmcgui.Dialog()
     item = d.select("Wybór hostingu", getItemTitles(lista))
     if item != -1:
         parametry = str(lista[item][1])

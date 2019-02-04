@@ -136,7 +136,6 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
         return
     if 'blackclover'in url:
         html = nURL(url)
-        print 'aaaaaaaaa', url
     else:
         html = nURL(url)
         html = html.encode('utf-8', '')
@@ -283,9 +282,18 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
             player = 'http://www.inne.wbijam.pl/odtwarzacz-' + player + ".html"
             player = nURL(player)
             players = re.findall('<iframe src="(.+?)"', player)
+            from common import PlayFromHost
             for item in players:
-                from common import PlayFromHost
-                PlayFromHost(item)
+                if len(players) > 0:
+                    for item in players:
+                        if (tfalse(addst("download.opp")) == True):
+                            ret = d.yesno('Download', 'Do you want to download?')
+                            if ret == True:
+                                PlayFromHost(item, 'download')
+                            if ret == False:
+                                PlayFromHost(item, 'play')
+                        if (tfalse(addst("download.opp")) == False):
+                            PlayFromHost(item, 'play')
         eod()
     else:
         players = GetDataBeetwenMarkers(nURL(url), '<table class="lista">', '</table>')[1]
@@ -314,11 +322,11 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
                     if (tfalse(addst("download.opp")) == True):
                         ret = d.yesno('Download', 'Do you want to download?')
                         if ret == True:
-                            PlayFromHost(url, 'download')
+                            PlayFromHost(item, 'download')
                         if ret == False:
-                            PlayFromHost(url, 'play')
+                            PlayFromHost(item, 'play')
                     if (tfalse(addst("download.opp")) == False):
-                        PlayFromHost(url, 'play')
+                        PlayFromHost(item, 'play')
             else:
                 #print html.encode('ascii', 'ignore')
                 if 'vk.com' in html:
@@ -328,11 +336,11 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
                             if (tfalse(addst("download.opp")) == True):
                                 ret = d.yesno('Download', 'Do you want to download?')
                                 if ret == True:
-                                    PlayFromHost(players, 'download')
+                                    PlayFromHost(item, 'download')
                                 if ret == False:
-                                    PlayFromHost(players, 'play')
+                                    PlayFromHost(item, 'play')
                             if (tfalse(addst("download.opp")) == False):
-                                    PlayFromHost(players, 'play')
+                                    PlayFromHost(item, 'play')
                 else:
                     players = re.findall('src="https://video.sibnet.ru/(.+?)"', html)
                     for item in players:

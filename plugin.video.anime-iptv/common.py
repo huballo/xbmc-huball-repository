@@ -594,7 +594,8 @@ def PlayFromHost(url, mode, page=''):
                     dest = addst("download.path")
                     downloader.download(title, 'image', stream_url, dest)
     except:
-        myNote("Nie udało się niestety :( BUUUUU")
+        #myNote("Nie udało się niestety :( BUUUUU")
+        print 'Nie udało się niestety :( BUUUUU'
 
 
 def GetDataBeetwenMarkers(data, marker1, marker2, withMarkers=True, caseSensitive=True):

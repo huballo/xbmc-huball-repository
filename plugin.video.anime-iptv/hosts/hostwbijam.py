@@ -34,7 +34,7 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
     html = html.encode('utf-8', '')
     html = re.sub('>Gry MMO anime</div>', '>Gry MMO anime', html)
     html = re.sub('>Polecane gry online</div', '>Polecane gry online', html)
-    html = GetDataBeetwenMarkers(html, 'Menu Główne</div>', '>Polecane gry online', False, False)[1]
+    html = GetDataBeetwenMarkers(html, 'Menu Główne</div>', '>Reklama<', False, False)[1]
     data = re.findall('">(.+?)</div>', html)
     ItemCount = len(data)
     if len(data) > 0:

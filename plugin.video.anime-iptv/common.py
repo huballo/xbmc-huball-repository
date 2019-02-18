@@ -539,7 +539,8 @@ def PlayFromHost(url, mode, page=''):
             return
     if 'google' in url:
         url = url.replace('preview', 'view')
-    import urlresolver
+    #import urlresolver
+    import resolveurl as urlresolver
     #infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
     try:
         if ('youtube' in url):
@@ -560,7 +561,8 @@ def PlayFromHost(url, mode, page=''):
             xbmcplugin.setResolvedUrl(handle=int(sys.argv[1]), succeeded=True, listitem=li)
         else:
             try:
-                stream_url = urlresolver.HostedMediaFile(url).resolve()
+                stream_url = urlresolver.resolve(url)
+                #stream_url = urlresolver.HostedMediaFile(url).resolve()
                 if mode == 'play':
                     li = xbmcgui.ListItem(addpr('title', ''), iconImage=addpr('img', ''), thumbnailImage=addpr('img', ''), path=stream_url)
                     li.setInfo(type='video', infoLabels=infoLabels)
@@ -575,8 +577,8 @@ def PlayFromHost(url, mode, page=''):
                     stream_url = vidlox(url)
                 elif 'rapidvideo' in url:
                     stream_url = rapidvideo(url)
-                elif 'mp4upload' in url:
-                    stream_url = mp4upload(url, page)
+                #elif 'mp4upload' in url:
+                    #stream_url = mp4upload(url, page)
                 elif 'bitporno.com' in url:
                     stream_url = bitporno(url)
                 elif 'cloudvideo' in url:

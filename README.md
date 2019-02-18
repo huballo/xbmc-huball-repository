@@ -1,2 +1,5 @@
 # xbmc-huball-repository
-# https://github.com/kodil/kodil/tree/master/repo/script.module.urlresolver
+# 18.02.2019 zmiana z urlresolver na resolveurl
+
+
+

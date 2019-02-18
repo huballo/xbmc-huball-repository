@@ -332,7 +332,7 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
                 if 'vk.com' in html:
                         players = re.findall('rel="(.+?)" id="(.+?)">', html)
                         for item in players:
-                            players = 'https://vk.com/video' + item[0] + '_' + item[1]
+                            item = 'https://vk.com/video' + item[0] + '_' + item[1]
                             if (tfalse(addst("download.opp")) == True):
                                 ret = d.yesno('Download', 'Do you want to download?')
                                 if ret == True:

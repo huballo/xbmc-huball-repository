@@ -60,7 +60,6 @@
 		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
     </extension>
 </addon>
-<addons>
 <addon id="script.module.resolveurl" name="ResolveURL" version="5.0.27" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />

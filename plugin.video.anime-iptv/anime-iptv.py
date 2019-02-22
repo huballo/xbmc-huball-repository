@@ -159,6 +159,8 @@ def Wbijam(mode, url, page):
     import hostwbijam
     if mode == "Pagewbijam":
         hostwbijam.Pagewbijam(url, page)
+    elif mode == "Browse_ItemslistPolecane":
+        hostwbijam.Browse_ItemslistPolecane(url, page)
     elif mode == "Browse_Itemslist":
         hostwbijam.Browse_Itemslist(url, page)
     elif mode == "Browse_Episodeswijam":
@@ -404,6 +406,8 @@ def mode_subcheck(mode='', site='', section='', url=''):
 # WBIJAM.PL
     elif (mode == 'Pagewbijam'):
         Wbijam(mode=mode, url=url, page=page)
+    elif (mode == 'Browse_ItemslistPolecane'):
+        Wbijam(mode, url, page)
     elif (mode == 'Browse_Itemslist'):
         Wbijam(mode, url, page)
     elif (mode == 'Browse_Episodeswijam'):

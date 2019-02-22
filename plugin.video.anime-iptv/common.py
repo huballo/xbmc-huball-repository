@@ -533,7 +533,7 @@ def cloudvideo(url):
 def PlayFromHost(url, mode, page=''):
     infoLabels = {"Studio": addpr('studio', ''), "ShowTitle": addpr('showtitle', ''), "Title": addpr('title', '')}
     title = addpr('title', '')
-    if (addst("download.path") == ''):
+    if mode == 'download'and (addst("download.path") == ''):
             dialog = xbmcgui.Dialog()
             dialog.notification('Download', 'Download patch is empty', xbmcgui.NOTIFICATION_INFO, 5000)
             return

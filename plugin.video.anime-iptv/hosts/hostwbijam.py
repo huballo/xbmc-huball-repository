@@ -50,15 +50,22 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
             except:
                 labs['plot'] = ''
 ##
-            pars = {'mode': 'Browse_Itemslist', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
-            contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-            contextMenuItems = ContextMenu_Series(contextLabs)
-            labs['title'] = name
-            _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+            if 'Polecane serie anime' in strona:
+                pars = {'mode': 'Browse_ItemslistPolecane', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
+                contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
+                contextMenuItems = ContextMenu_Series(contextLabs)
+                labs['title'] = name
+                _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+            else:
+                pars = {'mode': 'Browse_Itemslist', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
+                contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
+                contextMenuItems = ContextMenu_Series(contextLabs)
+                labs['title'] = name
+                _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
     eod()
 
 
-def Browse_Itemslist(url, page='', content='episodes', view='515'):
+def Browse_ItemslistPolecane(url, page='', content='episodes', view='515'):
     data = 'http://www.inne.wbijam.pl/'
     html = nURL(data)
     html = html.encode('utf-8', '')
@@ -67,7 +74,66 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
         data2 = '>Pozostałe serie</a>'
         link = ''
         mode = 'Browse_Episodeswijam'
-    elif 'Lżejsze klimaty' in url:
+    data = GetDataBeetwenMarkers(html, data1, data2, False)[1]
+    data = re.findall('<a href="(.+?)"(.+?)">(.+?)</a></li>', data)
+    data.sort()
+    ItemCount = len(data)
+    if len(data) > 0:
+        for item in data:
+            strona = link + item[0]
+            name = item[2]
+            print strona
+### scrper
+            if (tfalse(addst("wbij-thumbs")) == True):
+                import scraper
+                scrap = scraper.scraper_check(host, name)
+                try:
+                    if (name not in scrap):
+                        html = nURL(strona)
+                        data = re.findall('<img src="grafika/(.+?)">', html)
+                        ItemCount = len(data)
+                        if len(data) > 0:
+                            for item in data:
+                                img = url + '/grafika/' + item
+                        else:
+                            img = ''
+                        plot = ''
+                        scraper.scraper_add(host, name, img, plot, '')
+                        scrap = scraper.scraper_check(host, name)
+                except:
+                    scrap = ''
+                try:
+                    img = scrap[1]
+                except:
+                    img = ''
+                try:
+                    plot = scrap[2]
+                except:
+                    plot = ''
+            else:
+                img = ''
+                plot = ''
+            fanart = fanartAol
+            labs = {}
+            try:
+                labs['plot'] = plot
+            except:
+                labs['plot'] = ''
+    ##
+            pars = {'mode': mode, 'site': site, 'section': section, 'title': name, 'url': strona, 'page': url, 'img': img, 'fanart': fanart}
+            contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
+            contextMenuItems = ContextMenu_Series(contextLabs)
+            labs['title'] = name
+            _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
+    set_view(content, view_mode=addst('tvshows-view'))
+    eod()
+
+
+def Browse_Itemslist(url, page='', content='episodes', view='515'):
+    data = 'http://www.inne.wbijam.pl/'
+    html = nURL(data)
+    html = html.encode('utf-8', '')
+    if 'Lżejsze klimaty' in url:
         data1 = '>Lżejsze klimaty</div>'
         data2 = '>Gry MMO anime'
         link = 'http://www.inne.wbijam.pl/'

@@ -82,7 +82,6 @@ def Browse_ItemslistPolecane(url, page='', content='episodes', view='515'):
         for item in data:
             strona = link + item[0]
             name = item[2]
-            print strona
 ### scrper
             if (tfalse(addst("wbij-thumbs")) == True):
                 import scraper
@@ -206,7 +205,7 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
         html = nURL(url)
         html = html.encode('utf-8', '')
     if ('kolejnosc_ogladania.html' in html):
-        data = GetDataBeetwenMarkers(html, 'html">Kolejność oglądania</a></li>', '</ul>', False)[1]
+        data = GetDataBeetwenMarkers(html, 'Kolejność oglądania</a>', '</div>', False)[1]
         data = re.findall('<a href="(.+?)">(.+?)</a>', data)
         ItemCount = len(data)
         if len(data) > 0:
@@ -285,6 +284,7 @@ def Browse_Episodeswijaminne(url, page, content='episodes', view='515'):
 
 
 def Browse_Episodeswijaminne2(url, page, content='episodes', view='515'):
+    url = url.replace('\" class=\"sub_inner_link', '')
     if url == '':
         return
     html = nURL(url)

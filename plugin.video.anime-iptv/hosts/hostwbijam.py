@@ -134,7 +134,7 @@ def Browse_Itemslist(url, page='', content='episodes', view='515'):
     html = html.encode('utf-8', '')
     if 'Lżejsze klimaty' in url:
         data1 = '>Lżejsze klimaty</div>'
-        data2 = '>Gry MMO anime'
+        data2 = '>Polecane serie anime'
         link = 'http://www.inne.wbijam.pl/'
         mode = 'Browse_Episodeswijaminne'
     elif 'Akcja' in url:
@@ -201,6 +201,7 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
         return
     if 'blackclover'in url:
         html = nURL(url)
+        html = html.encode('utf-8', '')
     else:
         html = nURL(url)
         html = html.encode('utf-8', '')

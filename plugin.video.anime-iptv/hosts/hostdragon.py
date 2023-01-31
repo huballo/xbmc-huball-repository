@@ -47,8 +47,9 @@ def Pagedragon(url, page, metamethod=''):
 def Browse_Itemdragon(html, url, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
-    html = GetDataBeetwenMarkers(html, '<ul class="lista-odcinkow">', '<div class="kontener">')[1]
-    data = re.findall('<li>(.+?)</li>\n<li><a href="(.+?)">(.+?)</a>', html)
+    html = GetDataBeetwenMarkers(html, 'lista-odcinkow">', '</table>')[1]
+#    html = html.replace('<span style="background-color: red; color: white; cursor: pointer;" title="Filler - odcinek, którego nie było w mandze i został wymyślony na potrzeby anime, generalnie tzw. wypełniacz i nie związany z fabułą.">&nbsp;F&nbsp;</span>', '')
+    data = re.findall('<td>(.+?)<\/td>\n<td>(?: |)<a href="(.+?)">(.+?)<\/a', html)
     ItemCount = len(data)
     for item in data:
         strona = mainSite + item[1]
@@ -105,7 +106,7 @@ def Browse_Playdragon(url, page='', content='episodes', view='515'):
     r = s.get('https://strefadb.pl/', headers=headers)
     r = requests.post(url, data=data)
     html = r.text
-    html = GetDataBeetwenMarkers(html, '<tbody>', '</tbody>')[1]
+    html = GetDataBeetwenMarkers(html, '<table id="video-table">', '</table>')[1]
     html = re.sub('<td><span style="color: red;">Brak</span></td>', '', html)
     html = re.sub('<td><span style="color: red;">Nie</span></td>', '', html)
     html = re.sub('<td>Tak</td>', '<td> Lektor</td>', html)

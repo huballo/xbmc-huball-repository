@@ -37,6 +37,7 @@ host = 'animecentrum'
 
 
 def Pageanimecentrum(url, page, metamethod=''):
+    print (url)
     headers = {
         'Pragma': 'no-cache',
         'Accept-Encoding': 'gzip, deflate',
@@ -86,7 +87,7 @@ def Pageanimecentrum(url, page, metamethod=''):
 def Browse_ItemAnimecentrum(html, url, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
-    data = re.findall('tb-cell"><a href="(.+?)"><img src="(.+?)" alt="(.+?)"><\/a>', html)
+    data = re.findall('tb-cell"><a href="(.+?)">(?:.+?)<img src="(.+?)" alt="(.+?)"', html)
     ItemCount = len(data)
     for item in data:
         strona = mainSite + item[0]
@@ -101,7 +102,7 @@ def Browse_ItemAnimecentrum(html, url, metamethod='', content='movies', view='51
                 if (name not in scrap):
                     html = nURL(strona)
                     html = GetDataBeetwenMarkers(html, '<article class="content-1">', '<section class="gap-2">', False)[1]
-                    data = re.findall('<img src="(.+?)" alt=', html)
+                    data = re.findall('src="(.+?)" alt=', html)
                     ItemCount = len(data)
                     if len(data) > 0:
                         for item in data:
@@ -153,7 +154,8 @@ def Browse_EpisodesAnimecentrum(url, page='', content='episodes', view='515'):
     if url == '':
         return
     html = nURL(url)
-    data = re.findall('<a href="(.+?)" title="(.+?)"><h2>', html)
+    html = GetDataBeetwenMarkers(html, 'ul class="list-2">', '<ul class="pagination">', False)[1]
+    data = re.findall('<a href="(.+?)" title="(.+?)">', html)
     ItemCount = len(data)
     for item in data:
         url2 = mainSite + item[0]
@@ -184,8 +186,8 @@ def Browse_PlayAnimecentrum(url, page='', content='episodes', view='515'):
     if url == '':
         return
     html = nURL(url)
-    data = re.compile('file: "(.+?)"').findall(html)
+    data = re.compile('<source src="(.+?)" type="video/mp4">').findall(html)
     for item in data:
         from common import PlayFromHost
-        PlayFromHost(item)
+        PlayFromHost(item, 'play')
     eod()

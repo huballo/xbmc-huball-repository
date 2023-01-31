@@ -1,6 +1,6 @@
 <settings>
 	<category label="Sites">
-	<setting visible="true" id="Anime-centrum" type="bool" label="Anime-centrum" default="false" />
+	<setting visible="true" id="Anime-centrum" type="bool" label="Anime-centrum" default="true" />
 	<setting visible="true" id="Anime4fun" type="bool" label="Anime4fun" default="false" />
 	<setting visible="true" id="AnimeOnline" type="bool" label="AnimeOnline" default="true" />
 	<setting visible="true" id="Animejoy" type="bool" label="Animejoy" default="false" />

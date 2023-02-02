@@ -51,14 +51,17 @@ def Pageanimeonline(url, page, metamethod=''):
 def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
-    html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
     page = page.lower()
-    data = re.findall('<a href="https://anime-odcinki.pl/anime/' + page+ '(.+?)">(.+?)</a>', html)
+    pagenext = chr(ord(page) + 1)
+    html = GetDataBeetwenMarkers(html, 'anime-title letter-' + page, 'anime-title letter-' + pagenext, False)[1]
+    #print (html.encode('ascii', 'ignore'))
+    data = re.findall('<a href="(.+?)" data-image="(.+?)">(.+?)<', html)
     ItemCount = len(data)
     for item in data:
-        strona =  'https://anime-odcinki.pl/anime/' + page + item[0]
-        name = item[1].encode("utf-8")
+        strona = item[0]
+        name = item[2].encode("utf-8")
         name = ParseDescription(name)
+        img = item[1]
 ### scraper
         if (tfalse(addst("aodc-thumbs")) == True):
             import scraper
@@ -66,18 +69,11 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
             try:
                 if (name not in scrap):
                     if '?page=0'in strona:
-                        strona2 = strona.replace('?page=0','')
+                        strona2 = strona.replace('?page=0', '')
                     else:
                         strona2 = strona
                     html = nURL(strona2)
-                    html = GetDataBeetwenMarkers(html, 'field-name-field-okladka field-type-image field-label-above', '<p>&nbsp;</p>', False)[1]
-                    data = re.findall('<img src="(.+?)"', html)
-                    ItemCount = len(data)
-                    if len(data) > 0:
-                        for item in data:
-                            img = item
-                    else:
-                        img = ''
+                    img = img
                     data = re.findall('<p><p>(.+?)</p>', html)
                     ItemCount = len(data)
                     if len(data) > 0:
@@ -99,7 +95,7 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
                 plot = ''
         else:
             img = ''
-            plot =''
+            plot = ''
         fanart = fanartAol
         labs = {}
         try:
@@ -118,82 +114,14 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
     set_view(content, view_mode=addst('tvshows-view'))
 
 
-def Browse_Filmy(url, page='', content='episodes', view='515'):
-    html = nURL('https://anime-odcinki.pl/filmy')
-    if (len(html) == 0):
-        return
-    html = GetDataBeetwenMarkers(html, 'Tytu', '</table>', False)[1]
-    data = re.findall('<a href="(.+?)">(.+?)</a>', html)
-    ItemCount = len(data)
-    for item in data:
-        strona = item[0]
-        name = item[1].encode("utf-8")
-        name = ParseDescription(name)
-### scraper
-        if (tfalse(addst("aodc-thumbs")) == True):
-            import scraper
-            scrap = scraper.scraper_check(host, name)
-            try:
-                if (name not in scrap):
-                    if '?page=0'in strona:
-                        strona2 = strona.replace('?page=0','')
-                    else:
-                        strona2 = strona
-                    html = nURL(strona2)
-                    html = GetDataBeetwenMarkers(html, 'field-name-field-okladka field-type-image field-label-above', '<p>&nbsp;</p>', False)[1]
-                    data = re.findall('<img src="(.+?)"', html)
-                    ItemCount = len(data)
-                    if len(data) > 0:
-                        for item in data:
-                            img = item
-                    else:
-                        img = ''
-                    data = re.findall('<p><p>(.+?)</p>', html)
-                    ItemCount = len(data)
-                    if len(data) > 0:
-                        for item in data:
-                            plot = ParseDescription(item)
-                    else:
-                        plot = ''
-                    scraper.scraper_add(host, name, img, plot, '')
-                    scrap = scraper.scraper_check(host, name)
-            except:
-                scrap = ''
-            try:
-                img = scrap[1]
-            except:
-                img = ''
-            try:
-                plot = scrap[2]
-            except:
-                plot = ''
-        else:
-            img = ''
-            plot =''
-        fanart = fanartAol
-        labs = {}
-        try:
-            labs['plot'] = plot
-        except:
-            labs['plot'] = ''
-###
-        pars = {'mode': 'EpisodesAnime', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
-        contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-        if section == 'animeonline':
-            contextMenuItems = ContextMenu_Series(contextLabs)
-        labs['title'] = name
-        _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    eod()
-
-
 def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
     if url == '':
         return
     if '?page=0'in url:
-        link = url.replace('?page=0','')
+        link = url.replace('?page=0', '')
     else:
         link = url
-    html = GetDataBeetwenMarkers(nURL(link), '<div id="block-views-lista-odcink-w-block', '</ul>', False)[1]
+    html = GetDataBeetwenMarkers(nURL(link), '<div id="block-views-lista-odcink-w-block', 'class="clearfix', False)[1]
     data = re.findall('<a href="(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     for item in data:
@@ -222,7 +150,7 @@ def Browse_EpisodesAnime(url, page='', content='episodes', view='515'):
 
 
 def encryptPlayerUrl(data):
-    print("_encryptPlayerUrl data[%s]" % data)
+    #print("_encryptPlayerUrl data[%s]" % data)
     decrypted = ''
     try:
         data = byteify(json.loads(data))
@@ -261,7 +189,8 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
     players = players.replace('\n', '')
     players = players.replace('\r', '')
     players = players.replace('  ', '')
-    lista = re.compile("data-hash='{(.+?)}'>(.+?)</div>").findall(players)
+    #print (players.encode('ascii', 'ignore'))
+    lista = re.compile("data-hash='{(.+?)}'>(.+?) ").findall(players)
     lista = [tuple(reversed(t)) for t in lista]
     import xbmcgui
     d = xbmcgui.Dialog()
@@ -283,40 +212,6 @@ def Browse_PlayAnime(url, page='', content='episodes', view='515'):
                 PlayFromHost(url, 'play')
         if (tfalse(addst("download.opp")) == False):
             PlayFromHost(url, 'play')
-    eod()
-
-
-def Recenzje(url, page='', metamethod=''):
-    url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=UUcxW52ZGVQ8ThhwgpB-XPjQ&key=' + youtube_api_key
-    html = nURL(url)
-    Browse_ItemRecenzje(html, metamethod)
-    eod()
-
-
-def Browse_ItemRecenzje(html, metamethod='', content='tvshows', view='515'):
-    if (len(html) == 0):
-        return
-    data = byteify(json.loads(html))['items']
-    ItemCount = len(data)
-    for x in range(len(data)):
-        item = data[x]
-        name = item['snippet']['title']
-        plot = item['snippet']['description']
-        plot = clean_html(plot)
-        img = item['snippet']['thumbnails']['high']['url']
-        url = item['snippet']['resourceId']['videoId']
-        strona = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' % url
-        fanart = fanartAol
-        labs = {}
-        try:
-            labs['plot'] = plot
-        except:
-            labs['plot'] = ''
-        contextLabs = {'title': name, 'year': '0000', 'url': strona, 'img': img, 'fanart': fanart, 'DateAdded': '', 'plot': labs['plot']}
-        contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
-        pars = {'mode': 'PlayFromHost', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
-        labs['title'] = name
-        _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
     eod()
 
 

@@ -80,6 +80,7 @@ page = addpr('page', '')
 addonInfo = xbmcaddon.Addon().getAddonInfo
 lang = xbmcaddon.Addon().getLocalizedString
 
+
 ###############################################################################
 ###############################################################################
 # Anime4fun
@@ -142,9 +143,7 @@ def AnimeOnline(mode, url, page):
     elif mode == "PlayAnime":
         hostanimeonline.Browse_PlayAnime(url, page)
     elif mode == "Filmy":
-        hostanimeonline.Browse_Filmy(url, page)
-    elif mode == "recenzje":
-        hostanimeonline.Recenzje(url)
+        hostanimeonline.Pageanimeonline(url, page)
     else:
         return
 ###############################################################################
@@ -248,75 +247,6 @@ def Dragonball(mode, url, page):
 ###############################################################################
 
 
-def SubSubMenu():
-###Anime-Online###
-    if section == 'animeonline':
-        tUrl = mainSite4 + 'anime'
-        for az, xy in zip(AonlineAlphabet, AonlineAlphabet):
-            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl, 'page' : xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-    if section == 'animedrama':
-        tUrl = mainSite4 + 'Drama/viewpage.php?page_id='
-        for az, xy in zip(MyAlphabet, AonlineDrama):
-            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl + xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-    eod()
-
-
-def SubMenu():
-###Anime4fun###
-    if section == 'anime4fun':
-        tUrl = mainSite2
-        _addon.add_directory({'mode': 'Page4fun', 'site': site, 'section': section, 'url': tUrl + 'list-special' + '?page=1'}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
-        for az in Anime4funalphabet:
-            _addon.add_directory({'mode': 'Page4fun', 'site': site, 'section': section, 'url': tUrl + 'list-' + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/'+ az +'.png')
-###animejoy##
-    if section == 'animejoy':
-        tUrl = mainSite3 + 'animelist#'
-        _addon.add_directory({'mode': 'Pagejoy', 'site': site, 'section': section, 'url': tUrl + '1'}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pagejoy', 'site': site, 'section': section, 'url': tUrl + az, 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/'+ az +'.png')
-###Anime-Centrum##
-    if section == 'animecentrum':
-        tUrl = mainSite9
-        _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl , 'page': '#'}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pageanimecentrum', 'site': site, 'section': section, 'url': tUrl, 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-###Anime-Online###
-    if section == 'animeonline':
-        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
-#        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animedrama'}, {'title': "Drama Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
-        _addon.add_directory({'mode': 'Filmy', 'site': site, 'section': 'animeonline'}, {'title': "Filmy Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
-        _addon.add_directory({'mode': 'recenzje', 'site': site, 'section': section, 'url': ''}, {'title': "Recenzje Spycha"}, is_folder=True, fanart=fanartAol, img=iconspychu)
-###animezone##
-    if section == 'animezone':
-        tUrl = mainSite7 + 'anime/lista/'
-        _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-###kreskoweczki##
-    if section == 'kreskoweczki':
-        tUrl = mainSite8 + 'na-litere/'
-        _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + '0-9#anime'}, {'title': '0-9'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + az + '#anime', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-###Senpai##
-    if section == 'senpai':
-        tUrl = mainSite10
-        for az in MyAlphabet:
-            _addon.add_directory({'mode': 'Senpai', 'site': site, 'section': section, 'url': tUrl, 'page' : az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/'+ az +'.png')
-###Dragonball##
-    if section == 'dragonball':
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball.html'}, {'title': 'Dragon Ball'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNDYyNTJkNmItYjgxNC00ODliLTg2MGMtZjkxNjEwYzdjNjUxXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-z.html'}, {'title': 'Dragon Ball Z'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNGM5MTEyZDItZWNhOS00NzNkLTgwZTAtNWIzY2IzZmExOWMxXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-gt.html'}, {'title': 'Dragon Ball GT'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BYzY3YjhiYTMtNDQ4OS00ZGI0LWE0ODQtOGM1N2M5OTQyNjk1XkEyXkFqcGdeQXVyMjc2Nzg5OTQ@._V1_.jpg')
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-kai.html'}, {'title': 'Dragon Ball KAI'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNWRlNWI5ZmQtMWU2NC00ZDYzLThkOWMtYTA2NWJjZWZjMGI5XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-super.html'}, {'title': 'Dragon Ball Super'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BY2I2MzI1ODYtMWRlOS00MzdhLWEyOWEtYWJhNmFiZTIxMGJhXkEyXkFqcGdeQXVyMTExNDQ2MTI@._V1_SY1000_CR0,0,666,1000_AL_.jpg')
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-z-abridged.html'}, {'title': 'DBZ Abridged'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
-        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-super-heroes.html'}, {'title': 'Dragon Ball Heroses'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
-#        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/filmy-kinowe.html'}, {'title': 'Kinowki'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
-
-    eod()
-
-
 def SectionMenu():
 ###Anime4fun###
         if __settings__.getSetting("Anime4fun") == "true":
@@ -345,14 +275,77 @@ def SectionMenu():
 ###Dragonball###
         if __settings__.getSetting("Dragonball") == "true":
             _addon.add_directory({'mode': 'SubMenu', 'site': site, 'section': 'dragonball'}, {'title': cFL('StrefaDB.PL', 'blue')}, is_folder=True, fanart=fanartAol, img=iconstrefadb)
-
-
 ###Ulubione###
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': ''}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.1.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '2'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.2.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '3'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.3.name'))}, fanart=fanartIPTV, img=iconFavs)
         _addon.add_directory({'mode': 'FavoritesList', 'site': site, 'section': '', 'subfav': '4'}, {'title': (lang(30001).encode('utf-8') + addst('fav.tv.4.name'))}, fanart=fanartIPTV, img=iconFavs)
         eod()
+
+
+def SubMenu():
+###Anime4fun###
+    if section == 'anime4fun':
+        tUrl = mainSite2
+        _addon.add_directory({'mode': 'Page4fun', 'site': site, 'section': section, 'url': tUrl + 'list-special' + '?page=1'}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
+        for az in Anime4funalphabet:
+            _addon.add_directory({'mode': 'Page4fun', 'site': site, 'section': section, 'url': tUrl + 'list-' + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/' + az + '.png')
+###animejoy##
+    if section == 'animejoy':
+        tUrl = mainSite3 + 'animelist#'
+        _addon.add_directory({'mode': 'Pagejoy', 'site': site, 'section': section, 'url': tUrl + '1'}, {'title': '#'}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pagejoy', 'site': site, 'section': section, 'url': tUrl + az, 'page': az}, {'title': az}, is_folder=True, fanart=fanartAnime4fun, img=addonPath + '/art/' + az + '.png')
+###Anime-Centrum##
+    if section == 'animecentrum':
+        tUrl = mainSite9
+        _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl , 'page': '#'}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pageanimecentrum', 'site': site, 'section': section, 'url': tUrl, 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/' + az + '.png')
+###Anime-Online###
+    if section == 'animeonline':
+        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonline'}, {'title': "Odcinki Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+        _addon.add_directory({'mode': 'SubSubMenu', 'site': site, 'section': 'animeonlineFilmy'}, {'title': "Filmy Anime"}, is_folder=True, fanart=fanartAol, img=iconOdcinki)
+###animezone##
+    if section == 'animezone':
+        tUrl = mainSite7 + 'anime/lista/'
+        _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl}, {'title': '#'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pagezone', 'site': site, 'section': section, 'url': tUrl + az + '?page=1', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/' + az + '.png')
+###kreskoweczki##
+    if section == 'kreskoweczki':
+        tUrl = mainSite8 + 'na-litere/'
+        _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + '0-9#anime'}, {'title': '0-9'}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/znak.png')
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Pagekresk', 'site': site, 'section': section, 'url': tUrl + az + '#anime', 'page': az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/' + az + '.png')
+###Senpai##
+    if section == 'senpai':
+        tUrl = mainSite10
+        for az in MyAlphabet:
+            _addon.add_directory({'mode': 'Senpai', 'site': site, 'section': section, 'url': tUrl, 'page' : az}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/' + az + '.png')
+###Dragonball##
+    if section == 'dragonball':
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball.html'}, {'title': 'Dragon Ball'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNDYyNTJkNmItYjgxNC00ODliLTg2MGMtZjkxNjEwYzdjNjUxXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-z.html'}, {'title': 'Dragon Ball Z'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNGM5MTEyZDItZWNhOS00NzNkLTgwZTAtNWIzY2IzZmExOWMxXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-gt.html'}, {'title': 'Dragon Ball GT'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BYzY3YjhiYTMtNDQ4OS00ZGI0LWE0ODQtOGM1N2M5OTQyNjk1XkEyXkFqcGdeQXVyMjc2Nzg5OTQ@._V1_.jpg')
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-kai.html'}, {'title': 'Dragon Ball KAI'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BNWRlNWI5ZmQtMWU2NC00ZDYzLThkOWMtYTA2NWJjZWZjMGI5XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_.jpg')
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-super.html'}, {'title': 'Dragon Ball Super'}, is_folder=True, fanart=fanartdragon, img='https://images-na.ssl-images-amazon.com/images/M/MV5BY2I2MzI1ODYtMWRlOS00MzdhLWEyOWEtYWJhNmFiZTIxMGJhXkEyXkFqcGdeQXVyMTExNDQ2MTI@._V1_SY1000_CR0,0,666,1000_AL_.jpg')
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-z-abridged.html'}, {'title': 'DBZ Abridged'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
+        _addon.add_directory({'mode': 'dragonball', 'site': site, 'section': section, 'url': 'https://strefadb.pl/odcinki/dragon-ball-super-heroes.html'}, {'title': 'Dragon Ball Heroses'}, is_folder=True, fanart=fanartdragon, img=iconstrefadballs)
+    eod()
+
+
+def SubSubMenu():
+###Anime-Online###
+    if section == 'animeonline':
+        tUrl = mainSite4 + 'anime'
+        for az, xy in zip(AonlineAlphabet, AonlineAlphabet):
+            _addon.add_directory({'mode': 'Pageanimeonline', 'site': site, 'section': section, 'url': tUrl, 'page': xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/' + az + '.png')
+    if section == 'animeonlineFilmy':
+        tUrl = mainSite4 + 'Filmy'
+        for az, xy in zip(AonlineAlphabet, AonlineAlphabet):
+            _addon.add_directory({'mode': 'Filmy', 'site': site, 'section': section, 'url': tUrl, 'page' : xy}, {'title': az}, is_folder=True, fanart=fanartAol, img=addonPath + '/art/' + az + '.png')
+    eod()
 
 
 ##############################################################################
@@ -395,8 +388,6 @@ def mode_subcheck(mode='', site='', section='', url=''):
         AnimeOnline(mode, url, page)
     elif (mode == 'Filmy'):
         AnimeOnline(mode, url, page)
-    elif (mode == 'recenzje'):
-        AnimeOnline(mode, url=url, page=page)
 # ANIME-JOY
     elif (mode == 'Pagejoy'):
         Animejoy(mode=mode, url=url, page=page)

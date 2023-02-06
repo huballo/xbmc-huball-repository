@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon
+  id="plugin.video.anime-iptv-2.0"
+  version="2.0.0"
+  name="Anime-IPTV"
+  provider-name="huball">
+  <requires>
+  	<import addon="xbmc.python" version="3.0.0"/>
+  	<import addon="script.module.requests" version="2.12.4"/>
+	<import addon="script.module.resolveurl"/>
+  	<import addon="script.common.plugin.cache" version="2.5.2"/>
+  	<import addon="script.xbmcbackup"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource"
+             library="anime-iptv.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary>anime</summary>
+	<summary lang="pl">Przeglądanie i odtwarzanie zawartości stron anime.</summary>
+    <description lang="pl">Wtyczka powstała w celach edukacyjnych. Stworzona przez modyfikację dodatku Anime44 napisanego przez „The Highway” Testowana częściowo na Windows 7 i na RPI z OpenELEC. Niektóre jej składniki mogą nie działać lub działać nie poprawnie. Nie biorę odpowiedzialności za problemy związane z użytkowaniem tego dodatku. Some parts of this addon may not be legal in your country of residence - please check with your local laws before installing!</description>
+    <license>GNUv3</license>
+    <platform>all</platform>
+    <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.jpg</fanart>
+        <banner></banner> <!-- optional -->
+    </assets>
+  </extension>
+</addon>

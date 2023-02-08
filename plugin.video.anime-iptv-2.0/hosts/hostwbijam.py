@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 ###############################################################################
-# Anime4fun
+# Wbijam.pl
 ###############################################################################
 ###############################################################################
 ### Imports ###
 import re
 import xbmcaddon
-from common import (_addon, addpr, nURL, eod, set_view, addst, GetDataBeetwenMarkers, tfalse)
+from common import (_addon, addpr, nURL, eod, addst, GetDataBeetwenMarkers, tfalse)
 from contextmenu import (ContextMenu_Series, ContextMenu_Episodes)
 ### ##########################################################################
 ### ##########################################################################
@@ -31,16 +31,13 @@ def Pagewbijam(url, page):
 def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
     if (len(html) == 0):
         return
-    html = html
-    html = re.sub('>Gry MMO anime</div>', '>Gry MMO anime', html)
-    html = re.sub('>Polecane gry online</div', '>Polecane gry online', html)
-    html = GetDataBeetwenMarkers(html, 'Menu Główne</div>', '>Reklama<', False, False)[1]
-    data = re.findall('">(.+?)</div>', html)
+    html = GetDataBeetwenMarkers(html, 'dropbtn">Lista anime', '</div>', False, False)[1]
+    data = re.findall('<a href="(.+?)" class="sub_link" rel="(.+?)">(.+?)</a>', html)
     ItemCount = len(data)
     if len(data) > 0:
         for item in data:
-            strona = item
-            name = strona
+            strona = item[0]
+            name = item[2]
             img = ''
             plot = ''
             fanart = fanartAol
@@ -50,161 +47,18 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
             except:
                 labs['plot'] = ''
 ##
-            if 'Polecane serie anime' in strona:
-                pars = {'mode': 'Browse_ItemslistPolecane', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
-                contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-                contextMenuItems = ContextMenu_Series(contextLabs)
-                labs['title'] = name
-                _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-            else:
-                pars = {'mode': 'Browse_Itemslist', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
-                contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-                contextMenuItems = ContextMenu_Series(contextLabs)
-                labs['title'] = name
-                _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    eod()
-
-
-def Browse_ItemslistPolecane(url, page='', content='episodes', view='515'):
-    data = 'http://www.inne.wbijam.pl/'
-    html = nURL(data)
-    html = html.encode('utf-8', '')
-    if 'Polecane serie anime' in url:
-        data1 = '>Polecane serie anime</div>'
-        data2 = '>Pozostałe serie</a>'
-        link = ''
-        mode = 'Browse_Episodeswijam'
-    data = GetDataBeetwenMarkers(html, data1, data2, False)[1]
-    data = re.findall('<a href="(.+?)"(.+?)">(.+?)</a></li>', data)
-    data.sort()
-    ItemCount = len(data)
-    if len(data) > 0:
-        for item in data:
-            strona = link + item[0]
-            name = item[2]
-### scrper
-            if (tfalse(addst("wbij-thumbs")) == True):
-                import scraper
-                scrap = scraper.scraper_check(host, name)
-                try:
-                    if (name not in scrap):
-                        html = nURL(strona)
-                        data = re.findall('<img src="grafika/(.+?)">', html)
-                        ItemCount = len(data)
-                        if len(data) > 0:
-                            for item in data:
-                                img = url + '/grafika/' + item
-                        else:
-                            img = ''
-                        plot = ''
-                        scraper.scraper_add(host, name, img, plot, '')
-                        scrap = scraper.scraper_check(host, name)
-                except:
-                    scrap = ''
-                try:
-                    img = scrap[1]
-                except:
-                    img = ''
-                try:
-                    plot = scrap[2]
-                except:
-                    plot = ''
-            else:
-                img = ''
-                plot = ''
-            fanart = fanartAol
-            labs = {}
-            try:
-                labs['plot'] = plot
-            except:
-                labs['plot'] = ''
-    ##
-            pars = {'mode': mode, 'site': site, 'section': section, 'title': name, 'url': strona, 'page': url, 'img': img, 'fanart': fanart}
+            pars = {'mode': 'Browse_Episodeswijam', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
             contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
             contextMenuItems = ContextMenu_Series(contextLabs)
             labs['title'] = name
             _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('tvshows-view'))
-    eod()
-
-
-def Browse_Itemslist(url, page='', content='episodes', view='515'):
-    data = 'http://www.inne.wbijam.pl/'
-    html = nURL(data)
-    html = html
-    if 'Lżejsze klimaty' in url:
-        data1 = '>Lżejsze klimaty</div>'
-        data2 = '>Dostępne serie anime'
-        link = 'http://www.inne.wbijam.pl/'
-        mode = 'Browse_Episodeswijaminne'
-    elif 'Akcja' in url:
-        data1 = '>Akcja</div>'
-        data2 = '>Lżejsze klimaty</div>'
-        link = 'http://www.inne.wbijam.pl/'
-        mode = 'Browse_Episodeswijaminne'
-    data = GetDataBeetwenMarkers(html, data1, data2, False)[1]
-    data = re.findall('<a href="(.+?)">(.+?)</a></li>', data)
-    data.sort()
-    ItemCount = len(data)
-    if len(data) > 0:
-        for item in data:
-            strona = link + item[0]
-            name = item[1]
-### scrper
-            if (tfalse(addst("wbij-thumbs")) == True):
-                import scraper
-                scrap = scraper.scraper_check(host, name)
-                try:
-                    if (name not in scrap):
-                        html = nURL(strona)
-                        data = re.findall('<img src="grafika/(.+?)">', html)
-                        ItemCount = len(data)
-                        if len(data) > 0:
-                            for item in data:
-                                img = url + '/grafika/' + item
-                        else:
-                            img = ''
-                        plot = ''
-                        scraper.scraper_add(host, name, img, plot, '')
-                        scrap = scraper.scraper_check(host, name)
-                except:
-                    scrap = ''
-                try:
-                    img = scrap[1]
-                except:
-                    img = ''
-                try:
-                    plot = scrap[2]
-                except:
-                    plot = ''
-            else:
-                img = ''
-                plot = ''
-            fanart = fanartAol
-            labs = {}
-            try:
-                labs['plot'] = plot
-            except:
-                labs['plot'] = ''
-    ##
-            pars = {'mode': mode, 'site': site, 'section': section, 'title': name, 'url': strona, 'page': url, 'img': img, 'fanart': fanart}
-            contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
-            contextMenuItems = ContextMenu_Series(contextLabs)
-            labs['title'] = name
-            _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    set_view(content, view_mode=addst('tvshows-view'))
     eod()
 
 
 def Browse_Episodeswijam(url, page, content='episodes', view='515'):
     if url == '':
         return
-    if 'blackclover'in url:
-        html = nURL(url)
-        html = html.encode('utf-8', '')
-    else:
-        html = nURL(url)
-        html = html.encode('utf-8', '')
+    html = nURL(url)
     if ('kolejnosc_ogladania.html' in html):
         data = GetDataBeetwenMarkers(html, 'Kolejność oglądania</a>', '</div>', False)[1]
         data = re.findall('<a href="(.+?)">(.+?)</a>', data)
@@ -249,38 +103,6 @@ def Browse_Episodeswijam(url, page, content='episodes', view='515'):
                 labs['title'] = name
                 _addon.add_directory(pars, labs, is_folder=True, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
         eod()
-
-
-def Browse_Episodeswijaminne(url, page, content='episodes', view='515'):
-    if url == '':
-        return
-    html = nURL(url)
-    html = GetDataBeetwenMarkers(html, '<table class="lista">', '<center>', False)[1]
-    html = html.replace('\'', '')
-    html = html.replace('\n', '')
-    html = html.replace('\r', '')
-    html = html.replace('\t', '')
-    html = html.replace('  ', '')
-    #print html.encode('ascii', 'ignore')
-    data = re.findall('alt="">(.+?)</td>', html)
-    ItemCount = len(data)
-    for item in data:
-        strona = ''
-        name = item.replace('</a>', '')
-        plot = ''
-        img = ''
-        labs = {}
-        try:
-            labs['plot'] = plot
-        except:
-            labs['plot'] = ''
-###
-        contextLabs = {'title': name, 'year': '0000', 'url': strona, 'img': img, 'fanart': fanart, 'DateAdded': '', 'plot': labs['plot']}
-        contextMenuItems = ContextMenu_Episodes(labs=contextLabs)
-        pars = {'mode': 'Browse_PlayWbijam', 'site': site, 'section': section, 'title': name, 'url': url,'page': name, 'img': img, 'fanart': fanart}
-        labs['title'] = name
-        _addon.add_directory(pars, labs, is_folder=False, fanart=fanart, img=img, contextmenu_items=contextMenuItems, total_items=ItemCount)
-    eod()
 
 
 def Browse_Episodeswijaminne2(url, page, content='episodes', view='515'):
@@ -331,7 +153,7 @@ def Browse_PlayWbijam(url, page, content='episodes', view='515'):
         return
     elif ('http://www.inne.wbijam.pl' in url):
         html = nURL(url)
-        players = GetDataBeetwenMarkers(html, 'alt="">'+page+'</td>', '<td><img src=')[1]
+        players = GetDataBeetwenMarkers(html, 'alt="">' + page + '</td>', '<td><img src=')[1]
         players = players.replace('\'', '')
         players = players.replace('\n', '')
         players = players.replace('\r', '')

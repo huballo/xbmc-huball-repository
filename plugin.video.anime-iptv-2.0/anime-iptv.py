@@ -11,7 +11,7 @@ import sys
 ### ##########################################################################
 SiteName = 'AnimeIPTV'
 SiteTag = 'AnimeIPTV'
-mainSite = 'http://www.inne.wbijam.pl/'
+mainSite = 'http://www.wbijam.pl/'
 mainSite2 = 'http://animeonline.co/'
 mainSite3 = 'http://anime-joy.tv/'
 mainSite4 = 'https://anime-odcinki.pl/'
@@ -158,14 +158,8 @@ def Wbijam(mode, url, page):
     import hostwbijam
     if mode == "Pagewbijam":
         hostwbijam.Pagewbijam(url, page)
-    elif mode == "Browse_ItemslistPolecane":
-        hostwbijam.Browse_ItemslistPolecane(url, page)
-    elif mode == "Browse_Itemslist":
-        hostwbijam.Browse_Itemslist(url, page)
     elif mode == "Browse_Episodeswijam":
         hostwbijam.Browse_Episodeswijam(url, page)
-    elif mode == "Browse_Episodeswijaminne":
-        hostwbijam.Browse_Episodeswijaminne(url, page)
     elif mode == "Browse_Episodeswijaminne2":
         hostwbijam.Browse_Episodeswijaminne2(url, page)
     elif mode == "Browse_PlayWbijam":
@@ -398,13 +392,7 @@ def mode_subcheck(mode='', site='', section='', url=''):
 # WBIJAM.PL
     elif (mode == 'Pagewbijam'):
         Wbijam(mode=mode, url=url, page=page)
-    elif (mode == 'Browse_ItemslistPolecane'):
-        Wbijam(mode, url, page)
-    elif (mode == 'Browse_Itemslist'):
-        Wbijam(mode, url, page)
     elif (mode == 'Browse_Episodeswijam'):
-        Wbijam(mode, url, page)
-    elif (mode == 'Browse_Episodeswijaminne'):
         Wbijam(mode, url, page)
     elif (mode == 'Browse_Episodeswijaminne2'):
         Wbijam(mode, url, page)

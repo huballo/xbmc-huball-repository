@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon
   id="plugin.video.anime-iptv-2.0"
-  version="2.0.1"
+  version="2.0.2"
   name="Anime-IPTV"
   provider-name="huball">
   <requires>

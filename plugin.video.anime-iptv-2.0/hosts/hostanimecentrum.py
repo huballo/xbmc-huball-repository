@@ -96,36 +96,42 @@ def Browse_ItemAnimecentrum(html, url, metamethod='', content='movies', view='51
         if (tfalse(addst("acentr-thumbs")) == True):
             import scraper
             scrap = scraper.scraper_check(host, name)
-            try:
-                if (name not in scrap):
-                    html = nURL(strona)
-                    html = GetDataBeetwenMarkers(html, '<article class="content-1">', '<section class="gap-2">', False)[1]
-                    data = re.findall('src="(.+?)"', html)
-                    ItemCount = len(data)
-                    if len(data) > 0:
-                        for item in data:
-                            img = item
-                    else:
-                        img = ''
-                    data = re.findall('<p>(.+?)<', html)
-                    ItemCount = len(data)
-                    if len(data) > 0:
-                        for item in data:
-                            plot = item
-                    else:
+            if (name in scrap):
+                try:
+                    img = scrap[1]
+                except:
+                    img = ''
+                try:
+                    plot = scrap[2]
+                except:
+                    plot = ''
+            else:
+                API_key = 'f090bb54758cabf231fb605d3e3e0468'
+                query = 'https://api.themoviedb.org/3/search/tv?api_key=' + API_key + '&language=pl-PL&query=' + name + '&page=1'
+                data = requests.get(query).json()
+                total_results = data['total_results']
+                if total_results > 0:
+                    try:
+                        for i in (requests.get(query).json()['results']):
+                            genre = (i['genre_ids'])
+                            if 16 in genre:
+                                ID = (i['id'])
+                                ID = ID[0]
+                    except:
+                        print ('')
+                    try:
+                        query = 'https://api.themoviedb.org/3/tv/' + str(ID) + '?api_key=' + API_key + '&language=pl-PL'
+                        data = (requests.get(query).json())
+                        plot = data['overview']
+                        img = 'https://image.tmdb.org/t/p/original' + data['poster_path']
+                    except:
                         plot = ''
+                        img = ''
                     scraper.scraper_add(host, name, img, plot, '')
                     scrap = scraper.scraper_check(host, name)
-            except:
-                scrap = ''
-            try:
-                img = scrap[1]
-            except:
-                img = ''
-            try:
-                plot = scrap[2]
-            except:
-                plot = ''
+                else:
+                    plot = ''
+                    img = ''
         else:
             img = ''
             plot = ''
@@ -137,8 +143,6 @@ def Browse_ItemAnimecentrum(html, url, metamethod='', content='movies', view='51
             labs['plot'] = ''
 ###
         pars = {'mode': 'EpisodesAnimecentrum', 'site': site, 'section': section, 'title': name, 'url': strona, 'img': img, 'fanart': fanart}
-        print (_addon.build_plugin_url(pars))
-        print ('11111111111111111111111111')
         contextLabs = {'title': name, 'url': strona, 'img': img, 'fanart': fanart, 'todoparams': _addon.build_plugin_url(pars), 'site': site, 'section': section, 'plot': labs['plot']}
         if section == 'animecentrum':
             contextMenuItems = ContextMenu_Series(contextLabs)

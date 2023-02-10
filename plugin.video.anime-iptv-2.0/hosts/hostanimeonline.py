@@ -11,6 +11,7 @@ import re
 import xbmcaddon
 import os
 import sys
+import requests
 
 from common import (_addon, addpr, nURL, eod, set_view, addst, addonPath, GetDataBeetwenMarkers, tfalse)
 from contextmenu import (ContextMenu_Series, ContextMenu_Episodes)
@@ -65,33 +66,42 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
         if (tfalse(addst("aodc-thumbs")) == True):
             import scraper
             scrap = scraper.scraper_check(host, name)
-            try:
-                if (name not in scrap):
-                    if '?page=0'in strona:
-                        strona2 = strona.replace('?page=0', '')
-                    else:
-                        strona2 = strona
-                    html = nURL(strona2)
-                    img = img
-                    data = re.findall('<p>(.+?)</p>', html)
-                    ItemCount = len(data)
-                    if len(data) > 0:
-                        for item in data:
-                            plot = item
-                    else:
+            if (name in scrap):
+                try:
+                    img = scrap[1]
+                except:
+                    img = ''
+                try:
+                    plot = scrap[2]
+                except:
+                    plot = ''
+            else:
+                API_key = 'f090bb54758cabf231fb605d3e3e0468'
+                query = 'https://api.themoviedb.org/3/search/tv?api_key=' + API_key + '&language=pl-PL&query=' + name + '&page=1'
+                data = requests.get(query).json()
+                total_results = data['total_results']
+                if total_results > 0:
+                    try:
+                        for i in (requests.get(query).json()['results']):
+                            genre = (i['genre_ids'])
+                            if 16 in genre:
+                                ID = (i['id'])
+                                ID = ID[0]
+                    except:
+                        print ('')
+                    try:
+                        query = 'https://api.themoviedb.org/3/tv/' + str(ID) + '?api_key=' + API_key + '&language=pl-PL'
+                        data = (requests.get(query).json())
+                        plot = data['overview']
+                        img = 'https://image.tmdb.org/t/p/original' + data['poster_path']
+                    except:
                         plot = ''
+                        img = ''
                     scraper.scraper_add(host, name, img, plot, '')
                     scrap = scraper.scraper_check(host, name)
-            except:
-                scrap = ''
-            try:
-                img = scrap[1]
-            except:
-                img = ''
-            try:
-                plot = scrap[2]
-            except:
-                plot = ''
+                else:
+                    plot = ''
+                    img = ''
         else:
             img = ''
             plot = ''

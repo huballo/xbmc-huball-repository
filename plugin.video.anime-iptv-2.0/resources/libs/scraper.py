@@ -28,9 +28,10 @@ def scraper_check(host, name):
             favs = row[0]
             image = row[1]
             plot = row[2]
+            fanart = row[3]
             ItemCount=len(favs)
             if favs:
-                return favs, image, plot
+                return favs, image, plot, fanart
             else:
                 names = False
                 return names

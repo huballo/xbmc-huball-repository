@@ -54,6 +54,10 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
                         plot = scrap[2]
                     except:
                         plot = ''
+                    try:
+                        fanart = scrap[3]
+                    except:
+                        fanart = fanartAol
                 else:
                     API_key = 'f090bb54758cabf231fb605d3e3e0468'
                     query = 'https://api.themoviedb.org/3/search/tv?api_key=' + API_key + '&language=pl-PL&query=' + name + '&page=1'
@@ -78,7 +82,7 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
                             fanart = fanartAol
                             plot = ''
                             img = ''
-                        scraper.scraper_add(host, name, img, plot, '')
+                        scraper.scraper_add(host, name, img, plot, fanart)
                         scrap = scraper.scraper_check(host, name)
                     else:
                         plot = ''

@@ -123,19 +123,22 @@ def Browse_ItemAnimecentrum(html, url, metamethod='', content='movies', view='51
                         query = 'https://api.themoviedb.org/3/tv/' + str(ID) + '?api_key=' + API_key + '&language=pl-PL'
                         data = (requests.get(query).json())
                         plot = data['overview']
+                        fanart = 'https://image.tmdb.org/t/p/original' + data['backdrop_path']
                         img = 'https://image.tmdb.org/t/p/original' + data['poster_path']
                     except:
                         plot = ''
                         img = ''
+                        fanart = fanartAol
                     scraper.scraper_add(host, name, img, plot, '')
                     scrap = scraper.scraper_check(host, name)
                 else:
                     plot = ''
                     img = ''
+                    fanart = fanartAol
         else:
             img = ''
             plot = ''
-        fanart = fanartAol
+            fanart = fanartAol
         labs = {}
         try:
             labs['plot'] = plot

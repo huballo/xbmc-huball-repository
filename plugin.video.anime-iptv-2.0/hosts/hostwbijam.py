@@ -72,8 +72,10 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
                             query = 'https://api.themoviedb.org/3/tv/' + str(ID) + '?api_key=' + API_key + '&language=pl-PL'
                             data = (requests.get(query).json())
                             plot = data['overview']
+                            fanart = 'https://image.tmdb.org/t/p/original' + data['backdrop_path']
                             img = 'https://image.tmdb.org/t/p/original' + data['poster_path']
                         except:
+                            fanart = fanartAol
                             plot = ''
                             img = ''
                         scraper.scraper_add(host, name, img, plot, '')
@@ -81,10 +83,11 @@ def Browse_Itemscen(html, name2, metamethod='', content='movies', view='515'):
                     else:
                         plot = ''
                         img = ''
+                        fanart = fanartAol
             else:
                 img = ''
                 plot = ''
-            fanart = fanartAol
+                fanart = fanartAol
             labs = {}
             try:
                 labs['plot'] = plot

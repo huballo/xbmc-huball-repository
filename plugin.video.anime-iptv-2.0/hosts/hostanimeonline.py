@@ -75,6 +75,10 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
                     plot = scrap[2]
                 except:
                     plot = ''
+                try:
+                    fanart = scrap[3]
+                except:
+                    fanart = fanartAol
             else:
                 API_key = 'f090bb54758cabf231fb605d3e3e0468'
                 query = 'https://api.themoviedb.org/3/search/tv?api_key=' + API_key + '&language=pl-PL&query=' + name + '&page=1'
@@ -94,18 +98,21 @@ def Browse_ItemAol(html, page, metamethod='', content='movies', view='515'):
                         data = (requests.get(query).json())
                         plot = data['overview']
                         img = 'https://image.tmdb.org/t/p/original' + data['poster_path']
+                        fanart = 'https://image.tmdb.org/t/p/original' + data['backdrop_path']
                     except:
                         plot = ''
                         img = ''
-                    scraper.scraper_add(host, name, img, plot, '')
+                        fanart = fanartAol
+                    scraper.scraper_add(host, name, img, plot, fanart)
                     scrap = scraper.scraper_check(host, name)
                 else:
                     plot = ''
                     img = ''
+                    fanart = fanartAol
         else:
             img = ''
             plot = ''
-        fanart = fanartAol
+            fanart = fanartAol
         labs = {}
         try:
             labs['plot'] = plot

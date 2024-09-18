@@ -13,24 +13,24 @@ __addon__ = xbmcaddon.Addon()
 __version__ = __addon__.getAddonInfo('version')  # Module version
 __scriptname__ = __addon__.getAddonInfo('name')
 __language__ = __addon__.getLocalizedString
-__profile__ = unicode(xbmc.translatePath(__addon__.getAddonInfo('profile')), 'utf-8')
-__temp__ = unicode(xbmc.translatePath(os.path.join(__profile__, 'temp', '')), 'utf-8')
+__profile__ = str(xbmcvfs.translatePath(__addon__.getAddonInfo('profile')))
+__temp__ = str(xbmcvfs.translatePath(os.path.join(__profile__, 'temp', '')))
 
 regexHelper = re.compile('\W+', re.UNICODE)
 
 
 def normalizeString(str):
     return unicodedata.normalize(
-        'NFKD', unicode(unicode(str, 'utf-8'))
-    ).encode('utf-8', 'ignore')
+        'NFKD', str)
+    
 
 
 def log(msg):
-    xbmc.log((u"### [%s] - %s" % (__scriptname__, msg)).encode('utf-8'), level=xbmc.LOGDEBUG)
+    xbmc.log(("### [%s] - %s" % (__scriptname__, msg)), level=xbmc.LOGDEBUG)
 
 
 def notify(msg_id):
-    xbmc.executebuiltin((u'Notification(%s,%s)' % (__scriptname__, __language__(msg_id))).encode('utf-8'))
+    xbmc.executebuiltin(('Notification(%s,%s)' % (__scriptname__, __language__(msg_id))))
 
 
 def clean_title(item):
@@ -50,8 +50,8 @@ def clean_title(item):
             item["tvshow"] = ''.join(tvshow)
     else:
         item["tvshow"] = tvshow[0]
-    item["title"] = unicode(item["title"], "utf-8")
-    item["tvshow"] = unicode(item["tvshow"], "utf-8")
+    item["title"] = str(item["title"])
+    item["tvshow"] = str(item["tvshow"])
     # Removes country identifier at the end
     item["title"] = re.sub(r'\([^\)]+\)\W*$', '', item["title"]).strip()
     item["tvshow"] = re.sub(r'\([^\)]+\)\W*$', '', item["tvshow"]).strip()
@@ -111,7 +111,7 @@ class NapisyHelper:
                 title = item[0]
                 kod = item[2]
                 token = item[4]
-                cookie = (s.cookies.items())
+                cookie = (list(s.cookies.items()))
                 cookie = (cookie[0][1])
                 results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
         else :
@@ -126,7 +126,7 @@ class NapisyHelper:
                     title = item[0]
                     kod = item[2]
                     token = item[4]
-                    cookie = (s.cookies.items())
+                    cookie = (list(s.cookies.items()))
                     cookie = (cookie[0][1])
                     results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
             else :
@@ -141,7 +141,7 @@ class NapisyHelper:
                         title = item[0]
                         kod = item[2]
                         token = item[4]
-                        cookie = (s.cookies.items())
+                        cookie = (list(s.cookies.items()))
                         cookie = (cookie[0][1])
                         results.append({"title": title, "kod": kod, "token": token, "cookie": cookie})
         return results
@@ -159,4 +159,4 @@ class NapisyHelper:
             subFile.write(r.content)
         subFile.close()
         xbmc.Monitor().waitForAbort(0.5)
-        xbmc.executebuiltin(('XBMC.Extract("%s","%s")' % (zip_filename, __temp__,)).encode('utf-8'), True)
+        xbmc.executebuiltin(('Extract("%s","%s")' % (zip_filename, __temp__,)), True)

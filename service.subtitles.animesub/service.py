@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import urllib
+import urllib.parse, urllib.error
 
-try:
-    import xbmc
-    import xbmcvfs
-    import xbmcaddon
-    import xbmcplugin
-    import xbmcgui
-except ImportError:
-    from tests.stubs import xbmc, xbmcgui, xbmcaddon, xbmcplugin, xbmcvfs
+import xbmc
+import xbmcvfs
+import xbmcaddon
+import xbmcplugin
+import xbmcgui
+
 
 __addon__ = xbmcaddon.Addon()
 __scriptid__ = __addon__.getAddonInfo('id')
@@ -18,18 +16,16 @@ __scriptname__ = __addon__.getAddonInfo('name')
 __version__ = __addon__.getAddonInfo('version')
 __language__ = __addon__.getLocalizedString
 
-__cwd__ = xbmc.translatePath(__addon__.getAddonInfo('path')).decode("utf-8")
-__profile__ = xbmc.translatePath(__addon__.getAddonInfo('profile')).decode("utf-8")
-__resource__ = xbmc.translatePath(os.path.join(__cwd__, 'resources', 'lib')).decode("utf-8")
-__temp__ = xbmc.translatePath(os.path.join(__profile__, 'temp', '')).decode("utf-8")
+__cwd__ = xbmcvfs.translatePath(__addon__.getAddonInfo('path'))
+__profile__ = xbmcvfs.translatePath(__addon__.getAddonInfo('profile'))
+__temp__ = xbmcvfs.translatePath(os.path.join(__profile__, 'temp', ''))
 
-sys.path.append(__resource__)
 
-from NapisyUtils import NapisyHelper
-from NapisyUtils import log
-from NapisyUtils import normalizeString
-from NapisyUtils import clean_title
-from NapisyUtils import parse_rls_title
+from resources.lib.NapisyUtils import NapisyHelper
+from resources.lib.NapisyUtils import log
+from resources.lib.NapisyUtils import normalizeString
+from resources.lib.NapisyUtils import clean_title
+from resources.lib.NapisyUtils import parse_rls_title
 
 
 def search(item):
@@ -37,7 +33,8 @@ def search(item):
     subtitles_list = helper.get_subtitle_list(item)
     if subtitles_list:
         for it in subtitles_list:
-            listitem = xbmcgui.ListItem(label="Polish", label2=it["title"], iconImage=str("0"), thumbnailImage="pl")
+            listitem = xbmcgui.ListItem(label="Polish", label2=it["title"])
+            listitem.setArt({'icon' : str('0'), 'thumb' : 'pl'})
             numer = it["kod"]
             token = it["token"]
             cookie = it["cookie"]
@@ -88,14 +85,13 @@ if params['action'] in ['search', 'manualsearch']:
     item['episode'] = str(xbmc.getInfoLabel("VideoPlayer.Episode"))  # Episode
     item['tvshow'] = normalizeString(xbmc.getInfoLabel("VideoPlayer.TVshowtitle"))  # Show
     item['title'] = normalizeString(xbmc.getInfoLabel("VideoPlayer.OriginalTitle"))  # try to get original title
-    item['file_original_path'] = urllib.unquote(
-        xbmc.Player().getPlayingFile().decode('utf-8'))  # Full path of a playing file
+    item['file_original_path'] = urllib.parse.unquote(xbmc.Player().getPlayingFile())  # Full path of a playing file
     item['file_original_name'] = os.path.basename(item['file_original_path'])  # Name of playing file
     item['3let_language'] = []
-    item['preferredlanguage'] = unicode(urllib.unquote(params.get('preferredlanguage', '')), 'utf-8')
+    item['preferredlanguage'] = str(urllib.parse.unquote(params.get('preferredlanguage', '')))
     item['preferredlanguage'] = xbmc.convertLanguage(item['preferredlanguage'], xbmc.ISO_639_2)
 
-    for lang in urllib.unquote(params['languages']).decode('utf-8').split(","):
+    for lang in urllib.parse.unquote(params['languages']).split(","):
         item['3let_language'].append(xbmc.convertLanguage(lang, xbmc.ISO_639_2))
 
     if item['title'] == "":
@@ -104,11 +100,11 @@ if params['action'] in ['search', 'manualsearch']:
 
     if params['action'] == 'manualsearch':
         if item['season'] != '' or item['episode']:
-            item['tvshow'] = urllib.unquote(params['searchstring'])
+            item['tvshow'] = urllib.parse.unquote(params['searchstring'])
         else:
-            item['title'] = urllib.unquote(params['searchstring'])
+            item['title'] = urllib.parse.unquote(params['searchstring'])
 
-    for lang in unicode(urllib.unquote(params['languages']), 'utf-8').split(","):
+    for lang in str(urllib.parse.unquote(params['languages'])).split(","):
         item['3let_language'].append(xbmc.convertLanguage(lang, xbmc.ISO_639_2))
 
     log("Item before cleaning: \n    %s" % item)

@@ -43,7 +43,7 @@ class Generator:
         self._generate_md5_file()
         self._generate_zip_files()
         # notify user
-        print "Finished updating addons xml, md5 files and zipping addons"
+        print ("Finished updating addons xml, md5 files and zipping addons")
 
     def _generate_zip_files ( self ):
         addons = os.listdir( "." )

@@ -101,6 +101,7 @@ class NapisyHelper:
         odcinek = ' ep0' + re.split(r'\s\(\w+\)$', item["episode"])[0]
         log("Szukana nazwa: %s" % (nazwa))
         url = "http://animesub.info/szukaj.php?szukane=%s%s" % (nazwa, odcinek) + '&pTitle=en'
+        url = url.replace('ep0', 'ep')
         s = requests.Session()
         r = s.get(url)
         read_data = (r.text)
